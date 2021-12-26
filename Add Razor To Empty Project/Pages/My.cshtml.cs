@@ -15,12 +15,12 @@ namespace Add_Razor_To_Empty_Project.Pages
         [BindProperty(SupportsGet =true)]
         public int Age { get; set; }
         public string Test { get; set; }
-        public string Name { get; private set; }
-        public void OnGet(string name)
+        [BindProperty(SupportsGet =true)]
+        public string Name { get; set; }
+        public void OnGet()
         {
-            Name = name;
+            Name = $"+{Name}+";
             Debug.WriteLine("OnGet My");
-            Debug.WriteLine(name);
         }
 
 
