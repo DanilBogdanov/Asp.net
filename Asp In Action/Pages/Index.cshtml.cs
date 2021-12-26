@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,12 +15,14 @@ namespace Asp_In_Action.Pages
 
         public IndexModel(ILogger<IndexModel> logger)
         {
+            Debug.WriteLine("new IndexModel");
             _logger = logger;
+            
         }
 
         public void OnGet()
         {
-
+            Debug.WriteLine("OnGet");
         }
     }
 }
