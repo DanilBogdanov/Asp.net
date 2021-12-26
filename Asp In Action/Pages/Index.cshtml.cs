@@ -22,7 +22,7 @@ namespace Asp_In_Action.Pages
 
         public void OnGet()
         {
-            Debug.WriteLine("OnGet");
+            Debug.WriteLine("OnGet Index");
         }
     }
 }
