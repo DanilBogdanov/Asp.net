@@ -5,4 +5,9 @@
     <RootNamespace>Asp_In_Action</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="DAL\" />
+    <Folder Include="db\" />
+  </ItemGroup>
+
 </Project>
