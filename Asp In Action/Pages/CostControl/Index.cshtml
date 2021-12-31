@@ -1,14 +1,17 @@
-﻿@page 
+﻿@page "{Add?}"
 @model Asp_In_Action.Pages.CostControl.IndexModel
 @{
     ViewData["Title"] = "CostControl";
 }
 
 <div>
-    <form method="get" action="costcontrol/Index">
-        <input name="text" />
+    <form method="post" action="Add">
+        <input name="text" autofocus placeholder="Input some text"/>
         <input type="submit" value="post" />
     </form>
 
-    <p>@Model.Message</p>
+    <p>HttpMethod = @Model.HttpMethod</p>
+    <p>Text = @Model.Text</p>
+    <a href="dev">dev</a>
+    
 </div>
