@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics;
 using Asp_In_Action.Services.CostControl;
+using Asp_In_Action.Services.CostControl.DAL.Entity;
+using System.Collections.Generic;
 
 namespace Asp_In_Action.Pages.CostControl
 {
@@ -13,6 +15,9 @@ namespace Asp_In_Action.Pages.CostControl
         public string HttpMethod { get; set; }
         [BindProperty(SupportsGet =true)]
         public string Text { get; set; }
+
+        public List<User> Users { get; set; }
+
 
         public CostControlService CostControlService { get; set; }
 
@@ -27,19 +32,17 @@ namespace Asp_In_Action.Pages.CostControl
         {
             HttpMethod = "OnGet";
             Message = _costService.GetMessage();          
-            
+            Users = _costService.GetUsers();
         }
 
         public void OnPost()
         {
             HttpMethod = "OnPost";
             Message = _costService.GetMessage();
+            Users = _costService.GetUsers();
             Debug.WriteLine(HttpMethod);
         }
-
-        //public void OnPostAddExpense()
-        //{
-        //    Message = "OnPostAddExpense";
-        //} 
+        
+        
     }
 }

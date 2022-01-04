@@ -6,7 +6,7 @@
 
 <div>
     <form method="post" action="Add">
-        <input name="text" autofocus placeholder="Input some text"/>
+        <input name="text" autofocus placeholder="Input some text" />
         <input type="submit" value="post" />
     </form>
 
@@ -15,5 +15,28 @@
     <a href="dev">dev</a>
 
     <p>Message From Service = @Model.Message</p>
-    
+
+    <table>
+        <thead> Users:</thead>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+
+            @for (int i = 0; i < @Model.Users.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Model.Users[i].Id
+                    </td>
+                    <td>
+                        @Model.Users[i].Name
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
 </div>

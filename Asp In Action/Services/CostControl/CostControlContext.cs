@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Asp_In_Action.Services.CostControl
 {
-    public class UsersContext : DbContext
+    public class CostControlContext : DbContext
     {
-        public UsersContext(DbContextOptions<UsersContext> options) : base(options)
+        public CostControlContext(DbContextOptions<CostControlContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
