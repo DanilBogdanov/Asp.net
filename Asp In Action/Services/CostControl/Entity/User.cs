@@ -1,4 +1,4 @@
-﻿namespace Asp_In_Action.Services.CostControl.DAL.Entity
+﻿namespace Asp_In_Action.Services.CostControl.Entity
 {
     public class User
     {

@@ -24,5 +24,7 @@ namespace Asp_In_Action.Pages
         {
             Debug.WriteLine("OnGet Index");
         }
+
+
     }
 }

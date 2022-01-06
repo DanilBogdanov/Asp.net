@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics;
 using Asp_In_Action.Services.CostControl;
-using Asp_In_Action.Services.CostControl.DAL.Entity;
+using Asp_In_Action.Services.CostControl.Entity;
 using System.Collections.Generic;
 
 namespace Asp_In_Action.Pages.CostControl
@@ -41,6 +41,11 @@ namespace Asp_In_Action.Pages.CostControl
             Message = _costService.GetMessage();
             Users = _costService.GetUsers();
             Debug.WriteLine(HttpMethod);
+        }
+
+        public void OnGetAdd()
+        {
+            Message = "From Add";
         }
         
         

@@ -1,4 +1,4 @@
-﻿using Asp_In_Action.Services.CostControl.DAL.Entity;
+﻿using Asp_In_Action.Services.CostControl.Entity;
 using System.Collections.Generic;
 
 namespace Asp_In_Action.Services.CostControl
