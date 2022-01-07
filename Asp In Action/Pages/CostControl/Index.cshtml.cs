@@ -9,20 +9,10 @@ namespace Asp_In_Action.Pages.CostControl
 {
     public class IndexModel : PageModel
     {
-        [BindProperty(SupportsGet = true)]
-        public string Message { get; set; }
         public string Type { get; set; }
-        public string HttpMethod { get; set; }
-        [BindProperty(SupportsGet =true)]
-        public string Text { get; set; }
-
-        public List<User> Users { get; set; }
-
-
-        public CostControlService CostControlService { get; set; }
-
+        
         private CostControlService _costService;
-
+        public User CurrentUser { get; set; }
         public IndexModel(CostControlService costControlService)
         {
             _costService = costControlService;
@@ -30,24 +20,17 @@ namespace Asp_In_Action.Pages.CostControl
 
         public void OnGet()
         {
-            HttpMethod = "OnGet";
-            Message = _costService.GetMessage();          
-            Users = _costService.GetUsers();
+            CurrentUser = _costService.GetUser("Danil");
+            //CurrentUser.Incomes.Add(new Income { Name = "Card1", Balance=100500 });
+            //_costService.SaveChanges();
         }
 
         public void OnPost()
         {
-            HttpMethod = "OnPost";
-            Message = _costService.GetMessage();
-            Users = _costService.GetUsers();
-            Debug.WriteLine(HttpMethod);
         }
 
-        public void OnGetAdd()
-        {
-            Message = "From Add";
-        }
-        
-        
+
+
+
     }
 }

@@ -8,8 +8,10 @@ namespace Asp_In_Action.Services.CostControl.Entity
     public class Expense
     {
         public int Id { get; set; }
+        public int UserId { get; set; }
         public User User { get; set; }
-        public int Name { get; set; }
-        public Expense Parent { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Expense Parent { get; set; }        
     }
 }

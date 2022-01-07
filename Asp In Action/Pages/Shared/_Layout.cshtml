@@ -22,8 +22,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/CostControl/index">CostControl</a>
-                        </li>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/CostControl/Index">CostControl</a>
+                            </li>
+                        @*<li>
+                            <form name="costcontrol" method="get" action="/costcontrol">
+                                <input type="submit" value="CostControl" class="btn btn-default" />
+                            </form>
+                        </li>*@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
@@ -31,6 +36,11 @@
                             <a class="nav-link text-dark" href="dev">Dev(My)</a>
                         </li>
                     </ul>
+                    <label for="userName" class="navbar h6">User: </label>
+                    <select  id="userName" name="userName" class="navbar float-right">
+                        <option value="2">Alice</option>
+                        <option selected value="1">Danil</option>
+                    </select>
                 </div>
             </div>
         </nav>
