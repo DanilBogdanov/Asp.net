@@ -23,6 +23,7 @@ namespace Asp_In_Action.Pages.CostControl
             CurrentUser = _costService.GetUser("Danil");
             //CurrentUser.Incomes.Add(new Income { Name = "Card1", Balance=100500 });
             //_costService.SaveChanges();
+            
         }
 
         public void OnPost()

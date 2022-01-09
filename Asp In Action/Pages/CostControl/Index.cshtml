@@ -5,20 +5,36 @@
 }
 
 <div>
-    <p class="p-md-1 h6 border float-left">
-        Incomes: @Model.CurrentUser.Incomes.Count() 
-        <ul class="list-group">
-            @for (int i = 0; i < @Model.CurrentUser.Incomes.Count(); i++)
-            {
+    <div class="container-fluid">
+        <div class="row justify-content-end">
+            <div class="col-sm-3 text-center">
+                <span class="h5">Accounts:</span>
+                <button type="button" class="btn btn-outline-primary btn-sm float-right mb-2"><b>+</b></button>
+                <table class="table">
+                    <tbody>
+                        @for (int i = 0; i < @Model.CurrentUser.Accounts.Count(); i++)
+                        {
+                            <tr>
+                                <td>
+                                    @Model.CurrentUser.Accounts[i].Name:
+                                </td>
+                                <td>
+                                    <b>@Model.CurrentUser.Accounts[i].Balance</b>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-                <li class="list-group-item">
-                    @Model.CurrentUser.Incomes[i].Name : 
-                    <b>@Model.CurrentUser.Incomes[i].Balance.ToString()</b>
-                </li>
-            }
-        </ul>
-    </p>
+        <div class="border-bottom"></div>
 
+        <div class="row">
+
+        </div>
+
+    </div>
 
     <br />
     <br />
