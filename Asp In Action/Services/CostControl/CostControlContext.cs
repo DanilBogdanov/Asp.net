@@ -10,9 +10,10 @@ namespace Asp_In_Action.Services.CostControl
             Database.EnsureCreated();
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Expense> Expenses { get; set; }
-        public DbSet<Income> Incomes { get; set; }
+        public DbSet<CostControlUser> Users { get; set; }
+        public DbSet<CostControlAccount> Accounts { get; set; }
+        public DbSet<CostControlExpense> Expenses { get; set; }
+        public DbSet<CostControlIncome> Incomes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,8 +29,8 @@ namespace Asp_In_Action.Services.CostControl
             //Income cashA = new Income { Id = 3, Name = "Cash" };
             //Income creditA = new Income { Id = 4, Name = "Credit Card" };
 
-            User danil = new User { Id = 1, Name = "Danil" };
-            User alice = new User { Id = 2, Name = "Alice" };
+            /*CostControlUser danil = new CostControlUser { Id = 1, Name = "Danil" };
+            CostControlUser alice = new CostControlUser { Id = 2, Name = "Alice" };*/
 
             //danil.Incomes.Add(cashD);
             //danil.Incomes.Add(creditD);
@@ -42,12 +43,12 @@ namespace Asp_In_Action.Services.CostControl
             //alice.Expenses.Add(petrolA);
             //alice.Expenses.Add(foodA);
 
-            modelBuilder.Entity<User>().HasData(
-                new User[]
+           /* modelBuilder.Entity<CostControlUser>().HasData(
+                new CostControlUser[]
                 {
                     danil, alice
                 });
-
+*/
 
         }
 

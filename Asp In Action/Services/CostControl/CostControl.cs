@@ -13,16 +13,27 @@ namespace Asp_In_Action.Services.CostControl
             _costControlContext = context;
         }
 
-        public User GetUser(string name)
+        public CostControlUser GetUserByEmail(string email)
         {
-            var users = _costControlContext.Users;
-            User user = users.Include(i => i.Incomes).
-                Include(e => e.Expenses).
-                Include(user => user.Accounts).
-                Where(user => user.Name == name).
-                First();
-            return user;
+            return _costControlContext.Users
+                .Where(user => user.Email == email)
+                .FirstOrDefault();
         }
+
+        public List<CostControlIncome> GetIncomes(CostControlUser costControlUser)
+        {
+            return _costControlContext.Users
+                .Where(user => user == costControlUser)
+                .Include(user => user.Incomes)
+                .First()
+                .Incomes
+                .ToList();
+        }
+
+        /*public List<CostControlAccount> GetAccounts(CostControlUser costControlUser)
+        {
+
+        }*/
 
         public void SaveChanges()
         {
