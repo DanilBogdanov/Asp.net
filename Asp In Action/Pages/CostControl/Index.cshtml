@@ -9,17 +9,17 @@
         <div class="row justify-content-end">
             <div class="col-sm-3 text-center">
                 <span class="h5">Accounts:</span>
-                <button type="button" class="btn btn-outline-primary btn-sm float-right mb-2"><b>+</b></button>
+                <a type="button" href="CostControl/Accounts/Add" class="btn btn-outline-primary btn-sm float-right mb-2"><b>+</b></a>
                 <table class="table">
                     <tbody>
-                        @for (int i = 0; i < @Model.CurrentUser.Accounts.Count(); i++)
+                        @for (int i = 0; i < @Model.Accounts.Count(); i++)
                         {
                             <tr>
                                 <td>
-                                    @Model.CurrentUser.Accounts[i].Name:
+                                    <div title=@Model.Accounts[i].Description>@Model.Accounts[i].Name:</div>
                                 </td>
                                 <td>
-                                    <b>@Model.CurrentUser.Accounts[i].Balance</b>
+                                    <b>@Model.Accounts[i].Balance</b>
                                 </td>
                             </tr>
                         }

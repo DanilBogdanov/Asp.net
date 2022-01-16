@@ -11,24 +11,27 @@ namespace Asp_In_Action.Pages.CostControl
 {
     public class IndexModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        public string Type { get; set; }
+        private readonly UserManager<ApplicationUser> _userManager;                
+        private CostControlService _costControlService;
         
-        private CostControlService _costService;
-        public CostControlUser CurrentUser { get; set; }
+        public List<Account> Accounts { get; set; }
+        
+
         public IndexModel(CostControlService costControlService, 
             UserManager<ApplicationUser> userManager)
         {
-            _costService = costControlService;
-            _userManager = userManager;
+            _costControlService = costControlService;
+            _userManager = userManager;            
         }
 
         public void OnGet()
         {
-            //CurrentUser = _costService.GetUser("Danil");
-            //CurrentUser.Incomes.Add(new Income { Name = "Card1", Balance=100500 });
-            //_costService.SaveChanges();
-            
+            //get Identity user
+            ApplicationUser appUser = _userManager.GetUserAsync(HttpContext.User).Result;
+            //get CostControlUser of email
+            var costControlUser = _costControlService.GetUserByEmail(appUser.Email);
+
+            Accounts = _costControlService.GetAccounts(costControlUser);            
         }
 
         public void OnPost()

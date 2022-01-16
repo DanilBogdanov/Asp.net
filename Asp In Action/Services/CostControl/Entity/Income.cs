@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace Asp_In_Action.Services.CostControl.Entity
 {
-    public class CostControlExpense
+    public class Income
     {
-        public int Id { get; set; }
-        
+        public int Id { get; set; }        
         public string Name { get; set; }
-        public string Description { get; set; }
-        public CostControlExpense Parent { get; set; }        
+        public string Description { get; set; }       
+        public Income Parent { get; set; } 
+        public User User { get; set; }
     }
 }

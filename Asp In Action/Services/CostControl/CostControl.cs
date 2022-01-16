@@ -1,6 +1,7 @@
 ﻿using Asp_In_Action.Services.CostControl.Entity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Asp_In_Action.Services.CostControl
@@ -13,28 +14,45 @@ namespace Asp_In_Action.Services.CostControl
             _costControlContext = context;
         }
 
-        public CostControlUser GetUserByEmail(string email)
+        public User GetUserByEmail(string email)
         {
-            return _costControlContext.Users
+            User user = _costControlContext.CostControlUsers
                 .Where(user => user.Email == email)
                 .FirstOrDefault();
+            if (user == null)
+            {
+                user = new User { Email=email};
+                _costControlContext.CostControlUsers.Add(user);
+                _costControlContext.SaveChanges();
+            }
+            return user;
+
         }
 
-        public List<CostControlIncome> GetIncomes(CostControlUser costControlUser)
+        /*public List<Income> GetIncomes(User costControlUser)
         {
-            return _costControlContext.Users
+            return _costControlContext.CostControlUsers
                 .Where(user => user == costControlUser)
                 .Include(user => user.Incomes)
                 .First()
                 .Incomes
                 .ToList();
-        }
-
-        /*public List<CostControlAccount> GetAccounts(CostControlUser costControlUser)
-        {
-
         }*/
 
+        public List<Account> GetAccounts(User costControlUser)
+        {
+            return _costControlContext.CostControlAccounts
+                .Where(account => account.User == costControlUser)
+                .ToList();
+        }
+
+        public void AddAccount(Account account)
+        {
+            _costControlContext.CostControlAccounts.Add(account);
+            _costControlContext.SaveChanges();
+        }
+
+        //to del
         public void SaveChanges()
         {
             _costControlContext.SaveChanges();

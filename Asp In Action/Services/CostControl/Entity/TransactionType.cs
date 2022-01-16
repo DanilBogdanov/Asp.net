@@ -1,6 +1,6 @@
 ﻿namespace Asp_In_Action.Services.CostControl.Entity
 {
-    public enum CostControlTransactionType
+    public enum TransactionType
     {
         Incoming,
         Outgoing,

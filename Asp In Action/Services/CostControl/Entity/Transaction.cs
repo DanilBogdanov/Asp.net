@@ -2,15 +2,15 @@
 
 namespace Asp_In_Action.Services.CostControl.Entity
 {
-    public class CostControlTransaction
+    public class Transaction
     {
         public int Id { get; set; }
-        public CostControlTransactionType Type { get; set; }
+        public TransactionType Type { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
-        public CostControlIncome Income { get; set; }
+        public Income Income { get; set; }
         public decimal Amount { get; set; }
-        public CostControlExpense Expense { get; set; }
-
+        public Expense Expense { get; set; }
+        public User User { get; set; }
     }
 }

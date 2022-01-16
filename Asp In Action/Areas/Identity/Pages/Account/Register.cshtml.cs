@@ -49,7 +49,7 @@ namespace Asp_In_Action.Areas.Identity.Pages.Account
         public class InputModel
         {
             public string Name { get; set; }
-
+            
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -69,6 +69,7 @@ namespace Asp_In_Action.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
