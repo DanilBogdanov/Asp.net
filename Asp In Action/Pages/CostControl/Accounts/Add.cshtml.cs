@@ -31,7 +31,7 @@ namespace Asp_In_Action.Pages.CostControl.Accounts
             //get Identity user
             ApplicationUser appUser = _userManager.GetUserAsync(HttpContext.User).Result;
             //get CostControlUser of email
-            var costControlUser = _costControlService.GetUserByEmail(appUser.Email);
+            var costControlUser = _costControlService.GetUserByEmail(appUser?.Email);
 
             /*var httpuser = HttpContext.User;
             var appUserTask = _userManager.GetUserAsync(httpuser);

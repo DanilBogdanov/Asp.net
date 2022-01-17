@@ -29,7 +29,7 @@ namespace Asp_In_Action.Pages.CostControl
             //get Identity user
             ApplicationUser appUser = _userManager.GetUserAsync(HttpContext.User).Result;
             //get CostControlUser of email
-            var costControlUser = _costControlService.GetUserByEmail(appUser.Email);
+            var costControlUser = _costControlService.GetUserByEmail(appUser?.Email);
 
             Accounts = _costControlService.GetAccounts(costControlUser);            
         }
