@@ -28,58 +28,81 @@
             </div>
         </div>
 
-        <div class="border-bottom"></div>
-
+        <hr class="border-primary"/>
         <div class="row">
+            <div class="col-sm-3 text-center border-right border-primary">
+                <span class="h5">Incomes:</span>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>
+                                Salary
+                            </td>
+                            <td>
+                                10500$
+                            </td>
+                        </tr>
 
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-3 text-center border-right border-primary">
+                <span class="h5">Expenses:</span>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>
+                                Car
+                            </td>
+                            <td>
+                                30210$
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-6 text-center ">
+                <span class="h5">Transactions:</span>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>
+                                18.01.22
+                            </td>
+                            <td>
+                                <span class="badge badge-danger">Expense</span>
+                            </td>
+                            <td>
+                                Buy Tesla
+                            </td>
+                            <td>
+                                40000$
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                15.01.22
+                            </td>
+                            <td>
+                                <span class="badge badge-success">Income</span>
+                            </td>
+                            <td>
+                                Buy Tesla
+                            </td>
+                            <td>
+                                40000$
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>
 
-    <br />
-    <br />
-    <br />
-    <br />
-    <form method="post" action="Add">
-        <input name="text" autofocus placeholder="Input some text" />
-        <input type="submit" value="post" />
-    </form>
 
-    @*<table class="table">
-        <thead> Users:</thead>
-        <tbody>
-        <tr>
-        <th>Id</th>
-        <th>Name</th>
-        </tr>
 
-        @for (int i = 0; i < @Model.Users.Count; i++)
-        {
-        <tr>
-        <td>
-        @Model.Users[i].Id
-        </td>
-        <td>
-        @Model.Users[i].Name
-        </td>
-        <td>
-        @for (int j = 0; j < @Model.Users[i].Incomes.Count; j++)
-        {
-        if (j == 0)
-        {
-        @Model.Users[i].Incomes[j].Name
-        } else
-        {
-        <tr>
-        @Model.Users[i].Incomes[j].Name
-        </tr>
-        }
-        }
-        </td>
-        </tr>
-        }
-
-        </tbody>
-        </table>*@
 
 </div>

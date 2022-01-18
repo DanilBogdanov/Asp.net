@@ -33,15 +33,11 @@ namespace Asp_In_Action.Pages.CostControl.Accounts
             //get CostControlUser of email
             var costControlUser = _costControlService.GetUserByEmail(appUser?.Email);
 
-            /*var httpuser = HttpContext.User;
-            var appUserTask = _userManager.GetUserAsync(httpuser);
-            ApplicationUser appUser = appUserTask.Result;
-            */
+            
             Account account = new Account { Name = AccountName, Description = AccountDescription, 
                 Balance = AccountBalance, User = costControlUser };
             _costControlService.AddAccount(account);
-            Debug.WriteLine(referrer);
-            //return Redirect(Request.Headers["Referer"].ToString());
+            
             return Redirect(referrer);
         }
     }
