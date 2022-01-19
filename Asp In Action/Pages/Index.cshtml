@@ -5,7 +5,21 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p id="greetings" class="display-4"></p>
+    <script>
+        let currentHour = new Date().getHours();
+        let greetingsOfTime;
+
+        if (currentHour < 12) {
+            greetingsOfTime = "Good Morning ";
+        } else if (currentHour < 18) {
+            greetingsOfTime = "Good Afrernoon ";
+        } else {
+            greetingsOfTime = "Good Evening ";
+        }
+
+        greetings.innerHTML = greetingsOfTime + "<br/>" + UserIdentityName.innerHTML;        
+    </script>
+
 </div>
 
