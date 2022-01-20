@@ -9,6 +9,13 @@
     <script>
         let currentHour = new Date().getHours();
         let greetingsOfTime;
+        let userName = "";
+
+        try {
+            userName = UserIdentityName.innerHTML;
+        } catch (e) {
+
+        }
 
         if (currentHour < 12) {
             greetingsOfTime = "Good Morning ";
@@ -18,7 +25,7 @@
             greetingsOfTime = "Good Evening ";
         }
 
-        greetings.innerHTML = greetingsOfTime + "<br/>" + UserIdentityName.innerHTML;        
+        greetings.innerHTML = greetingsOfTime + "<br/>" + userName;        
     </script>
 
 </div>

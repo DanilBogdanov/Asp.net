@@ -24,20 +24,11 @@ namespace Asp_In_Action.Services.CostControl
                 user = new User { Email=email};
                 _costControlContext.CostControlUsers.Add(user);
                 _costControlContext.SaveChanges();
+                SetDefaultValues(user);
             }
             return user;
 
         }
-
-        /*public List<Income> GetIncomes(User costControlUser)
-        {
-            return _costControlContext.CostControlUsers
-                .Where(user => user == costControlUser)
-                .Include(user => user.Incomes)
-                .First()
-                .Incomes
-                .ToList();
-        }*/
 
         public List<Account> GetAccounts(User costControlUser)
         {
@@ -52,10 +43,51 @@ namespace Asp_In_Action.Services.CostControl
             _costControlContext.SaveChanges();
         }
 
-        //to del
-        public void SaveChanges()
+        public List<Income> GetIncomes(User costControlUser)
         {
+            return _costControlContext.CostControlIncomes
+                .Where(income => income.User == costControlUser)
+                .ToList();
+        }
+
+        public void AddIncome(Income income)
+        {
+            _costControlContext.CostControlIncomes.Add(income);
             _costControlContext.SaveChanges();
+        }
+
+        public List<Expense> GetExpense(User costControlUser)
+        {
+            return _costControlContext.CostControlExpenses
+                .Where(expense => expense.User == costControlUser)
+                .ToList();
+        }
+
+        public void AddExpense(Expense expense)
+        {
+            _costControlContext.CostControlExpenses.Add(expense);
+            _costControlContext.SaveChanges();
+        }
+
+        private void SetDefaultValues(User user)
+        {
+            //set Accounts
+            var accountCash = new Account { Name = "Cash", User = user };
+            var accountCard = new Account { Name = "Card", User = user };
+            AddAccount(accountCash);
+            AddAccount(accountCard);
+
+            //set Incomes
+            var incomeSalary = new Income { Name = "Salary", User = user };
+            AddIncome(incomeSalary);
+
+            //set Expense
+            var expenseFood = new Expense { Name = "Food", User = user };
+            var expenseCar = new Expense { Name = "Car", User = user };
+            var expenseBills = new Expense { Name = "Bills", User= user };
+            AddExpense(expenseFood);
+            AddExpense(expenseCar);
+            AddExpense(expenseBills);
         }
     }
 }
