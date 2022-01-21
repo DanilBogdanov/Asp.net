@@ -21,7 +21,7 @@ namespace Asp_In_Action.Services.CostControl
                 .FirstOrDefault();
             if (user == null)
             {
-                user = new User { Email=email};
+                user = new User { Email = email };
                 _costControlContext.CostControlUsers.Add(user);
                 _costControlContext.SaveChanges();
                 SetDefaultValues(user);
@@ -56,7 +56,7 @@ namespace Asp_In_Action.Services.CostControl
             _costControlContext.SaveChanges();
         }
 
-        public List<Expense> GetExpense(User costControlUser)
+        public List<Expense> GetExpenses(User costControlUser)
         {
             return _costControlContext.CostControlExpenses
                 .Where(expense => expense.User == costControlUser)
@@ -64,6 +64,19 @@ namespace Asp_In_Action.Services.CostControl
         }
 
         public void AddExpense(Expense expense)
+        {
+            _costControlContext.CostControlExpenses.Add(expense);
+            _costControlContext.SaveChanges();
+        }
+
+        public List<Transaction> GetTransactions(User costControlUser)
+        {
+            return _costControlContext.CostControlTransactions
+                .Where(expense => expense.User == costControlUser)
+                .ToList();
+        }
+
+        public void AddTransaction(Expense expense)
         {
             _costControlContext.CostControlExpenses.Add(expense);
             _costControlContext.SaveChanges();
@@ -84,10 +97,13 @@ namespace Asp_In_Action.Services.CostControl
             //set Expense
             var expenseFood = new Expense { Name = "Food", User = user };
             var expenseCar = new Expense { Name = "Car", User = user };
-            var expenseBills = new Expense { Name = "Bills", User= user };
+            var expenseBills = new Expense { Name = "Bills", User = user };
             AddExpense(expenseFood);
             AddExpense(expenseCar);
             AddExpense(expenseBills);
+
+            var transactionSalary = new Transaction { Date = System.DateTime.Now, User = user , 
+                Type = TransactionType.Incoming, Amount = 80_000, Income = incomeSalary};
         }
     }
 }

@@ -17,7 +17,9 @@
 
         }
 
-        if (currentHour < 12) {
+        if (currentHour < 6) {
+            greetingsOfTime = "Good Night";
+        } else if(currentHour < 12) {
             greetingsOfTime = "Good Morning ";
         } else if (currentHour < 18) {
             greetingsOfTime = "Good Afrernoon ";
