@@ -1,5 +1,6 @@
 ﻿using Asp_In_Action.Services.CostControl.Entity;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -69,16 +70,32 @@ namespace Asp_In_Action.Services.CostControl
             _costControlContext.SaveChanges();
         }
 
+        /// <summary>
+        /// Get all transactions by user
+        /// </summary>        
         public List<Transaction> GetTransactions(User costControlUser)
         {
             return _costControlContext.CostControlTransactions
-                .Where(expense => expense.User == costControlUser)
+                .Where(transaction => transaction.User == costControlUser)
                 .ToList();
         }
 
-        public void AddTransaction(Expense expense)
+        /// <summary>
+        /// Get Transactions for user between the given dates.
+        /// dataTimeFrom include, dataTimeTo exclude
+        /// </summary>        
+        public List<Transaction> GetTransactions(User costControlUser, DateTime dateTimeFrom, DateTime dateTimeTo)
         {
-            _costControlContext.CostControlExpenses.Add(expense);
+            return _costControlContext.CostControlTransactions
+                .Where(transaction => transaction.User == costControlUser &&
+                                      transaction.Date >= dateTimeFrom &&
+                                      transaction.Date < dateTimeTo)
+                .ToList();
+        }
+
+        public void AddTransaction(Transaction transaction)
+        {
+            _costControlContext.CostControlTransactions.Add(transaction);
             _costControlContext.SaveChanges();
         }
 
@@ -102,8 +119,37 @@ namespace Asp_In_Action.Services.CostControl
             AddExpense(expenseCar);
             AddExpense(expenseBills);
 
-            var transactionSalary = new Transaction { Date = System.DateTime.Now, User = user , 
-                Type = TransactionType.Incoming, Amount = 80_000, Income = incomeSalary};
+            //set test transactions
+            var transactionSalary = new Transaction
+            {
+                Type = TransactionType.Incoming,
+                User = user,
+                AccountTo = accountCash,
+                Date = System.DateTime.Now,
+                Income = incomeSalary,
+                Amount = 80_000,
+            };
+            var transactionTransfer = new Transaction
+            {
+                Type = TransactionType.Transfer,
+                User = user,
+                AccountFrom = accountCash,
+                AccountTo = accountCard,
+                Amount = 30_000
+            };
+            var transactionFood = new Transaction
+            {
+                Type = TransactionType.Outgoing,
+                User = user,
+                AccountFrom = accountCash,
+                Expense = expenseFood,
+                Amount = 1200
+            };
+
+            AddTransaction(transactionSalary);
+            AddTransaction(transactionTransfer);
+            AddTransaction(transactionFood);
+
         }
     }
 }

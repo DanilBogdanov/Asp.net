@@ -4,6 +4,7 @@
     {
         Incoming,
         Outgoing,
+        Transfer,
         Correction
     }
 }

@@ -6,9 +6,58 @@
 
 <div>
     <div class="container-fluid">
-        <div class="row justify-content-end">
+        <div class="row">
+            @*By date*@
+            <div class="col-sm-3 align-self-end">
+
+                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with groups">
+                    <div id="dateButtonGroup" class="btn-group btn-group-toggle btn-group-sm" data-toggle="buttons">
+                        <label class="btn btn-outline-primary active" onclick="byWeekClick()">
+                            <input type="radio" name="options" id="byWeek" autocomplete="off" checked> Week
+                        </label>
+                        <label class="btn btn-outline-primary" onclick="byMonthClick()">
+                            <input type="radio" name="options" id="byMonth" autocomplete="off" onclick="byMonthClick()"> Month
+                        </label>
+                        <label class="btn btn-outline-primary" onclick="byPeriodClick()">
+                            <input type="radio" name="options" id="byPeriod" autocomplete="off" onclick="byPeriodClick()"> Period
+                        </label>
+                    </div>
+
+                    @*week*@
+                    <div class="input-group input-group-sm" id="weekGroup">
+                        <input type="week" class="form-control">
+                    </div>
+
+                    @*month*@
+                    <div class="input-group input-group-sm" id="monthGroup" hidden>
+                        <input type="month" class="form-control" placeholder="Input group example" aria-label="Input group example" aria-describedby="btnGroupAddon">
+                    </div>
+                    @*period*@
+                    <div class="input-group" id="periodGroup" hidden>
+                        <div class="input-group-text" id="btnGroupAddon">period</div>
+                        <input type="text" class="form-control" placeholder="Input group example" aria-label="Input group example" aria-describedby="btnGroupAddon">
+                    </div>
+
+                </div>
+                <script>
+                    function byWeekClick() {
+                        weekGroup.hidden = false;
+                        monthGroup.hidden = true;
+                        //alert('week');
+                    }
+                    function byMonthClick() {
+                        monthGroup.hidden = false;
+                        weekGroup.hidden = true;
+                        //alert('month');
+                    }
+                    function byPeriodClick() {
+                        alert('period');
+                    }
+                </script>
+            </div>
+
             @*Accounts*@
-            <div class="col-sm-3 text-center">
+            <div class="col-sm-3 offset-6 text-center">
                 <span class="h5">Accounts:</span>
                 <a type="button" href="CostControl/Accounts/Add" class="btn btn-outline-primary btn-sm float-right mb-2"><b>+</b></a>
                 <table class="table">
@@ -44,6 +93,11 @@
                                 <td>
                                     <b>---</b>
                                 </td>
+                            </tr>
+                            <tr>
+                                <div class="progress" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                </div>
                             </tr>
                         }
                     </tbody>
