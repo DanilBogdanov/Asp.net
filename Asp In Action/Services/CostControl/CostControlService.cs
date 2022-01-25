@@ -1,4 +1,5 @@
 ﻿using Asp_In_Action.Services.CostControl.Entity;
+using Asp_In_Action.Services.CostControl.Handlers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,10 +10,19 @@ namespace Asp_In_Action.Services.CostControl
 {
     public class CostControlService
     {
-        private CostControlContext _costControlContext;
+        private readonly CostControlContext _costControlContext;
+        
+        private readonly AccountsHandler _accountHandler;
+        private readonly TransactionsHandler _transactionsHandler;
+        private readonly BalancesHandler _balancesHandler;
+
         public CostControlService(CostControlContext context)
         {
             _costControlContext = context;
+
+            _balancesHandler = new BalancesHandler(context);
+            _accountHandler = new AccountsHandler(context);
+            _transactionsHandler = new TransactionsHandler(context, _balancesHandler);
         }
 
         public User GetUserByEmail(string email)
@@ -31,17 +41,25 @@ namespace Asp_In_Action.Services.CostControl
 
         }
 
-        public List<Account> GetAccounts(User costControlUser)
+        public List<(Account, decimal amount)> GetAccountsWithBalance(User costControlUser)
         {
-            return _costControlContext.CostControlAccounts
-                .Where(account => account.User == costControlUser)
-                .ToList();
+            List<(Account, decimal amount)> accountsWithBalance = new List<(Account, decimal amount)>();
+            var accountList = _accountHandler.GetAll(costControlUser);
+            
+            foreach (var account in accountList)
+            {
+                Balance balance = _balancesHandler.Get(account);
+                accountsWithBalance.Add((account, balance.Amount));
+            }
+
+            return accountsWithBalance;
         }
 
-        public void AddAccount(Account account)
+        public void AddAccount(Account account, decimal balance)
         {
-            _costControlContext.CostControlAccounts.Add(account);
-            _costControlContext.SaveChanges();
+            _accountHandler.Add(account);
+            Transaction transaction = new Transaction {Type = TransactionType.Correction, AccountTo = account, Amount = balance };
+            _transactionsHandler.Add(transaction);
         }
 
         public List<Income> GetIncomes(User costControlUser)
@@ -70,42 +88,24 @@ namespace Asp_In_Action.Services.CostControl
             _costControlContext.SaveChanges();
         }
 
-        /// <summary>
-        /// Get all transactions by user
-        /// </summary>        
-        public List<Transaction> GetTransactions(User costControlUser)
-        {
-            return _costControlContext.CostControlTransactions
-                .Where(transaction => transaction.User == costControlUser)
-                .ToList();
-        }
+        public List<Transaction> GetTransactions(User costControlUser) => _transactionsHandler.GetAll(costControlUser);
 
         /// <summary>
         /// Get Transactions for user between the given dates.
         /// dataTimeFrom include, dataTimeTo exclude
         /// </summary>        
-        public List<Transaction> GetTransactions(User costControlUser, DateTime dateTimeFrom, DateTime dateTimeTo)
-        {
-            return _costControlContext.CostControlTransactions
-                .Where(transaction => transaction.User == costControlUser &&
-                                      transaction.Date >= dateTimeFrom &&
-                                      transaction.Date < dateTimeTo)
-                .ToList();
-        }
+        public List<Transaction> GetTransactions(User costControlUser, DateTime dateTimeFrom, DateTime dateTimeTo) =>
+            _transactionsHandler.GetByPeriod(costControlUser, dateTimeFrom, dateTimeTo);
 
-        public void AddTransaction(Transaction transaction)
-        {
-            _costControlContext.CostControlTransactions.Add(transaction);
-            _costControlContext.SaveChanges();
-        }
+        public void AddTransaction(Transaction transaction) => _transactionsHandler.Add(transaction);        
 
         private void SetDefaultValues(User user)
         {
             //set Accounts
             var accountCash = new Account { Name = "Cash", User = user };
             var accountCard = new Account { Name = "Card", User = user };
-            AddAccount(accountCash);
-            AddAccount(accountCard);
+            AddAccount(accountCash, 0);
+            AddAccount(accountCard, 0);
 
             //set Incomes
             var incomeSalary = new Income { Name = "Salary", User = user };

@@ -23,9 +23,9 @@ namespace Asp_In_Action.Pages.CostControl.Accounts
 
         }
 
-        public RedirectResult OnPost(string AccountName,
-            string AccountDescription,
-            decimal AccountBalance, 
+        public RedirectResult OnPost(string accountName,
+            string accountDescription,
+            decimal accountBalance, 
             string referrer)
         {
             //get Identity user
@@ -34,9 +34,9 @@ namespace Asp_In_Action.Pages.CostControl.Accounts
             var costControlUser = _costControlService.GetUserByEmail(appUser?.Email);
 
             
-            Account account = new Account { Name = AccountName, Description = AccountDescription, 
-                Balance = AccountBalance, User = costControlUser };
-            _costControlService.AddAccount(account);
+            Account account = new Account { Name = accountName, Description = accountDescription, 
+                User = costControlUser };
+            _costControlService.AddAccount(account, accountBalance);
             
             return Redirect(referrer);
         }

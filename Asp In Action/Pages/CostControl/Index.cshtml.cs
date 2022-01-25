@@ -14,7 +14,7 @@ namespace Asp_In_Action.Pages.CostControl
         private readonly UserManager<ApplicationUser> _userManager;                
         private CostControlService _costControlService;
         
-        public List<Account> Accounts { get; set; }
+        public List<(Account account, decimal amount)> Accounts { get; set; }
         public List<Income> Incomes { get; set; }
         public List<Expense> Expenses { get; set; }
         public List<Transaction> Transactions { get; set; } 
@@ -33,10 +33,11 @@ namespace Asp_In_Action.Pages.CostControl
             //get CostControlUser of email
             var costControlUser = _costControlService.GetUserByEmail(appUser?.Email);
 
-            Accounts = _costControlService.GetAccounts(costControlUser); 
+            Accounts = _costControlService.GetAccountsWithBalance(costControlUser); 
             Incomes = _costControlService.GetIncomes(costControlUser);
             Expenses = _costControlService.GetExpenses(costControlUser);
             Transactions = _costControlService.GetTransactions(costControlUser);
+            
         }
 
         public void OnPost()

@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="db\" />
     <Folder Include="Pages\CostControl\Expenses\" />
     <Folder Include="Pages\CostControl\Incomes\" />
     <Folder Include="wwwroot\img\" />

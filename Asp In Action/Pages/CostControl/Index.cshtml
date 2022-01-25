@@ -7,57 +7,12 @@
 <div>
     <div class="container-fluid">
         <div class="row">
-            @*By date*@
-            <div class="col-sm-3 align-self-end">
-
-                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with groups">
-                    <div id="dateButtonGroup" class="btn-group btn-group-toggle btn-group-sm" data-toggle="buttons">
-                        <label class="btn btn-outline-primary active" onclick="byWeekClick()">
-                            <input type="radio" name="options" id="byWeek" autocomplete="off" checked> Week
-                        </label>
-                        <label class="btn btn-outline-primary" onclick="byMonthClick()">
-                            <input type="radio" name="options" id="byMonth" autocomplete="off" onclick="byMonthClick()"> Month
-                        </label>
-                        <label class="btn btn-outline-primary" onclick="byPeriodClick()">
-                            <input type="radio" name="options" id="byPeriod" autocomplete="off" onclick="byPeriodClick()"> Period
-                        </label>
-                    </div>
-
-                    @*week*@
-                    <div class="input-group input-group-sm" id="weekGroup">
-                        <input type="week" class="form-control">
-                    </div>
-
-                    @*month*@
-                    <div class="input-group input-group-sm" id="monthGroup" hidden>
-                        <input type="month" class="form-control" placeholder="Input group example" aria-label="Input group example" aria-describedby="btnGroupAddon">
-                    </div>
-                    @*period*@
-                    <div class="input-group" id="periodGroup" hidden>
-                        <div class="input-group-text" id="btnGroupAddon">period</div>
-                        <input type="text" class="form-control" placeholder="Input group example" aria-label="Input group example" aria-describedby="btnGroupAddon">
-                    </div>
-
-                </div>
-                <script>
-                    function byWeekClick() {
-                        weekGroup.hidden = false;
-                        monthGroup.hidden = true;
-                        //alert('week');
-                    }
-                    function byMonthClick() {
-                        monthGroup.hidden = false;
-                        weekGroup.hidden = true;
-                        //alert('month');
-                    }
-                    function byPeriodClick() {
-                        alert('period');
-                    }
-                </script>
+            @*main*@
+            <div class="col-sm-9">
             </div>
 
             @*Accounts*@
-            <div class="col-sm-3 offset-6 text-center">
+            <div class="col-sm-3 text-center shadow rounded pt-3">
                 <span class="h5">Accounts:</span>
                 <a type="button" href="CostControl/Accounts/Add" class="btn btn-outline-primary btn-sm float-right mb-2"><b>+</b></a>
                 <table class="table">
@@ -66,10 +21,10 @@
                         {
                             <tr>
                                 <td>
-                                    <div title=@Model.Accounts[i].Description>@Model.Accounts[i].Name:</div>
+                                    <div title=@Model.Accounts[i].account.Description>@Model.Accounts[i].account.Name:</div>
                                 </td>
                                 <td>
-                                    <b>@Model.Accounts[i].Balance</b>
+                                    <b>@Model.Accounts[i].amount</b>
                                 </td>
                             </tr>
                         }
@@ -77,11 +32,59 @@
                 </table>
             </div>
         </div>
-        <hr class="border-primary" />
+        @*By Date*@
         <div class="row">
+            <div class="btn-toolbar border-top border-success rounded" role="toolbar" aria-label="Toolbar with groups">
+                <div id="dateButtonGroup" class="btn-group btn-group-toggle btn-group-sm shadow mr-1" data-toggle="buttons">
+                    <label class="btn btn-outline-primary" onclick="byWeekClick()">
+                        <input type="radio" name="options" id="byWeek" autocomplete="off"> Week
+                    </label>
+                    <label class="btn btn-outline-primary active" onclick="byMonthClick()">
+                        <input type="radio" name="options" id="byMonth" autocomplete="off" onclick="byMonthClick()" checked> Month
+                    </label>
+                    <label class="btn btn-outline-primary" onclick="byPeriodClick()">
+                        <input type="radio" name="options" id="byPeriod" autocomplete="off" onclick="byPeriodClick()"> Period
+                    </label>
+                </div>
+
+                @*week*@
+                <div class="input-group input-group-sm shadow" id="weekGroup" hidden>
+                    <input type="week" class="form-control">
+                </div>
+                @*month*@
+                <div class="input-group input-group-sm shadow" id="monthGroup">
+                    <input type="month" class="form-control">
+                </div>
+                @*period*@
+                <div class="input-group input-group-sm" id="periodGroup" hidden>
+                    <input type="date" class="form-control shadow">-
+                    <input type="date" class="form-control shadow">
+                </div>
+
+            </div>
+            <script>
+                function byWeekClick() {
+                    weekGroup.hidden = false;
+                    monthGroup.hidden = true;
+                    periodGroup.hidden = true;
+                }
+                function byMonthClick() {
+                    monthGroup.hidden = false;
+                    weekGroup.hidden = true;
+                    periodGroup.hidden = true;
+                }
+                function byPeriodClick() {
+                    monthGroup.hidden = true;
+                    weekGroup.hidden = true;
+                    periodGroup.hidden = false;
+                }
+            </script>
+        </div>
+        <hr class="border-primary mb-0" />
+        <div class="row shadow">
             @*Incomes*@
-            <div class="col-sm-2 text-center border-right border-primary">
-                <span class="h5">Incomes:</span>
+            <div class="col-sm-3 text-center border-right border-primary pt-2">
+                <span class="h5 pt-2">Incomes:</span>
                 <table class="table">
                     <tbody>
                         @for (int i = 0; i < @Model.Incomes.Count(); i++)
@@ -95,16 +98,16 @@
                                 </td>
                             </tr>
                             <tr>
-                                <div class="progress" style="height: 5px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                                </div>
+                                @*<div class="progress" style="height: 1px;">*@
+                                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                @*</div>*@
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
             @*Expenses*@
-            <div class="col-sm-2 text-center border-right border-primary">
+            <div class="col-sm-3 text-center border-right border-primary pt-2">
                 <span class="h5">Expenses:</span>
                 <table class="table">
                     <tbody>
@@ -123,7 +126,7 @@
                 </table>
             </div>
             @*Transactions*@
-            <div class="col-sm-8 text-center ">
+            <div class="col-sm-6 text-center pt-2">
                 <span class="h5">Transactions:</span>
                 <table class="table">
                     <tbody>

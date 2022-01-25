@@ -1,5 +1,9 @@
 ﻿@page
+@using Asp_In_Action.Data
+@using Microsoft.AspNetCore.Identity
 @model IndexModel
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
 @{
     ViewData["Title"] = "Home page";
 }
@@ -9,14 +13,7 @@
     <script>
         let currentHour = new Date().getHours();
         let greetingsOfTime;
-        let userName = "";
-
-        try {
-            userName = UserIdentityName.innerHTML;
-        } catch (e) {
-
-        }
-
+        
         if (currentHour < 6) {
             greetingsOfTime = "Good Night";
         } else if(currentHour < 12) {
@@ -27,7 +24,6 @@
             greetingsOfTime = "Good Evening ";
         }
 
-        greetings.innerHTML = greetingsOfTime + "<br/>" + userName;
+        greetings.innerHTML = greetingsOfTime + "<br/>" + "@User.Identity.Name";
     </script>
-
-    
+</div>

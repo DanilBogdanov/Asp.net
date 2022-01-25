@@ -15,7 +15,7 @@ namespace Asp_In_Action.Services.CostControl
         public DbSet<Expense> CostControlExpenses { get; set; }
         public DbSet<Income> CostControlIncomes { get; set; }
         public DbSet<Transaction> CostControlTransactions { get; set; }
-
+        public DbSet<Balance> CostControlBalances { get; set;}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             
