@@ -3,31 +3,38 @@ using System.Linq;
 
 namespace Asp_In_Action.Services.CostControl.Handlers
 {
-    public class BalancesHandler
+    internal class BalancesHandler
     {
-        private readonly CostControlContext _costControlContext;
+        private readonly CostControlContext _dbContext;
 
-        public BalancesHandler(CostControlContext costControlContext)
+        public BalancesHandler(CostControlContext dbContext)
         {
-            _costControlContext = costControlContext;
+            _dbContext = dbContext;
         }
 
-        public Balance Get(Account account)
+        public decimal GetAmount(Account account)
         {
-            Balance balance = _costControlContext.CostControlBalances.SingleOrDefault(balance => balance.Account == account);
+            return GetBalance(account).Amount;
+        }
+
+        public void Set(Account account, decimal amount)
+        {
+            var balance = GetBalance(account);
+            balance.Amount = amount;
+            _dbContext.CostControlBalances.Update(balance);
+            _dbContext.SaveChanges();
+        }
+
+        private Balance GetBalance(Account account)
+        {
+            Balance balance = _dbContext.CostControlBalances.SingleOrDefault(balance => balance.Account == account);
             if (balance == null)
             {
                 balance = new Balance { Account = account };
-                _costControlContext.CostControlBalances.Add(balance);
-                _costControlContext.SaveChanges();
+                _dbContext.CostControlBalances.Add(balance);
+                _dbContext.SaveChanges();
             }
             return balance;
-        }
-
-        public void Update(Balance balance)
-        {
-            _costControlContext.CostControlBalances.Update(balance);
-            _costControlContext.SaveChanges();
         }
     }
 }

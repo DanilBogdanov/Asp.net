@@ -1,30 +1,29 @@
 ﻿using Asp_In_Action.Services.CostControl.Entity;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Asp_In_Action.Services.CostControl.Handlers
 {
-    internal class AccountsHandler
+    internal class ExpensesHandler
     {
         private readonly CostControlContext _dbContext;
 
-        public AccountsHandler(CostControlContext dbContext)
+        public ExpensesHandler(CostControlContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public List<Account> GetAll(User user)
+        public List<Expense> GetAll(User user)
         {
-            return _dbContext.CostControlAccounts
-                .Where(account => account.User == user)
+            return _dbContext.CostControlExpenses
+                .Where(expense => expense.User == user)
                 .ToList();
         }
 
-        public void Add(Account account)
+        public void Add(Expense expense)
         {
-            _dbContext.CostControlAccounts.Add(account);
+            _dbContext.CostControlExpenses.Add(expense);
             _dbContext.SaveChanges();
-        }        
+        }
     }
 }

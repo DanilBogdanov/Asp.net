@@ -10,31 +10,35 @@ namespace Asp_In_Action.Services.CostControl
 {
     public class CostControlService
     {
-        private readonly CostControlContext _costControlContext;
-        
-        private readonly AccountsHandler _accountHandler;
-        private readonly TransactionsHandler _transactionsHandler;
+        private readonly CostControlContext _dbContext;
+
         private readonly BalancesHandler _balancesHandler;
+        private readonly TransactionsHandler _transactionsHandler;
+        private readonly AccountsHandler _accountHandler;
+        private readonly IncomesHandler _incomesHandler;
+        private readonly ExpensesHandler _expenseHandler;
 
-        public CostControlService(CostControlContext context)
+        public CostControlService(CostControlContext costControlContext)
         {
-            _costControlContext = context;
+            _dbContext = costControlContext;
 
-            _balancesHandler = new BalancesHandler(context);
-            _accountHandler = new AccountsHandler(context);
-            _transactionsHandler = new TransactionsHandler(context, _balancesHandler);
+            _balancesHandler = new BalancesHandler(_dbContext);
+            _transactionsHandler = new TransactionsHandler(_dbContext, _balancesHandler);
+            _accountHandler = new AccountsHandler(_dbContext);
+            _incomesHandler = new IncomesHandler(_dbContext);
+            _expenseHandler = new ExpensesHandler(_dbContext);
         }
 
-        public User GetUserByEmail(string email)
+        public User GetUserByEmail(string userEmail)
         {
-            User user = _costControlContext.CostControlUsers
-                .Where(user => user.Email == email)
+            User user = _dbContext.CostControlUsers
+                .Where(user => user.Email == userEmail)
                 .FirstOrDefault();
             if (user == null)
             {
-                user = new User { Email = email };
-                _costControlContext.CostControlUsers.Add(user);
-                _costControlContext.SaveChanges();
+                user = new User { Email = userEmail };
+                _dbContext.CostControlUsers.Add(user);
+                _dbContext.SaveChanges();
                 SetDefaultValues(user);
             }
             return user;
@@ -45,7 +49,7 @@ namespace Asp_In_Action.Services.CostControl
         {
             List<(Account, decimal amount)> accountsWithBalance = new List<(Account, decimal amount)>();
             var accountList = _accountHandler.GetAll(costControlUser);
-            
+
             foreach (var account in accountList)
             {
                 Balance balance = _balancesHandler.Get(account);
@@ -58,38 +62,21 @@ namespace Asp_In_Action.Services.CostControl
         public void AddAccount(Account account, decimal balance)
         {
             _accountHandler.Add(account);
-            Transaction transaction = new Transaction {Type = TransactionType.Correction, AccountTo = account, Amount = balance };
+            Transaction transaction = new Transaction { Type = TransactionType.Correction, AccountTo = account, Amount = balance };
             _transactionsHandler.Add(transaction);
         }
 
-        public List<Income> GetIncomes(User costControlUser)
-        {
-            return _costControlContext.CostControlIncomes
-                .Where(income => income.User == costControlUser)
-                .ToList();
-        }
+        public List<Income> GetIncomes(User costControlUser) => _incomesHandler.GetAll(costControlUser);
 
-        public void AddIncome(Income income)
-        {
-            _costControlContext.CostControlIncomes.Add(income);
-            _costControlContext.SaveChanges();
-        }
+        public void AddIncome(Income income) => _incomesHandler.Add(income);
 
-        public List<Expense> GetExpenses(User costControlUser)
-        {
-            return _costControlContext.CostControlExpenses
-                .Where(expense => expense.User == costControlUser)
-                .ToList();
-        }
 
-        public void AddExpense(Expense expense)
-        {
-            _costControlContext.CostControlExpenses.Add(expense);
-            _costControlContext.SaveChanges();
-        }
+        public List<Expense> GetExpenses(User costControlUser) => _expenseHandler.GetAll(costControlUser);
+
+        public void AddExpense(Expense expense) => _expenseHandler.Add(expense);
+
 
         public List<Transaction> GetTransactions(User costControlUser) => _transactionsHandler.GetAll(costControlUser);
-
         /// <summary>
         /// Get Transactions for user between the given dates.
         /// dataTimeFrom include, dataTimeTo exclude
@@ -97,7 +84,7 @@ namespace Asp_In_Action.Services.CostControl
         public List<Transaction> GetTransactions(User costControlUser, DateTime dateTimeFrom, DateTime dateTimeTo) =>
             _transactionsHandler.GetByPeriod(costControlUser, dateTimeFrom, dateTimeTo);
 
-        public void AddTransaction(Transaction transaction) => _transactionsHandler.Add(transaction);        
+        public void AddTransaction(Transaction transaction) => _transactionsHandler.Add(transaction);
 
         private void SetDefaultValues(User user)
         {
@@ -127,15 +114,16 @@ namespace Asp_In_Action.Services.CostControl
                 AccountTo = accountCash,
                 Date = System.DateTime.Now,
                 Income = incomeSalary,
-                Amount = 80_000,
+                Amount = 80000,
             };
             var transactionTransfer = new Transaction
             {
                 Type = TransactionType.Transfer,
                 User = user,
+                Date = System.DateTime.Now,
                 AccountFrom = accountCash,
                 AccountTo = accountCard,
-                Amount = 30_000
+                Amount = 30000
             };
             var transactionFood = new Transaction
             {

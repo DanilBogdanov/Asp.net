@@ -6,7 +6,7 @@ namespace Asp_In_Action.Services.CostControl.Entity
     {
         public ulong Id { get; set; }
         public TransactionType Type { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         public string Description { get; set; }
         public Account AccountFrom { get; set; }
         public Account AccountTo { get; set; }

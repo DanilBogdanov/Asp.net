@@ -7,36 +7,36 @@ namespace Asp_In_Action.Services.CostControl.Handlers
 {
     internal class TransactionsHandler
     {
-        private CostControlContext _costControlContext;
+        private CostControlContext _dbContext;
         private BalancesHandler _balancesHandler;
 
-        public TransactionsHandler(CostControlContext costControlContext, BalancesHandler balancesHandler)
+        public TransactionsHandler(CostControlContext dbContext, BalancesHandler balancesHandler)
         {
-            _costControlContext = costControlContext;
+            _dbContext = dbContext;
             _balancesHandler = balancesHandler;
         }
 
-        public List<Transaction> GetAll(User costControlUser)
+        public List<Transaction> GetAll(User user)
         {
-            return _costControlContext.CostControlTransactions
-                .Where(transaction => transaction.User == costControlUser)
+            return _dbContext.CostControlTransactions
+                .Where(transaction => transaction.User == user)
                 .ToList();
         }
 
-        public List<Transaction> GetByPeriod(User costControlUser, DateTime dateTimeFrom, DateTime dateTimeTo)
+        public List<Transaction> GetByPeriod(User user, DateTime dateFrom, DateTime dateTo)
         {
-            return _costControlContext.CostControlTransactions
-                .Where(transaction => transaction.User == costControlUser &&
-                                      transaction.Date >= dateTimeFrom &&
-                                      transaction.Date < dateTimeTo)
+            return _dbContext.CostControlTransactions
+                .Where(transaction => transaction.User == user &&
+                                      transaction.Date >= dateFrom &&
+                                      transaction.Date < dateTo)
                 .ToList();
         }
 
         public void Add(Transaction transaction)
         {
             ChangeBalance(transaction);
-            _costControlContext.CostControlTransactions.Add(transaction);
-            _costControlContext.SaveChanges();
+            _dbContext.CostControlTransactions.Add(transaction);
+            _dbContext.SaveChanges();
         }
 
         private void ChangeBalance(Transaction transaction)
@@ -62,7 +62,6 @@ namespace Asp_In_Action.Services.CostControl.Handlers
                         Balance balanceFrom = _balancesHandler.Get(transaction.AccountFrom);
                         balanceFrom.Amount -= transaction.Amount;
                         _balancesHandler.Update(balanceFrom);
-
                         Balance balanceTo = _balancesHandler.Get(transaction.AccountTo);
                         balanceTo.Amount += transaction.Amount;
                         _balancesHandler.Update(balanceTo);

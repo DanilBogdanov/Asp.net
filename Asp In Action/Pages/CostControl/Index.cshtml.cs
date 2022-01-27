@@ -37,7 +37,6 @@ namespace Asp_In_Action.Pages.CostControl
             Incomes = _costControlService.GetIncomes(costControlUser);
             Expenses = _costControlService.GetExpenses(costControlUser);
             Transactions = _costControlService.GetTransactions(costControlUser);
-            
         }
 
         public void OnPost()
