@@ -17,13 +17,26 @@ namespace Asp_In_Action.Services.CostControl.Handlers
             return GetBalance(account).Amount;
         }
 
-        public void Set(Account account, decimal amount)
+        public void SetAmount(Account account, decimal amount)
         {
             var balance = GetBalance(account);
             balance.Amount = amount;
-            _dbContext.CostControlBalances.Update(balance);
-            _dbContext.SaveChanges();
+            UpdateBalance(balance);
         }
+
+        public void AddAmount (Account account, decimal amount)
+        {
+            var balance = GetBalance(account);
+            balance.Amount += amount;
+            UpdateBalance(balance);
+        }
+
+        public void SubtractAmount(Account account, decimal amount)
+        {
+            var balance = GetBalance(account);
+            balance.Amount -= amount;
+            UpdateBalance(balance);
+        }       
 
         private Balance GetBalance(Account account)
         {
@@ -35,6 +48,12 @@ namespace Asp_In_Action.Services.CostControl.Handlers
                 _dbContext.SaveChanges();
             }
             return balance;
+        }
+
+        private void UpdateBalance(Balance balance)
+        {
+            _dbContext.CostControlBalances.Update(balance);
+            _dbContext.SaveChanges();
         }
     }
 }

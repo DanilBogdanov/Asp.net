@@ -33,7 +33,7 @@ namespace Asp_In_Action
                 options.UseSqlite(appConnectionString));
             
             services.AddDbContext<CostControlContext>(options =>
-                options.UseSqlite(costControlConnectionString));
+                options.UseSqlServer(costControlConnectionString));
 
             services.AddDefaultIdentity<ApplicationUser>(options =>
                 options.SignIn.RequireConfirmedAccount = true)

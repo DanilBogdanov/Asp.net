@@ -4,7 +4,7 @@ namespace Asp_In_Action.Services.CostControl.Entity
 {
     public class Transaction
     {
-        public ulong Id { get; set; }
+        public long Id { get; set; }
         public TransactionType Type { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
         public string Description { get; set; }

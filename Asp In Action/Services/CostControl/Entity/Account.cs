@@ -2,7 +2,7 @@
 {
     public class Account
     {
-        public ulong Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public User User { get; set; }

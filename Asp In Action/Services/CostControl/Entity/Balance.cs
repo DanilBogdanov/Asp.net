@@ -2,7 +2,7 @@
 {
     public class Balance
     {
-        public ulong Id { get; set; }        
+        public long Id { get; set; }        
         public Account Account { get; set; }
         public decimal Amount { get; set; }
     }

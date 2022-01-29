@@ -52,8 +52,8 @@ namespace Asp_In_Action.Services.CostControl
 
             foreach (var account in accountList)
             {
-                Balance balance = _balancesHandler.Get(account);
-                accountsWithBalance.Add((account, balance.Amount));
+                decimal amount = _balancesHandler.GetAmount(account);
+                accountsWithBalance.Add((account, amount));
             }
 
             return accountsWithBalance;
@@ -62,7 +62,15 @@ namespace Asp_In_Action.Services.CostControl
         public void AddAccount(Account account, decimal balance)
         {
             _accountHandler.Add(account);
-            Transaction transaction = new Transaction { Type = TransactionType.Correction, AccountTo = account, Amount = balance };
+            Transaction transaction =
+                new Transaction
+                {
+                    Type = TransactionType.Correction,
+                    Description = "Create Account",
+                    AccountTo = account,
+                    Amount = balance,
+                    User = account.User
+                };
             _transactionsHandler.Add(transaction);
         }
 
@@ -89,19 +97,19 @@ namespace Asp_In_Action.Services.CostControl
         private void SetDefaultValues(User user)
         {
             //set Accounts
-            var accountCash = new Account { Name = "Cash", User = user };
-            var accountCard = new Account { Name = "Card", User = user };
+            var accountCash = new Account { Name = "Cash", User = user, Description = "Cash" };
+            var accountCard = new Account { Name = "Card", User = user, Description = "Credit Card" };
             AddAccount(accountCash, 0);
             AddAccount(accountCard, 0);
 
             //set Incomes
-            var incomeSalary = new Income { Name = "Salary", User = user };
+            var incomeSalary = new Income { Name = "Salary", User = user, Description = "Salary" };
             AddIncome(incomeSalary);
 
             //set Expense
-            var expenseFood = new Expense { Name = "Food", User = user };
-            var expenseCar = new Expense { Name = "Car", User = user };
-            var expenseBills = new Expense { Name = "Bills", User = user };
+            var expenseFood = new Expense { Name = "Food", User = user, Description = "Food" };
+            var expenseCar = new Expense { Name = "Car", User = user, Description = "Car" };
+            var expenseBills = new Expense { Name = "Bills", User = user, Description = "Bills" };
             AddExpense(expenseFood);
             AddExpense(expenseCar);
             AddExpense(expenseBills);
@@ -110,6 +118,7 @@ namespace Asp_In_Action.Services.CostControl
             var transactionSalary = new Transaction
             {
                 Type = TransactionType.Incoming,
+                Description = "just salary",
                 User = user,
                 AccountTo = accountCash,
                 Date = System.DateTime.Now,
@@ -119,6 +128,7 @@ namespace Asp_In_Action.Services.CostControl
             var transactionTransfer = new Transaction
             {
                 Type = TransactionType.Transfer,
+                Description = "bancomat",
                 User = user,
                 Date = System.DateTime.Now,
                 AccountFrom = accountCash,
@@ -128,6 +138,7 @@ namespace Asp_In_Action.Services.CostControl
             var transactionFood = new Transaction
             {
                 Type = TransactionType.Outgoing,
+                Description = "food at work",
                 User = user,
                 AccountFrom = accountCash,
                 Expense = expenseFood,

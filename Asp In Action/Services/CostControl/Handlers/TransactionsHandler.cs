@@ -45,33 +45,23 @@ namespace Asp_In_Action.Services.CostControl.Handlers
             {
                 case TransactionType.Incoming:
                     {
-                        Balance balance = _balancesHandler.Get(transaction.AccountTo);
-                        balance.Amount += transaction.Amount;
-                        _balancesHandler.Update(balance);
+                        _balancesHandler.AddAmount(transaction.AccountTo, transaction.Amount);
                         break;
                     }
                 case TransactionType.Outgoing:
                     {
-                        Balance balance = _balancesHandler.Get(transaction.AccountFrom);
-                        balance.Amount -= transaction.Amount;
-                        _balancesHandler.Update(balance);
+                        _balancesHandler.SubtractAmount(transaction.AccountFrom, transaction.Amount);
                         break;
                     }
                 case TransactionType.Transfer:
                     {
-                        Balance balanceFrom = _balancesHandler.Get(transaction.AccountFrom);
-                        balanceFrom.Amount -= transaction.Amount;
-                        _balancesHandler.Update(balanceFrom);
-                        Balance balanceTo = _balancesHandler.Get(transaction.AccountTo);
-                        balanceTo.Amount += transaction.Amount;
-                        _balancesHandler.Update(balanceTo);
+                        _balancesHandler.SubtractAmount(transaction.AccountFrom, transaction.Amount);
+                        _balancesHandler.AddAmount(transaction.AccountTo, transaction.Amount);                        
                         break;
                     }
                 case TransactionType.Correction:
                     {
-                        Balance balance = _balancesHandler.Get(transaction.AccountTo);
-                        balance.Amount = transaction.Amount;
-                        _balancesHandler.Update(balance);
+                        _balancesHandler.SetAmount(transaction.AccountTo, transaction.Amount);                        
                         break;
                     }
             }

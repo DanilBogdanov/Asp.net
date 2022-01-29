@@ -1,4 +1,5 @@
-﻿@page
+﻿@page "{handler?}/{interval?}"
+@using Asp_In_Action.Services.CostControl.Entity
 @model Asp_In_Action.Pages.CostControl.IndexModel
 @{
     ViewData["Title"] = "CostControl";
@@ -49,16 +50,16 @@
 
                 @*week*@
                 <div class="input-group input-group-sm shadow" id="weekGroup" hidden>
-                    <input type="week" class="form-control">
+                    <input id="weekInput" type="week" class="form-control">
                 </div>
                 @*month*@
                 <div class="input-group input-group-sm shadow" id="monthGroup">
-                    <input type="month" class="form-control">
+                    <input id="monthInput" type="month" class="form-control">
                 </div>
                 @*period*@
                 <div class="input-group input-group-sm" id="periodGroup" hidden>
-                    <input type="date" class="form-control shadow">-
-                    <input type="date" class="form-control shadow">
+                    <input id=periodFirstInput type="date" class="form-control shadow">-
+                    <input id="periodSecondInput" type="date" class="form-control shadow">
                 </div>
 
             </div>
@@ -99,7 +100,9 @@
                             </tr>
                             <tr>
                                 @*<div class="progress" style="height: 1px;">*@
-                                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                <td>
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                </td>
                                 @*</div>*@
                             </tr>
                         }
@@ -130,35 +133,51 @@
                 <span class="h5">Transactions:</span>
                 <table class="table">
                     <tbody>
-                        <tr>
-                            <td>
-                                18.01.22
-                            </td>
-                            <td>
-                                <span class="badge badge-danger">Expense</span>
-                            </td>
-                            <td>
-                                Buy Tesla
-                            </td>
-                            <td>
-                                40000$
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                15.01.22
-                            </td>
-                            <td>
-                                <span class="badge badge-success">Income</span>
-                            </td>
-                            <td>
-                                Buy Tesla
-                            </td>
-                            <td>
-                                40000$
-                            </td>
-                        </tr>
 
+                        @for (int i = 0; i < @Model.Transactions.Count(); i++)
+                        {
+                            var o = Model.Transactions[i];
+                            <tr>
+                                <td>
+                                    <span title=@o.Date.TimeOfDay>@Model.Transactions[i].Date.GetDateTimeFormats()</span>
+                                </td>
+                                <td class="text-left">
+                                    @switch (Model.Transactions[i].Type)
+                                    {
+                                        case TransactionType.Incoming:
+                                            {
+                                                <span class="badge badge-success">@Model.Transactions[i].Type</span>
+                                                <span title=@Model.Transactions[i].Description>@Model.Transactions[i].Income.Name</span>
+                                                break;
+                                            }
+                                        case TransactionType.Outgoing:
+                                            {
+                                                <span class="badge badge-danger">@Model.Transactions[i].Type</span>
+                                                <span title=@Model.Transactions[i].Description>@Model.Transactions[i].Expense.Name</span>
+                                                break;
+                                            }
+                                        case TransactionType.Transfer:
+                                            {
+                                                <span class="badge badge-primary">@Model.Transactions[i].Type</span>
+                                                <span title=@Model.Transactions[i].Description>
+                                                    @Model.Transactions[i].AccountFrom.Name -> @Model.Transactions[i].AccountTo.Name
+                                                </span>
+                                                break;
+                                            }
+                                        case TransactionType.Correction:
+                                            {
+                                                <span class="badge badge-secondary">@Model.Transactions[i].Type</span>
+                                                <span title=@Model.Transactions[i].Description>@Model.Transactions[i].AccountTo.Name</span>
+                                                break;
+                                            }
+                                    }
+
+                                </td>
+                                <td>
+                                    <b>@Model.Transactions[i].Amount</b>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
