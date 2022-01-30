@@ -1,0 +1,102 @@
+﻿@page
+@using Asp_In_Action.Services.CostControl.Entity
+@model Asp_In_Action.Pages.CostControl.Transactions.AddModel
+@{
+    ViewData["Title"] = "Add Transaction";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-sm-4">
+        <form action="" method="post">
+            <input id="referrer" type="hidden" name="referrer" />
+            <script>
+                referrer.value = document.referrer;
+            </script>
+            <hr />
+            @*Transaction type*@
+            <div class="form-group">
+                <label>Transaction Type</label>
+                <div>
+                    <select id="transactionType" name="transactionType">
+                        <option selected disabled>Select Type</option>
+                        @foreach (var type in Enum.GetValues<TransactionType>())
+                        {
+                            <option value=@type>@type</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            @*Account From-To*@
+            <div id="accountGroup" class="form-group">
+                <label>Account</label>
+                <div class="btn-toolbar">
+                    <div class="input-group input-group-sm mr-2">
+                        @*Acc From*@
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">From</div>
+                        </div>
+                        <select id="accountFrom" name="transactionAccountFromId">
+                            <option selected disabled>Select Account</option>
+                            @foreach (var account in @Model.Accounts)
+                            {
+                                <option value=@account.Id>@account.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="input-group input-group-sm">
+                        @*AccTo*@
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"> To </div>
+                        </div>
+                        <select id="accountTo" name="transactionAccountToId">
+                            <option selected disabled>Select Account</option>
+                            @foreach (var account in @Model.Accounts)
+                            {
+                                <option value=@account.Id>@account.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            @*Income*@
+            <div class="form-group">
+                <label>Income</label>
+                <div>
+                    <select id="income" name="transactionIncomeId">
+                        <option selected disabled>Select Income</option>
+                        @foreach (var income in @Model.Incomes)
+                        {
+                            <option value=@income.Id>@income.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            @*Expense*@
+            <div class="form-group">
+                <label>Expense</label>
+                <div>
+                    <select id="expense" name="transactionExpenseId">
+                        <option selected disabled>Select Income</option>
+                        @foreach (var expense in @Model.Expenses)
+                        {
+                            <option value=@expense.Id>@expense.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            @*Description*@
+            <div class="form-group">
+                <label>Description</label>
+                <input name="transactionDescription" class="form-control" />
+            </div>
+            @*Amount*@
+            <div class="form-group">
+                <label>Amount</label>
+                <input name="transactionAmount" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Add Transaction</button>
+        </form>
+    </div>
+</div>

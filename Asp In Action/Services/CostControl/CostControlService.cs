@@ -45,6 +45,7 @@ namespace Asp_In_Action.Services.CostControl
 
         }
 
+        public List<Account> GetAccounts(User costControlUser) => _accountHandler.GetAll(costControlUser);
         public List<(Account, decimal amount)> GetAccountsWithBalance(User costControlUser)
         {
             List<(Account, decimal amount)> accountsWithBalance = new List<(Account, decimal amount)>();
