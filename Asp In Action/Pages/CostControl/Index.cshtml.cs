@@ -6,6 +6,7 @@ using Asp_In_Action.Services.CostControl.Entity;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using Asp_In_Action.Data;
+using System;
 
 namespace Asp_In_Action.Pages.CostControl
 {
@@ -19,8 +20,8 @@ namespace Asp_In_Action.Pages.CostControl
         public string Interval { get; set; }
         
         public List<(Account account, decimal amount)> Accounts { get; set; }
-        public List<Income> Incomes { get; set; }
-        public List<Expense> Expenses { get; set; }
+        public List<(Income income, decimal amount)> Incomes { get; set; }
+        public List<(Expense expense, decimal amount)> Expenses { get; set; }
         public List<Transaction> Transactions { get; set; }
 
         public IndexModel(CostControlService costControlService,
@@ -32,26 +33,30 @@ namespace Asp_In_Action.Pages.CostControl
 
         public void OnGet()
         {
-            ByInterval = DateInterval.ByMonth;            
-            LoadProperties();
+            ByInterval = DateInterval.ByMonth;
+            var dateNow = DateTime.Now;
+            var dateFrom = new DateTime(dateNow.Year, dateNow.Month, 1);
+            var dateTo = dateFrom.AddMonths(1);
+            LoadProperties(dateFrom, dateTo);
         }
 
         public void OnGetWeek()
         {
             ByInterval = DateInterval.ByWeek;
-            LoadProperties();
+            //LoadProperties();
+
         }
 
         public void OnGetMonth()
         {
             ByInterval = DateInterval.ByMonth;
-            LoadProperties();
+            //LoadProperties();
         }
 
         public void OnGetPeriod()
         {
             ByInterval = DateInterval.ByPeriod;
-            LoadProperties();
+            //LoadProperties();
         }
 
         public void OnPost()
@@ -64,7 +69,7 @@ namespace Asp_In_Action.Pages.CostControl
             ByMonth,
             ByPeriod
         }
-        private void LoadProperties()
+        private void LoadProperties(DateTime dateTimeFrom, DateTime dateTimeTo)
         {
             //get Identity user
             ApplicationUser appUser = _userManager.GetUserAsync(HttpContext.User).Result;
@@ -72,8 +77,8 @@ namespace Asp_In_Action.Pages.CostControl
             var costControlUser = _costControlService.GetUserByEmail(appUser?.Email);
 
             Accounts = _costControlService.GetAccountsWithBalance(costControlUser);
-            Incomes = _costControlService.GetIncomes(costControlUser);
-            Expenses = _costControlService.GetExpenses(costControlUser);
+            Incomes = _costControlService.GetIncomesWithAmount(costControlUser, dateTimeFrom, dateTimeTo);
+            Expenses = _costControlService.GetExpensesWithAmount(costControlUser, dateTimeFrom, dateTimeTo);
 
             //TODO
             Transactions = _costControlService.GetTransactions(costControlUser);

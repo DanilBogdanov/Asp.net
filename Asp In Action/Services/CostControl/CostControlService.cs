@@ -75,12 +75,42 @@ namespace Asp_In_Action.Services.CostControl
         }
 
         public List<Income> GetIncomes(User costControlUser) => _incomesHandler.GetAll(costControlUser);
+        public List<(Income, decimal amount)> GetIncomesWithAmount(User costControlUser, DateTime dateTimeFrom, DateTime dateTimeTo)
+        {
+            var listResult = new List<(Income, decimal amount)>();
+            foreach (var income in GetIncomes(costControlUser))
+            {
+                decimal amount = 0;
+                foreach (var transact in _transactionsHandler.GetByIncome(costControlUser, income, dateTimeFrom, dateTimeTo))
+                {
+                    amount += transact.Amount;
+                }
 
+                listResult.Add((income, amount));
+            }
+
+            return listResult;
+        }
         public void AddIncome(Income income) => _incomesHandler.Add(income);
 
 
         public List<Expense> GetExpenses(User costControlUser) => _expenseHandler.GetAll(costControlUser);
+        public List<(Expense, decimal amount)> GetExpensesWithAmount(User costControlUser, DateTime dateTimeFrom, DateTime dateTimeTo)
+        {
+            var listResult = new List<(Expense, decimal amount)>();
+            foreach (var expense in GetExpenses(costControlUser))
+            {
+                decimal amount = 0;
+                foreach (var transact in _transactionsHandler.GetByExpense(costControlUser, expense, dateTimeFrom, dateTimeTo))
+                {
+                    amount += transact.Amount;
+                }
 
+                listResult.Add((expense, amount));
+            }
+
+            return listResult;
+        }
         public void AddExpense(Expense expense) => _expenseHandler.Add(expense);
 
 
@@ -90,7 +120,7 @@ namespace Asp_In_Action.Services.CostControl
         /// dataTimeFrom include, dataTimeTo exclude
         /// </summary>        
         public List<Transaction> GetTransactions(User costControlUser, DateTime dateTimeFrom, DateTime dateTimeTo) =>
-            _transactionsHandler.GetByPeriod(costControlUser, dateTimeFrom, dateTimeTo);
+            _transactionsHandler.GetAll(costControlUser, dateTimeFrom, dateTimeTo);
 
         public void AddTransaction(Transaction transaction) => _transactionsHandler.Add(transaction);
 

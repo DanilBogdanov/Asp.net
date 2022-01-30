@@ -23,10 +23,40 @@ namespace Asp_In_Action.Services.CostControl.Handlers
                 .ToList();
         }
 
-        public List<Transaction> GetByPeriod(User user, DateTime dateFrom, DateTime dateTo)
+        public List<Transaction> GetAll(User user, DateTime dateFrom, DateTime dateTo)
         {
             return _dbContext.CostControlTransactions
                 .Where(transaction => transaction.User == user &&
+                                      transaction.Date >= dateFrom &&
+                                      transaction.Date < dateTo)
+                .ToList();
+        }
+
+        public List<Transaction> GetByType(User user, TransactionType transactionType, DateTime dateFrom, DateTime dateTo)
+        {
+            return _dbContext.CostControlTransactions
+                .Where(transaction => transaction.User == user &&
+                                      transaction.Type == transactionType &&
+                                      transaction.Date >= dateFrom &&
+                                      transaction.Date < dateTo)
+                .ToList();
+        }
+
+        public List<Transaction> GetByIncome(User user, Income income, DateTime dateFrom, DateTime dateTo)
+        {
+            return _dbContext.CostControlTransactions
+                .Where(transaction => transaction.User == user &&
+                                      transaction.Income == income &&
+                                      transaction.Date >= dateFrom &&
+                                      transaction.Date < dateTo)
+                .ToList();
+        }
+
+        public List<Transaction> GetByExpense(User user, Expense expense, DateTime dateFrom, DateTime dateTo)
+        {
+            return _dbContext.CostControlTransactions
+                .Where(transaction => transaction.User == user &&
+                                      transaction.Expense == expense &&
                                       transaction.Date >= dateFrom &&
                                       transaction.Date < dateTo)
                 .ToList();
