@@ -13,10 +13,11 @@ namespace Asp_In_Action.Pages.CostControl.Transactions
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly CostControlService _costControlService;    
         private User _costControlUser;
+        [BindProperty(SupportsGet = true)]
+        public string Type { get; set; } 
         public List<Account> Accounts { get; set; }
         public List<Income> Incomes { get; set; }
         public List<Expense> Expenses { get; set; }
-
         public AddModel(UserManager<ApplicationUser> userManager, CostControlService costControlService)
         {
             _userManager = userManager;

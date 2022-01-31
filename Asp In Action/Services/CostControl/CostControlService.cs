@@ -130,8 +130,8 @@ namespace Asp_In_Action.Services.CostControl
             //set Accounts
             var accountCash = new Account { Name = "Cash", User = user, Description = "Cash" };
             var accountCard = new Account { Name = "Card", User = user, Description = "Credit Card" };
-            AddAccount(accountCash, 0);
-            AddAccount(accountCard, 0);
+            AddAccount(accountCash, 5000);
+            AddAccount(accountCard, 10000);
 
             //set Incomes
             var incomeSalary = new Income { Name = "Salary", User = user, Description = "Salary" };

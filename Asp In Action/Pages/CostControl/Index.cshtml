@@ -50,16 +50,16 @@
 
                 @*week*@
                 <div class="input-group input-group-sm shadow" id="weekGroup" hidden>
-                    <input id="weekInput" type="week" class="form-control">
+                    <input id="weekInput" type="week" style='font-size:medium' class="form-control font-weight-bold text-success">
                 </div>
                 @*month*@
                 <div class="input-group input-group-sm shadow" id="monthGroup">
-                    <input id="monthInput" type="month" class="form-control">
+                    <input id="monthInput" type="month" style='font-size:medium' class="form-control font-weight-bold text-dark">
                 </div>
                 @*period*@
                 <div class="input-group input-group-sm" id="periodGroup" hidden>
-                    <input id=periodFirstInput type="date" class="form-control shadow">-
-                    <input id="periodSecondInput" type="date" class="form-control shadow">
+                    <input id=periodFirstInput type="date" style='font-size:medium' class="form-control shadow font-weight-bold text-danger">-
+                    <input id="periodSecondInput" type="date" style='font-size:medium' class="form-control shadow font-weight-bold text-primary">
                 </div>
 
             </div>
@@ -86,6 +86,7 @@
             @*Incomes*@
             <div class="col-sm-3 text-center border-right border-primary pt-2">
                 <span class="h5 pt-2">Incomes:</span>
+                <a type="button" href="CostControl/Transactions/Add/@TransactionType.Incoming.ToString()" class="btn btn-outline-primary btn-sm float-right mb-2"><b>+</b></a>
                 <table class="table">
                     <tbody>
                         @for (int i = 0; i < @Model.Incomes.Count(); i++)
@@ -105,6 +106,7 @@
             @*Expenses*@
             <div class="col-sm-3 text-center border-right border-primary pt-2">
                 <span class="h5">Expenses:</span>
+                <a type="button" href="CostControl/Transactions/Add/@TransactionType.Outgoing.ToString()" class="btn btn-outline-primary btn-sm float-right mb-2"><b>+</b></a>
                 <table class="table">
                     <tbody>
                         @for (int i = 0; i < @Model.Expenses.Count(); i++)

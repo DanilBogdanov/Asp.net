@@ -1,11 +1,11 @@
-﻿@page
+﻿@page "{Type?}"
 @using Asp_In_Action.Services.CostControl.Entity
 @model Asp_In_Action.Pages.CostControl.Transactions.AddModel
 @{
     ViewData["Title"] = "Add Transaction";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2 id="heading">@ViewData["Title"]</h2>
 
 <div class="row">
     <div class="col-sm-4">
@@ -16,10 +16,10 @@
             </script>
             <hr />
             @*Transaction type*@
-            <div class="form-group">
+            <div id="transactionTypeGroup" class="form-group">
                 <label>Transaction Type</label>
                 <div>
-                    <select id="transactionType" name="transactionType">
+                    <select id="transactionTypeSelect" name="transactionType" onchange="onSelectedType()">
                         <option selected disabled>Select Type</option>
                         @foreach (var type in Enum.GetValues<TransactionType>())
                         {
@@ -28,16 +28,84 @@
                     </select>
                 </div>
             </div>
+            <script>
+                function onSelectedType() {
+                    selectType(transactionTypeSelect.value);
+                }
+
+                 function selectType(type) {
+                    switch (type) {
+                        case "@TransactionType.Incoming.ToString()" :
+                            selectIncomingType();
+                            break;
+                        case "@TransactionType.Outgoing.ToString()" :
+                            selectOutgoingType();
+                            break;
+                        case "@TransactionType.Transfer.ToString()" :
+                            selectTransferType();
+                            break;
+                        case "@TransactionType.Correction.ToString()" :
+                            selectCorrectionType();
+                            break;
+                    }
+                 }
+
+                function selectIncomingType() {
+                    heading.innerText = "Add Incoming Transaction";
+                    accountGroup.hidden = false;
+                    accountFromGroup.hidden = true;
+                    accountToGroup.hidden = false;
+                    incomeGroup.hidden = false;
+                    expenseGroup.hidden = true;
+                    descriptionGroup.hidden = false;
+                    amountGroup.hidden = false;
+                    buttonSubmit.hidden = false;
+                 }
+                function selectOutgoingType() {
+                    heading.innerText = "Add Outgoing Transaction";
+                    accountGroup.hidden = false;
+                    accountFromGroup.hidden = false;
+                    accountToGroup.hidden = true;
+                    incomeGroup.hidden = true;
+                    expenseGroup.hidden = false;
+                    descriptionGroup.hidden = false;
+                    amountGroup.hidden = false;
+                    buttonSubmit.hidden = false;
+                }
+                function selectTransferType() {
+                    heading.innerText = "Add Transfer Transaction";
+                    accountGroup.hidden = false;
+                    accountFromGroup.hidden = false;
+                    accountToGroup.hidden = false;
+                    incomeGroup.hidden = true;
+                    expenseGroup.hidden = true;
+                    descriptionGroup.hidden = false;
+                    amountGroup.hidden = false;
+                    buttonSubmit.hidden = false;
+                }
+                function selectCorrectionType() {
+                    heading.innerText = "Add Correction Transaction";
+                    accountGroup.hidden = false;
+                    accountFromGroup.hidden = true;
+                    accountToGroup.hidden = false;
+                    incomeGroup.hidden = true;
+                    expenseGroup.hidden = true;
+                    descriptionGroup.hidden = false;
+                    amountGroup.hidden = false;
+                    buttonSubmit.hidden = false;
+                }
+            </script>
+
             @*Account From-To*@
-            <div id="accountGroup" class="form-group">
+            <div id="accountGroup" class="form-group" hidden>
                 <label>Account</label>
                 <div class="btn-toolbar">
-                    <div class="input-group input-group-sm mr-2">
-                        @*Acc From*@
+                    @*Acc From*@
+                    <div id="accountFromGroup" class="input-group input-group-sm mr-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text">From</div>
                         </div>
-                        <select id="accountFrom" name="transactionAccountFromId">
+                        <select id="accountFromSelect" name="transactionAccountFromId">
                             <option selected disabled>Select Account</option>
                             @foreach (var account in @Model.Accounts)
                             {
@@ -45,12 +113,12 @@
                             }
                         </select>
                     </div>
-                    <div class="input-group input-group-sm">
-                        @*AccTo*@
+                    @*AccTo*@
+                    <div id="accountToGroup" class="input-group input-group-sm">
                         <div class="input-group-prepend">
                             <div class="input-group-text"> To </div>
                         </div>
-                        <select id="accountTo" name="transactionAccountToId">
+                        <select id="accountToSelect" name="transactionAccountToId">
                             <option selected disabled>Select Account</option>
                             @foreach (var account in @Model.Accounts)
                             {
@@ -61,10 +129,10 @@
                 </div>
             </div>
             @*Income*@
-            <div class="form-group">
+            <div id="incomeGroup" class="form-group" hidden>
                 <label>Income</label>
                 <div>
-                    <select id="income" name="transactionIncomeId">
+                    <select id="incomeSelect" name="transactionIncomeId">
                         <option selected disabled>Select Income</option>
                         @foreach (var income in @Model.Incomes)
                         {
@@ -74,10 +142,10 @@
                 </div>
             </div>
             @*Expense*@
-            <div class="form-group">
+            <div id="expenseGroup" class="form-group" hidden>
                 <label>Expense</label>
                 <div>
-                    <select id="expense" name="transactionExpenseId">
+                    <select id="expenseSelect" name="transactionExpenseId">
                         <option selected disabled>Select Income</option>
                         @foreach (var expense in @Model.Expenses)
                         {
@@ -87,16 +155,23 @@
                 </div>
             </div>
             @*Description*@
-            <div class="form-group">
+            <div id="descriptionGroup" class="form-group" hidden>
                 <label>Description</label>
                 <input name="transactionDescription" class="form-control" />
             </div>
             @*Amount*@
-            <div class="form-group">
+            <div id="amountGroup" class="form-group" hidden>
                 <label>Amount</label>
                 <input name="transactionAmount" class="form-control" />
             </div>
-            <button type="submit" class="btn btn-primary">Add Transaction</button>
+            <button id="buttonSubmit" type="submit" class="btn btn-primary" hidden>Add Transaction</button>
+            <script>
+                if ("@Model.Type" != "") {
+                    transactionTypeGroup.hidden = true;
+                    selectType("@Model.Type");
+                }
+            </script>
         </form>
     </div>
 </div>
+

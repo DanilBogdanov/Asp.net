@@ -46,6 +46,7 @@ namespace Asp_In_Action.Services.CostControl.Handlers
         {
             return _dbContext.CostControlTransactions
                 .Where(transaction => transaction.User == user &&
+                                      transaction.Type == TransactionType.Incoming &&
                                       transaction.Income == income &&
                                       transaction.Date >= dateFrom &&
                                       transaction.Date < dateTo)
@@ -56,6 +57,7 @@ namespace Asp_In_Action.Services.CostControl.Handlers
         {
             return _dbContext.CostControlTransactions
                 .Where(transaction => transaction.User == user &&
+                                      transaction.Type == TransactionType.Outgoing &&
                                       transaction.Expense == expense &&
                                       transaction.Date >= dateFrom &&
                                       transaction.Date < dateTo)
