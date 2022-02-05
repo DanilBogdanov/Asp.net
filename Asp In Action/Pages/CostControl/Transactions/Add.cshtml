@@ -33,7 +33,7 @@
                     selectType(transactionTypeSelect.value);
                 }
 
-                 function selectType(type) {
+                function selectType(type) {
                     switch (type) {
                         case "@TransactionType.Incoming.ToString()" :
                             selectIncomingType();
@@ -48,10 +48,12 @@
                             selectCorrectionType();
                             break;
                     }
-                 }
+                }
 
                 function selectIncomingType() {
                     heading.innerText = "Add Incoming Transaction";
+                    transactionTypeSelect.value = "@TransactionType.Incoming";
+
                     accountGroup.hidden = false;
                     accountFromGroup.hidden = true;
                     accountToGroup.hidden = false;
@@ -63,6 +65,8 @@
                  }
                 function selectOutgoingType() {
                     heading.innerText = "Add Outgoing Transaction";
+                    transactionTypeSelect.value = "@TransactionType.Outgoing";
+
                     accountGroup.hidden = false;
                     accountFromGroup.hidden = false;
                     accountToGroup.hidden = true;
@@ -74,6 +78,8 @@
                 }
                 function selectTransferType() {
                     heading.innerText = "Add Transfer Transaction";
+                    transactionTypeSelect.value = "@TransactionType.Transfer";
+
                     accountGroup.hidden = false;
                     accountFromGroup.hidden = false;
                     accountToGroup.hidden = false;
@@ -85,6 +91,8 @@
                 }
                 function selectCorrectionType() {
                     heading.innerText = "Add Correction Transaction";
+                    transactionTypeSelect.value = "@TransactionType.Correction";
+
                     accountGroup.hidden = false;
                     accountFromGroup.hidden = true;
                     accountToGroup.hidden = false;
@@ -146,7 +154,7 @@
                 <label>Expense</label>
                 <div>
                     <select id="expenseSelect" name="transactionExpenseId">
-                        <option selected disabled>Select Income</option>
+                        <option selected disabled>Select Expense</option>
                         @foreach (var expense in @Model.Expenses)
                         {
                             <option value=@expense.Id>@expense.Name</option>
