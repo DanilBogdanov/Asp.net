@@ -12,8 +12,7 @@ namespace Asp_In_Action.Pages
     public class PrivacyModel : PageModel
     {
         private readonly ILogger<PrivacyModel> _logger;
-        public string Name { get; set; }
-
+        
         public PrivacyModel(ILogger<PrivacyModel> logger)
         {
             Debug.WriteLine("new Privacy Model");
@@ -23,7 +22,7 @@ namespace Asp_In_Action.Pages
         public void OnGet()
         {
             Debug.WriteLine("OnGet Privacy");
-            Name = "==Name==";
+            
         }
 
         

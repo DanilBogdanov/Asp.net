@@ -10,7 +10,17 @@
         <div class="row">
             @*main*@
             <div class="col-sm-9">
-                <p>v:0.0.1</p>
+                <div class="row">
+                    <div class="col-sm-11 h4">
+                        @if (@Model.AppUser == null)
+                        {
+                            <p>
+                                <span class="font-weight-bold">This is Demo</span>(Authorize to see current data)
+                            </p>
+                        }
+                    </div>
+                    <div class="col-sm-1 text-sm-right font-italic font-weight-bold">v:0.0.1</div>
+                </div>
             </div>
 
             @*Accounts*@
@@ -99,7 +109,7 @@
                                 <td>
                                     <b>@Model.Incomes[i].amount</b>
                                 </td>
-                            </tr>                            
+                            </tr>
                         }
                     </tbody>
                 </table>

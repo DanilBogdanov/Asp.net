@@ -14,6 +14,7 @@ namespace Asp_In_Action.Pages.CostControl
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private CostControlService _costControlService;
+        public ApplicationUser AppUser { get; set; }
 
         public DateInterval ByInterval { get; set; }
         [BindProperty(SupportsGet = true)]
@@ -72,9 +73,9 @@ namespace Asp_In_Action.Pages.CostControl
         private void LoadProperties(DateTime dateTimeFrom, DateTime dateTimeTo)
         {
             //get Identity user
-            ApplicationUser appUser = _userManager.GetUserAsync(HttpContext.User).Result;
+            AppUser = _userManager.GetUserAsync(HttpContext.User).Result;
             //get CostControlUser of email
-            var costControlUser = _costControlService.GetUserByEmail(appUser?.Email);
+            var costControlUser = _costControlService.GetUserByEmail(AppUser?.Email);
 
             Accounts = _costControlService.GetAccountsWithBalance(costControlUser);
             Incomes = _costControlService.GetIncomesWithAmount(costControlUser, dateTimeFrom, dateTimeTo);
