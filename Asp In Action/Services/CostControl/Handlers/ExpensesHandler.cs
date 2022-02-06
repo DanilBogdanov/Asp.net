@@ -1,8 +1,8 @@
-﻿using Asp_In_Action.Services.CostControl.Entity;
+﻿using DanilDev.Services.CostControl.Entity;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Asp_In_Action.Services.CostControl.Handlers
+namespace DanilDev.Services.CostControl.Handlers
 {
     internal class ExpensesHandler
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Asp_In_Action.Migrations
+namespace DanilDev.Migrations
 {
     public partial class add_name_for_user : Migration
     {

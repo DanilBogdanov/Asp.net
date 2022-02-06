@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics;
-using Asp_In_Action.Services.CostControl;
-using Asp_In_Action.Services.CostControl.Entity;
+using DanilDev.Services.CostControl;
+using DanilDev.Services.CostControl.Entity;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
-using Asp_In_Action.Data;
+using DanilDev.Data;
 using System;
 
-namespace Asp_In_Action.Pages.CostControl
+namespace DanilDev.Pages.CostControl
 {
     public class IndexModel : PageModel
     {

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Asp_In_Action
+namespace DanilDev
 {
     public class Program
     {

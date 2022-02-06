@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Asp_In_Action.Data
+namespace DanilDev.Data
 {
     public class AppDbContext : IdentityDbContext<ApplicationUser>
     {

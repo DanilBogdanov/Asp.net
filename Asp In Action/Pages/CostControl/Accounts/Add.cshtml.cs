@@ -1,12 +1,12 @@
-using Asp_In_Action.Data;
-using Asp_In_Action.Services.CostControl;
-using Asp_In_Action.Services.CostControl.Entity;
+using DanilDev.Data;
+using DanilDev.Services.CostControl;
+using DanilDev.Services.CostControl.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics;
 
-namespace Asp_In_Action.Pages.CostControl.Accounts
+namespace DanilDev.Pages.CostControl.Accounts
 {
     public class AddModel : PageModel
     {

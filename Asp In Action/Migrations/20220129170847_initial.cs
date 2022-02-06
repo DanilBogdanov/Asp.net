@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Asp_In_Action.Migrations
+namespace DanilDev.Migrations
 {
     public partial class initial : Migration
     {

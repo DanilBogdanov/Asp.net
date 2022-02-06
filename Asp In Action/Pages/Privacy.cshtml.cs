@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-namespace Asp_In_Action.Pages
+namespace DanilDev.Pages
 {
     public class PrivacyModel : PageModel
     {

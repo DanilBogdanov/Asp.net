@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Asp_In_Action.Services.CostControl.Entity
+namespace DanilDev.Services.CostControl.Entity
 {
     public class Transaction
     {

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Asp_In_Action.Pages
+namespace DanilDev.Pages
 {
     public class ContactModel : PageModel
     {

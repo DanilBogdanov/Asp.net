@@ -1,12 +1,12 @@
-﻿using Asp_In_Action.Services.CostControl.Entity;
-using Asp_In_Action.Services.CostControl.Handlers;
+﻿using DanilDev.Services.CostControl.Entity;
+using DanilDev.Services.CostControl.Handlers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Asp_In_Action.Services.CostControl
+namespace DanilDev.Services.CostControl
 {
     public class CostControlService
     {

@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>Asp_In_Action</RootNamespace>
+    <RootNamespace>DanilDev</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="db\" />
     <Folder Include="Pages\CostControl\Expenses\" />
     <Folder Include="Pages\CostControl\Incomes\" />
   </ItemGroup>

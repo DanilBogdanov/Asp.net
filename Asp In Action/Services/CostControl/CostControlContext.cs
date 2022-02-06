@@ -1,8 +1,8 @@
-﻿using Asp_In_Action.Services.CostControl.Entity;
+﻿using DanilDev.Services.CostControl.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Asp_In_Action.Services.CostControl
+namespace DanilDev.Services.CostControl
 {
     public class CostControlContext : DbContext
     {

@@ -1,5 +1,5 @@
-using Asp_In_Action.Data;
-using Asp_In_Action.Services.CostControl;
+using DanilDev.Data;
+using DanilDev.Services.CostControl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Asp_In_Action
+namespace DanilDev
 {
     public class Startup
     {

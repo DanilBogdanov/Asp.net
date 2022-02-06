@@ -12,6 +12,7 @@
 .idea/
 /.idea/
 /.idea
+*.db
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
