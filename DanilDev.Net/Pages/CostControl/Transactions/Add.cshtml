@@ -61,6 +61,8 @@
                     expenseGroup.hidden = true;
                     descriptionGroup.hidden = false;
                     amountGroup.hidden = false;
+                        amountCorrectionInput.hidden = true;
+                        transactionAmount.hidden = false;
                     buttonSubmit.hidden = false;
                  }
                 function selectOutgoingType() {
@@ -74,6 +76,8 @@
                     expenseGroup.hidden = false;
                     descriptionGroup.hidden = false;
                     amountGroup.hidden = false;
+                        amountCorrectionInput.hidden = true;
+                        transactionAmount.hidden = false;
                     buttonSubmit.hidden = false;
                 }
                 function selectTransferType() {
@@ -87,6 +91,8 @@
                     expenseGroup.hidden = true;
                     descriptionGroup.hidden = false;
                     amountGroup.hidden = false;
+                        amountCorrectionInput.hidden = true;
+                        transactionAmount.hidden = false;
                     buttonSubmit.hidden = false;
                 }
                 function selectCorrectionType() {
@@ -100,6 +106,8 @@
                     expenseGroup.hidden = true;
                     descriptionGroup.hidden = false;
                     amountGroup.hidden = false;
+                        amountCorrectionInput.hidden = false;
+                        transactionAmount.hidden = true;
                     buttonSubmit.hidden = false;
                 }
             </script>
@@ -115,22 +123,26 @@
                         </div>
                         <select id="accountFromSelect" name="transactionAccountFromId">
                             <option selected disabled>Select Account</option>
-                            @foreach (var account in @Model.Accounts)
+                            @foreach (var accAndBal in @Model.AccountsWithBalance)
                             {
-                                <option value=@account.Id>@account.Name</option>
+                                <option value=@accAndBal.account.Id data-balance=@accAndBal.balance>
+                                    @accAndBal.account.Name: @accAndBal.balance
+                                </option>
                             }
                         </select>
                     </div>
                     @*AccTo*@
-                    <div id="accountToGroup" class="input-group input-group-sm">
+                    <div id="accountToGroup" class="input-group input-group-sm" onchange="amountOfChanging()">
                         <div class="input-group-prepend">
                             <div class="input-group-text"> To </div>
                         </div>
                         <select id="accountToSelect" name="transactionAccountToId">
                             <option selected disabled>Select Account</option>
-                            @foreach (var account in @Model.Accounts)
+                            @foreach (var accAndBal in @Model.AccountsWithBalance)
                             {
-                                <option value=@account.Id>@account.Name</option>
+                                <option value=@accAndBal.account.Id data-balance=@accAndBal.balance>
+                                    @accAndBal.account.Name: @accAndBal.balance
+                                </option>
                             }
                         </select>
                     </div>
@@ -168,10 +180,35 @@
                 <input name="transactionDescription" class="form-control" />
             </div>
             @*Amount*@
-            <div id="amountGroup" class="form-group" hidden>
-                <label>Amount</label>
-                <input name="transactionAmount" class="form-control" />
+            <div id="amountGroup" class="form-group" onchange="amountOfChanging()" hidden>
+                <label id="amountLabel">Amount</label>
+                <input id="amountCorrectionInput" class="form-control" hidden/>
+                <input id="transactionAmount" name="transactionAmount" hidden/>
+                <label id="amountChangeLabel"></label>
             </div>
+
+            @*If type is "correction" and account selected,  
+            Calculate the difference between the current account and the new one. 
+            Set the transaction form field and comment on how much the balance will change*@
+            <script>
+                function amountOfChanging() {
+                    if (transactionTypeSelect.value == "@TransactionType.Correction.ToString()") {
+                        if (accountToSelect.selectedIndex != 0) {
+                            let currentBalance = accountToSelect.options[accountToSelect.selectedIndex].dataset.balance;
+                            let differenceAmount = amountCorrectionInput.value - currentBalance;
+                            @*Set amount of transaction*@
+                            transactionAmount.value = differenceAmount;
+
+                            if (differenceAmount < 0) {
+                                amountChangeLabel.innerText = "Balance will decrease by " + (differenceAmount * -1);
+                            } else {
+                                amountChangeLabel.innerText = "Balance will increase by " + differenceAmount;
+                            }
+                        }
+                    }
+                }
+            </script>
+            @*Submit*@
             <button id="buttonSubmit" type="submit" class="btn btn-primary" hidden>Add Transaction</button>
             <script>
                 if ("@Model.Type" != "") {

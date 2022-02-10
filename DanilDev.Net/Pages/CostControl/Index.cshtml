@@ -36,7 +36,7 @@
                                     <div title=@Model.Accounts[i].account.Description>@Model.Accounts[i].account.Name:</div>
                                 </td>
                                 <td>
-                                    <b>@Model.Accounts[i].amount</b>
+                                    <b>@Model.Accounts[i].balance</b>
                                 </td>
                             </tr>
                         }
@@ -95,7 +95,7 @@
         <hr class="border-primary mb-0" />
         <div class="row shadow">
             @*Incomes*@
-            <div class="col-sm-3 text-center border-right border-primary pt-2">
+            <div class="col-md-3 text-center border-right border-primary pt-2">
                 <span class="h5 pt-2">Incomes:</span>
                 <a type="button" href="CostControl/Transactions/Add/@TransactionType.Incoming.ToString()" class="btn btn-outline-primary btn-sm float-right mb-2"><b>+</b></a>
                 <table class="table">
@@ -115,7 +115,7 @@
                 </table>
             </div>
             @*Expenses*@
-            <div class="col-sm-3 text-center border-right border-primary pt-2">
+            <div class="col-md-3 text-center border-right border-primary pt-2">
                 <span class="h5">Expenses:</span>
                 <a type="button" href="CostControl/Transactions/Add/@TransactionType.Outgoing.ToString()" class="btn btn-outline-primary btn-sm float-right mb-2"><b>+</b></a>
                 <table class="table">
@@ -135,10 +135,10 @@
                 </table>
             </div>
             @*Transactions*@
-            <div class="col-sm-6 text-center pt-2">
+            <div class="col-md-6 text-center pt-2">
                 <span class="h5">Transactions:</span>
                 <a type="button" href="CostControl/Transactions/Add" class="btn btn-outline-primary btn-sm float-right mb-2"><b>+</b></a>
-                <table class="table">
+                <table class="table table-sm">
                     <tbody>
                         @for (int i = 0; i < @Model.Transactions.Count(); i++)
                         {
@@ -157,25 +157,25 @@
                                         case TransactionType.Incoming:
                                             {
                                                 <span class="badge badge-success">@transact.Type</span>
-                                                transactName = transact.Income.Name;
+                                                transactName = transact.Income?.Name;
                                                 break;
                                             }
                                         case TransactionType.Outgoing:
                                             {
                                                 <span class="badge badge-danger">@transact.Type</span>
-                                                transactName = transact.Expense.Name;
+                                                transactName = transact.Expense?.Name;
                                                 break;
                                             }
                                         case TransactionType.Transfer:
                                             {
                                                 <span class="badge badge-primary">@transact.Type</span>
-                                                transactName = $"{transact.AccountFrom.Name} -> {transact.AccountTo.Name}";
+                                                transactName = $"{transact.AccountFrom?.Name} -> {transact.AccountTo?.Name}";
                                                 break;
                                             }
                                         case TransactionType.Correction:
                                             {
                                                 <span class="badge badge-secondary">@transact.Type</span>
-                                                transactName = transact.AccountTo.Name;
+                                                transactName = transact.AccountTo?.Name;
                                                 break;
                                             }
                                     }
@@ -186,6 +186,9 @@
                                 </td>
                                 <td>
                                     <b>@transact.Amount</b>
+                                </td>
+                                <td>
+                                    <a type="button" href="" class="btn btn-outline-danger btn-sm float-right mb-2"><b>х</b></a>
                                 </td>
                             </tr>
                         }

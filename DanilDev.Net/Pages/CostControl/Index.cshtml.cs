@@ -20,7 +20,7 @@ namespace DanilDev.Pages.CostControl
         [BindProperty(SupportsGet = true)]
         public string Interval { get; set; }
         
-        public List<(Account account, decimal amount)> Accounts { get; set; }
+        public List<(Account account, decimal balance)> Accounts { get; set; }
         public List<(Income income, decimal amount)> Incomes { get; set; }
         public List<(Expense expense, decimal amount)> Expenses { get; set; }
         public List<Transaction> Transactions { get; set; }
@@ -38,6 +38,8 @@ namespace DanilDev.Pages.CostControl
             var dateNow = DateTime.Now;
             var dateFrom = new DateTime(dateNow.Year, dateNow.Month, 1);
             var dateTo = dateFrom.AddMonths(1);
+            Debug.WriteLine($"dateFrom-{dateFrom}");
+            Debug.WriteLine($"dateTo-{dateTo}");
             LoadProperties(dateFrom, dateTo);
         }
 

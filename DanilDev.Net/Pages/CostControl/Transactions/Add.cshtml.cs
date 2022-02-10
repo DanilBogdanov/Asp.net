@@ -15,7 +15,7 @@ namespace DanilDev.Pages.CostControl.Transactions
         private User _costControlUser;
         [BindProperty(SupportsGet = true)]
         public string Type { get; set; } 
-        public List<Account> Accounts { get; set; }
+        public List<(Account account, decimal balance)> AccountsWithBalance { get; set; }
         public List<Income> Incomes { get; set; }
         public List<Expense> Expenses { get; set; }
         public AddModel(UserManager<ApplicationUser> userManager, CostControlService costControlService)
@@ -41,8 +41,8 @@ namespace DanilDev.Pages.CostControl.Transactions
         {
             LoadProperties();
 
-            var accountFrom = Accounts.Find(acc => acc.Id == transactionAccountFromId);
-            var accountTo = Accounts.Find(acc => acc.Id == transactionAccountToId);
+            var accountFrom = AccountsWithBalance.Find(acc => acc.account.Id == transactionAccountFromId).account;
+            var accountTo = AccountsWithBalance.Find(acc => acc.account.Id == transactionAccountToId).account;
             var income = Incomes.Find(income => income.Id == transactionIncomeId);
             var expense = Expenses.Find(expense => expense.Id == transactionExpenseId);
 
@@ -69,7 +69,7 @@ namespace DanilDev.Pages.CostControl.Transactions
             ApplicationUser appUser = _userManager.GetUserAsync(HttpContext.User).Result;
             //get CostControlUser of email
             _costControlUser = _costControlService.GetUserByEmail(appUser?.Email);
-            Accounts = _costControlService.GetAccounts(_costControlUser);
+            AccountsWithBalance = _costControlService.GetAccountsWithBalance(_costControlUser);
             Incomes = _costControlService.GetIncomes(_costControlUser);
             Expenses = _costControlService.GetExpenses(_costControlUser);
         }

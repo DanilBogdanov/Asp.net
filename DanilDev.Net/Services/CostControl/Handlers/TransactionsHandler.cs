@@ -71,6 +71,12 @@ namespace DanilDev.Services.CostControl.Handlers
             _dbContext.SaveChanges();
         }
 
+        public void Delete(Transaction transaction)
+        {
+            _dbContext.CostControlTransactions.Remove(transaction);
+            _dbContext.SaveChanges();
+        }
+
         private void ChangeBalance(Transaction transaction)
         {
             switch (transaction.Type)
@@ -88,15 +94,46 @@ namespace DanilDev.Services.CostControl.Handlers
                 case TransactionType.Transfer:
                     {
                         _balancesHandler.SubtractAmount(transaction.AccountFrom, transaction.Amount);
-                        _balancesHandler.AddAmount(transaction.AccountTo, transaction.Amount);                        
+                        _balancesHandler.AddAmount(transaction.AccountTo, transaction.Amount);
                         break;
                     }
                 case TransactionType.Correction:
                     {
-                        _balancesHandler.SetAmount(transaction.AccountTo, transaction.Amount);                        
+                        _balancesHandler.AddAmount(transaction.AccountTo, transaction.Amount);
                         break;
                     }
             }
-        }        
+        }
+
+        /// <summary>
+        /// Undo changes by transactions
+        /// </summary>        
+        private void UndoChangeBalance(Transaction transaction)
+        {
+            switch (transaction.Type)
+            {
+                case TransactionType.Incoming:
+                    {
+                        _balancesHandler.SubtractAmount(transaction.AccountTo, transaction.Amount);
+                        break;
+                    }
+                case TransactionType.Outgoing:
+                    {
+                        _balancesHandler.AddAmount(transaction.AccountFrom, transaction.Amount );
+                        break;
+                    }
+                case TransactionType.Transfer:
+                    {
+                        _balancesHandler.AddAmount(transaction.AccountFrom, transaction.Amount);
+                        _balancesHandler.SubtractAmount(transaction.AccountTo, transaction.Amount);
+                        break;
+                    }
+                case TransactionType.Correction:
+                    {
+                        _balancesHandler.SubtractAmount(transaction.AccountTo, transaction.Amount);
+                        break;
+                    }
+            }
+        }
     }
 }

@@ -46,15 +46,15 @@ namespace DanilDev.Services.CostControl
         }
 
         public List<Account> GetAccounts(User costControlUser) => _accountHandler.GetAll(costControlUser);
-        public List<(Account, decimal amount)> GetAccountsWithBalance(User costControlUser)
+        public List<(Account, decimal balance)> GetAccountsWithBalance(User costControlUser)
         {
-            List<(Account, decimal amount)> accountsWithBalance = new List<(Account, decimal amount)>();
+            List<(Account, decimal balance)> accountsWithBalance = new List<(Account, decimal balance)>();
             var accountList = _accountHandler.GetAll(costControlUser);
 
             foreach (var account in accountList)
             {
-                decimal amount = _balancesHandler.GetAmount(account);
-                accountsWithBalance.Add((account, amount));
+                decimal balance = _balancesHandler.GetAmount(account);
+                accountsWithBalance.Add((account, balance));
             }
 
             return accountsWithBalance;
