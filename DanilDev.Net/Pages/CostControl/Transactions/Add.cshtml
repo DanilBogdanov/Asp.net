@@ -61,8 +61,6 @@
                     expenseGroup.hidden = true;
                     descriptionGroup.hidden = false;
                     amountGroup.hidden = false;
-                        amountCorrectionInput.hidden = true;
-                        transactionAmount.hidden = false;
                     buttonSubmit.hidden = false;
                  }
                 function selectOutgoingType() {
@@ -76,8 +74,6 @@
                     expenseGroup.hidden = false;
                     descriptionGroup.hidden = false;
                     amountGroup.hidden = false;
-                        amountCorrectionInput.hidden = true;
-                        transactionAmount.hidden = false;
                     buttonSubmit.hidden = false;
                 }
                 function selectTransferType() {
@@ -91,8 +87,6 @@
                     expenseGroup.hidden = true;
                     descriptionGroup.hidden = false;
                     amountGroup.hidden = false;
-                        amountCorrectionInput.hidden = true;
-                        transactionAmount.hidden = false;
                     buttonSubmit.hidden = false;
                 }
                 function selectCorrectionType() {
@@ -106,8 +100,6 @@
                     expenseGroup.hidden = true;
                     descriptionGroup.hidden = false;
                     amountGroup.hidden = false;
-                        amountCorrectionInput.hidden = false;
-                        transactionAmount.hidden = true;
                     buttonSubmit.hidden = false;
                 }
             </script>
@@ -182,29 +174,38 @@
             @*Amount*@
             <div id="amountGroup" class="form-group" onchange="amountOfChanging()" hidden>
                 <label id="amountLabel">Amount</label>
-                <input id="amountCorrectionInput" class="form-control" hidden/>
-                <input id="transactionAmount" name="transactionAmount" hidden/>
-                <label id="amountChangeLabel"></label>
+                <input id="amountInput" class="form-control" />
+                <input id="transactionAmount" type="hidden" name="transactionAmount" />
+                <label id="amountChangeLabel" class="font-italic"></label>
             </div>
 
-            @*If type is "correction" and account selected,  
-            Calculate the difference between the current account and the new one. 
-            Set the transaction form field and comment on how much the balance will change*@
+            @*If type is "correction" and account selected,
+                Calculate the difference between the current account and the new one.
+                Set the transaction form field and comment on how much the balance will change
+                Otherwise set amount input to transactionAmount*@
             <script>
                 function amountOfChanging() {
                     if (transactionTypeSelect.value == "@TransactionType.Correction.ToString()") {
                         if (accountToSelect.selectedIndex != 0) {
-                            let currentBalance = accountToSelect.options[accountToSelect.selectedIndex].dataset.balance;
-                            let differenceAmount = amountCorrectionInput.value - currentBalance;
-                            @*Set amount of transaction*@
-                            transactionAmount.value = differenceAmount;
+                            if (amountInput.value != 0) {
+                                let currentBalance = accountToSelect.options[accountToSelect.selectedIndex].dataset.balance;
+                                let differenceAmount = amountInput.value - currentBalance;
+                                @*Set amount of transaction*@
+                                transactionAmount.value = differenceAmount;
 
-                            if (differenceAmount < 0) {
-                                amountChangeLabel.innerText = "Balance will decrease by " + (differenceAmount * -1);
-                            } else {
-                                amountChangeLabel.innerText = "Balance will increase by " + differenceAmount;
-                            }
+                                if (differenceAmount < 0) {
+                                  amountChangeLabel.innerText = "Balance will decrease by " + (differenceAmount * -1);
+                                } else {
+                                  amountChangeLabel.innerText = "Balance will increase by " + differenceAmount;
+                                }
+                             } else {
+                                 amountChangeLabel.innerText = "Enter new balance!";
+                                 transactionAmount.value = amountInput.value;
+                             }
                         }
+                    @*To other types*@
+                    } else {
+                        transactionAmount.value = amountInput.value;
                     }
                 }
             </script>

@@ -188,12 +188,28 @@
                                     <b>@transact.Amount</b>
                                 </td>
                                 <td>
-                                    <a type="button" href="" class="btn btn-outline-danger btn-sm float-right mb-2"><b>х</b></a>
+                                    <button type="button" class="btn btn-outline-danger btn-sm float-right " on onclick="delTransaction(@transact.Id)">х</button>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
+                <form id="transactToDelForm" name="transactToDelForm" action="/CostControl/Transactions/Del" method="post"> 
+                    <input id="transactToDelInput" type="hidden" name="transactToDelId" value=10 /> 
+                    <input id="referrer" type="hidden" name="referrer" />
+                </form>                
+                <script>
+                    function delTransaction(transactionId) {
+                        if (transactionId !== undefined && 
+                            transactionId != 0) {           
+                            
+                            referrer.value = window.location.href;
+                            transactToDelInput.value = transactionId;
+
+                            transactToDelForm.submit();
+                         }
+                    }
+                </script>
             </div>
         </div>
 

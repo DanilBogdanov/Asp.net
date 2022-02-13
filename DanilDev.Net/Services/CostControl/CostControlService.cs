@@ -46,6 +46,7 @@ namespace DanilDev.Services.CostControl
         }
 
         public List<Account> GetAccounts(User costControlUser) => _accountHandler.GetAll(costControlUser);
+
         public List<(Account, decimal balance)> GetAccountsWithBalance(User costControlUser)
         {
             List<(Account, decimal balance)> accountsWithBalance = new List<(Account, decimal balance)>();
@@ -76,6 +77,7 @@ namespace DanilDev.Services.CostControl
         }
 
         public List<Income> GetIncomes(User costControlUser) => _incomesHandler.GetAll(costControlUser);
+
         public List<(Income, decimal amount)> GetIncomesWithAmount(User costControlUser, DateTime dateTimeFrom, DateTime dateTimeTo)
         {
             var listResult = new List<(Income, decimal amount)>();
@@ -92,10 +94,11 @@ namespace DanilDev.Services.CostControl
 
             return listResult;
         }
+        
         public void AddIncome(Income income) => _incomesHandler.Add(income);
 
-
         public List<Expense> GetExpenses(User costControlUser) => _expenseHandler.GetAll(costControlUser);
+        
         public List<(Expense, decimal amount)> GetExpensesWithAmount(User costControlUser, DateTime dateTimeFrom, DateTime dateTimeTo)
         {
             var listResult = new List<(Expense, decimal amount)>();
@@ -114,8 +117,8 @@ namespace DanilDev.Services.CostControl
         }
         public void AddExpense(Expense expense) => _expenseHandler.Add(expense);
 
-
         public List<Transaction> GetTransactions(User costControlUser) => _transactionsHandler.GetAll(costControlUser);
+        
         /// <summary>
         /// Get Transactions for user between the given dates.
         /// dataTimeFrom include, dataTimeTo exclude
@@ -123,7 +126,11 @@ namespace DanilDev.Services.CostControl
         public List<Transaction> GetTransactions(User costControlUser, DateTime dateTimeFrom, DateTime dateTimeTo) =>
             _transactionsHandler.GetAll(costControlUser, dateTimeFrom, dateTimeTo);
 
+        public Transaction GetTransaction(User costControlUser, long id) => _transactionsHandler.GetById(costControlUser, id);
+
         public void AddTransaction(Transaction transaction) => _transactionsHandler.Add(transaction);
+
+        public void DelTransaction(Transaction transaction) => _transactionsHandler.Delete(transaction);
 
         private void SetDefaultValues(User user)
         {
@@ -145,7 +152,7 @@ namespace DanilDev.Services.CostControl
             AddExpense(expenseCar);
             AddExpense(expenseBills);
 
-            //set test transactions
+            /*//set test transactions
             var transactionSalary = new Transaction
             {
                 Type = TransactionType.Incoming,
@@ -178,7 +185,7 @@ namespace DanilDev.Services.CostControl
 
             AddTransaction(transactionSalary);
             AddTransaction(transactionTransfer);
-            AddTransaction(transactionFood);
+            AddTransaction(transactionFood);*/
 
         }
     }

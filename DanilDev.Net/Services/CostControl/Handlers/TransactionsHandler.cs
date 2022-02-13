@@ -1,6 +1,8 @@
 ﻿using DanilDev.Services.CostControl.Entity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace DanilDev.Services.CostControl.Handlers
@@ -30,6 +32,19 @@ namespace DanilDev.Services.CostControl.Handlers
                                       transaction.Date >= dateFrom &&
                                       transaction.Date < dateTo)
                 .ToList();
+        }
+
+        public Transaction GetById(User user, long id)
+        {
+            var transaction = _dbContext.CostControlTransactions
+                .Include(t=> t.AccountFrom)
+                .Include(t => t.AccountTo)
+                .Single(transaction => transaction.User == user && transaction.Id == id);
+            Debug.WriteLine(transaction);
+            var t = transaction.AccountTo;
+            var tt = transaction.AccountFrom;
+            Debug.WriteLine(transaction);
+            return transaction;
         }
 
         public List<Transaction> GetByType(User user, TransactionType transactionType, DateTime dateFrom, DateTime dateTo)
@@ -73,6 +88,7 @@ namespace DanilDev.Services.CostControl.Handlers
 
         public void Delete(Transaction transaction)
         {
+            UndoChangeBalance(transaction);
             _dbContext.CostControlTransactions.Remove(transaction);
             _dbContext.SaveChanges();
         }

@@ -10,11 +10,17 @@
 
 <div class="text-center">
     <p id="greetings" class="display-4"></p>
-    <p id="userName" class="display-4"></p>
+    <p id="userName" style="font-family: Candara; font-size: 200%"></p>
+    
+    <div class="mt-5" style="font-family: Candara; font-size: 150%">
+        <p>I'm a C# developer based in Ufa, Russia.</p>
+        <p>This website is for displaying my current and future projects.</p>
+        <p>Feel free to contact me, I will be happy to get any feedback.</p>    
+    </div>
     <script>
         let currentHour = new Date().getHours();
         let greetingsOfTime;
-        
+
         if (currentHour < 6) {
             greetingsOfTime = "Good Night";
         } else if(currentHour < 12) {
@@ -25,7 +31,7 @@
             greetingsOfTime = "Good Evening ";
         }
 
-        greetings.innerHTML = greetingsOfTime; 
+        greetings.innerHTML = greetingsOfTime;
         userName.innerHTML = "@User.Identity.Name";
     </script>
 </div>

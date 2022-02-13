@@ -10,6 +10,7 @@ using System;
 
 namespace DanilDev.Pages.CostControl
 {
+    [IgnoreAntiforgeryToken]
     public class IndexModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -41,6 +42,7 @@ namespace DanilDev.Pages.CostControl
             Debug.WriteLine($"dateFrom-{dateFrom}");
             Debug.WriteLine($"dateTo-{dateTo}");
             LoadProperties(dateFrom, dateTo);
+            Console.WriteLine("");
         }
 
         public void OnGetWeek()
