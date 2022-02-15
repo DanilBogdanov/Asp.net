@@ -16,20 +16,30 @@ namespace DanilDev
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            CurrentEnvironment = env;
         }
 
         public IConfiguration Configuration { get; }
+        private IWebHostEnvironment CurrentEnvironment { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string envName = CurrentEnvironment.EnvironmentName;
             string appConnectionString = Configuration.GetConnectionString("DefaultConnection");
-            string costControlConnectionString = Configuration.GetConnectionString("CostControl");
+            string costControlConnectionString;
+            if (CurrentEnvironment.IsDevelopment())
+            {
+                costControlConnectionString = Configuration.GetConnectionString("CostControlDevelop");
+            } else
+            {
+                costControlConnectionString = Configuration.GetConnectionString("CostControl");
+            }
 
-            services.AddDbContext<AppDbContext>(options =>
+                services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlite(appConnectionString));
             
             services.AddDbContext<CostControlContext>(options =>
