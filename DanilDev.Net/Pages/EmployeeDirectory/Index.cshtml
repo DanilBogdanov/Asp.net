@@ -11,56 +11,70 @@
     </div>
     <div class="row">
         <div class="col-sm">
-            <table class="table shadow">
+            <table class="table table-hover shadow">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Full Name</th>
+                        <th scope="col">Organization</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">Position</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col"><a class="btn btn-primary" href="EmployeeDirectory/Employees/Add" role="button">Add Employee</a></th>
+                    </tr>
+                </thead>
                 <tbody>
                     @for (var i = 0; i < @Model.Employees.Count; i++)
                     {
                         var employee = Model.Employees[i];
                         <tr>
                             <td>
-                               @employee?.FullName
-                           </td>
-                           <td>
-                               @employee?.Organization?.Name
-                           </td>
-                           <td>
-                               @employee?.Department?.Name
-                           </td>
-                           <td>
-                               @employee?.Position
-                           </td>
-                           <td>
-                               @employee?.Email
-                           </td>
-                           <td>
-                               @employee?.Phone
-                           </td>
-                           <td>
-                               <button type="button" class="btn btn-outline-danger btn-sm float-right py-1" onclick="delEployee(@employee.Id)" >х</button>
-                           </td>
-                       </tr>
-                   }
+                                @(i + 1)
+                            </td>
+                            <td>
+                                @employee?.FullName
+                            </td>
+                            <td>
+                                @employee?.Organization?.Name
+                            </td>
+                            <td>
+                                @employee?.Department?.Name
+                            </td>
+                            <td>
+                                @employee?.Position
+                            </td>
+                            <td>
+                                @employee?.Email
+                            </td>
+                            <td>
+                                @employee?.Phone
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-outline-danger btn-sm float-right py-1" onclick="delEployee(@employee.Id)">х</button>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
-            <form id="employeeToDelForm" name="transactToDelForm" action="EmployeeDirectory/Employees/Del" method="post"> 
-                    <input id="employeeToDelInput" type="hidden" name="employeeToDelId" /> 
-                    <input id="referrer" type="hidden" name="referrer" />
-                </form>                
-                <script>
-                    function delEployee(employeeId) {
-                        if (employeeId !== undefined && 
-                            employeeId != 0) {           
-                            
-                            referrer.value = window.location.href;
-                            employeeToDelInput.value = employeeId;
+            <form id="employeeToDelForm" name="transactToDelForm" action="EmployeeDirectory/Employees/Del" method="post">
+                <input id="employeeToDelInput" type="hidden" name="employeeToDelId" />
+                <input id="referrer" type="hidden" name="referrer" />
+            </form>
+            <script>
+                function delEployee(employeeId) {
+                    if (employeeId !== undefined &&
+                        employeeId != 0) {
 
-                            employeeToDelForm.submit();
-                         }
-                    }
-                </script>
+                        referrer.value = window.location.href;
+                        employeeToDelInput.value = employeeId;
+
+                        employeeToDelForm.submit();
+                     }
+                }
+            </script>
         </div>
     </div>
     <div class="row">
-        
     </div>
 </div>
