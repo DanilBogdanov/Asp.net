@@ -11,7 +11,7 @@ namespace DanilDev.Services.EmploeesDirectory
     {
         public EmployeeDirectoryContext(DbContextOptions<EmployeeDirectoryContext> options) : base(options)
         {
-            //Database.Migrate();
+            
         }
 
         public DbSet<Employee> EmployeeDirectoryEmployees { get; set; }

@@ -1,5 +1,6 @@
 using DanilDev.Data;
 using DanilDev.Services.CostControl;
+using DanilDev.Services.EmploeesDirectory;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,25 +32,33 @@ namespace DanilDev
             string envName = CurrentEnvironment.EnvironmentName;
             string appConnectionString = Configuration.GetConnectionString("DefaultConnection");
             string costControlConnectionString;
+            string employeeDirectoryConnectionString;
+
             if (CurrentEnvironment.IsDevelopment())
             {
                 costControlConnectionString = Configuration.GetConnectionString("CostControlDevelop");
+                employeeDirectoryConnectionString = Configuration.GetConnectionString("EmployeeDirectoryDevelop");
             } else
             {
                 costControlConnectionString = Configuration.GetConnectionString("CostControl");
+                employeeDirectoryConnectionString = Configuration.GetConnectionString("EmployeeDirectory");
             }
 
-                services.AddDbContext<AppDbContext>(options =>
+            services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlite(appConnectionString));
             
             services.AddDbContext<CostControlContext>(options =>
                 options.UseSqlServer(costControlConnectionString));
+
+            services.AddDbContext<EmployeeDirectoryContext>(options =>
+                options.UseSqlServer(employeeDirectoryConnectionString));
 
             services.AddDefaultIdentity<ApplicationUser>(options =>
                 options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddTransient<CostControlService>();
+            services.AddTransient<EmployeeDirectoryService>();
             services.AddRazorPages();
         }
 
