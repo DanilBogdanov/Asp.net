@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{Id}"
 @model DanilDev.Pages.EmployeeDirectory.Employees.EditModel
 @{
     ViewData["Title"] = "Edit Employee";
@@ -8,37 +8,87 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form action="" method="post">
+        <form action="@Model.Id" method="post">
             <input id="referrer" type="hidden" name="referrer" />
             <script>
-                referrer.value = document.referrer;                
-            </script>            
-            <hr />            
+                referrer.value = document.referrer;
+            </script>
+            <hr />
             <div class="form-group">
-                <label >FullName</label>
-                <input name="employeeFullName" class="form-control" />                
+                <label>FullName</label>
+                <input name="employeeFullName" class="form-control" value="@Model?.Employee?.FullName"/>
             </div>
             <div class="form-group">
                 <label>Organization</label>
-                <input name="employeeOrganizationId" class="form-control" />
+                <select id="employeeOrganizationSelect" name="employeeOrganizationId" class="input-group" >
+                    <option selected disabled>Select Organization</option>
+                    @foreach (var organization in @Model.Organizations)
+                    {
+                        <option value=@organization.Id >
+                            @organization.Name
+                        </option>
+                    }
+                </select>
             </div>
-            <div class="form-group">
+            <div id="departamentGroup" class="form-group" style="display: none">
                 <label>Departament</label>
-                <input name="employeeDepartamentId" class="form-control" />
+                <select id="employeeDepartamentSelect" name="employeeDepartamentId" class="input-group">
+                    <option selected disabled>Select Department</option>
+                    @foreach (var departament in @Model.Departments)
+                    {
+                        <option data-organization=@departament.Organization.Id value=@departament.Id >
+                            @departament.Name
+                        </option>
+                    }
+                </select>
             </div>
+            
             <div class="form-group">
                 <label>Position</label>
-                <input name="employeePosition" class="form-control" />
+                <input name="employeePosition" class="form-control" value="@Model?.Employee?.Position"/>
             </div>
             <div class="form-group">
                 <label>Email</label>
-                <input name="employeeEmail" class="form-control" />
+                <input name="employeeEmail" class="form-control" value="@Model?.Employee?.Email" />
             </div>
             <div class="form-group">
                 <label>Phone</label>
-                <input name="employeePhone" class="form-control" />
+                <input name="employeePhone" class="form-control" value="@Model?.Employee?.Phone"/>
             </div>
-            <button type="submit" class="btn btn-primary">Add Employee</button>
-        </form>
+            <button type="submit" class="btn btn-primary">Edit Employee</button>
+        </form>   
+        <script type="text/javascript">            
+            $(function () {
+                //set handler onchange to select organization
+                $("#employeeOrganizationSelect").bind('change', function () {
+                    $("#departamentGroup").show();
+                    let orgId = this.value;                    
+
+                    let departamets = $("#employeeDepartamentSelect > option:enabled");
+                    departamets.each(function(index, element) {
+                        if (element.dataset.organization == orgId) {
+                            element.hidden = false;                            
+                        } else {
+                            element.hidden = true;
+                        }
+                    })
+                });
+
+                //set value to organization input
+                $("#employeeOrganizationSelect > option:enabled").each(function (index, element) {
+                    if (element.value == @Model.Id) {
+                        $(this).prop('selected', true);
+                        $("#employeeOrganizationSelect").change();
+                    }
+                });
+
+                //set value to departament input
+                $("#employeeDepartamentSelect > option:enabled").each(function (index, element) {
+                    if (element.dataset.organization == @Model.Id) {
+                        $(this).prop('selected', true);
+                    }
+                });
+            });
+        </script>
     </div>
 </div>

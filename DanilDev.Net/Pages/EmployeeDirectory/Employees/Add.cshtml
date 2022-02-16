@@ -11,21 +11,38 @@
         <form action="" method="post">
             <input id="referrer" type="hidden" name="referrer" />
             <script>
-                referrer.value = document.referrer;                
-            </script>            
-            <hr />            
+                referrer.value = document.referrer;
+            </script>
+            <hr />
             <div class="form-group">
-                <label >FullName</label>
-                <input name="employeeFullName" class="form-control" />                
+                <label>FullName</label>
+                <input name="employeeFullName" class="form-control" />
             </div>
             <div class="form-group">
                 <label>Organization</label>
-                <input name="employeeOrganizationId" class="form-control" />
+                <select id="employeeOrganizationSelect" name="employeeOrganizationId" class="input-group" >
+                    <option selected disabled>Select Organization</option>
+                    @foreach (var organization in @Model.Organizations)
+                    {
+                        <option value=@organization.Id >
+                            @organization.Name
+                        </option>
+                    }
+                </select>
             </div>
-            <div class="form-group">
+            <div id="departamentGroup" class="form-group" style="display: none">
                 <label>Departament</label>
-                <input name="employeeDepartamentId" class="form-control" />
+                <select id="employeeDepartamentSelect" name="employeeDepartamentId" class="input-group">
+                    <option selected disabled>Select Department</option>
+                    @foreach (var departament in @Model.Departments)
+                    {
+                        <option data-organization=@departament.Organization.Id value=@departament.Id >
+                            @departament.Name
+                        </option>
+                    }
+                </select>
             </div>
+            
             <div class="form-group">
                 <label>Position</label>
                 <input name="employeePosition" class="form-control" />
@@ -39,6 +56,24 @@
                 <input name="employeePhone" class="form-control" />
             </div>
             <button type="submit" class="btn btn-primary">Add Employee</button>
-        </form>
+        </form>   
+        <script type="text/javascript">            
+            $(function () {
+                $("#employeeOrganizationSelect").bind('change', function () {
+                    $("#departamentGroup").show(400);
+                    let orgId = this.value;
+                    
+
+                    let departamets = $("#employeeDepartamentSelect > option:enabled");
+                    departamets.each(function(index, element) {
+                        if (element.dataset.organization == orgId) {
+                            element.hidden = false;
+                        } else {
+                            element.hidden = true;
+                        }
+                    })
+                });
+            });
+        </script>
     </div>
 </div>

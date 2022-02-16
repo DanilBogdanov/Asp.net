@@ -6,12 +6,15 @@ using System.Collections.Generic;
 
 namespace DanilDev.Pages.EmployeeDirectory.Employees
 {
+    [IgnoreAntiforgeryToken]
     public class EditModel : PageModel
     {
         private readonly EmployeeDirectoryService _employeeDirectoryService;
         public List<Organization> Organizations { get; set; }
         public List<Department> Departments { get; set; }
-        
+        [BindProperty(SupportsGet = true)]
+        public long Id { get; set; }
+        public Employee Employee { get; set; }
 
         public EditModel(EmployeeDirectoryService employeeDirectoryService)
         {
@@ -38,17 +41,16 @@ namespace DanilDev.Pages.EmployeeDirectory.Employees
             var employeeOrganization = Organizations.Find(org => org.Id == employeeOrganizationId);
             var employeeDepartment = Departments.Find(dep => dep.Id == employeeDepartamentId);
 
-            Employee employee = new Employee
-            {
-                FullName = employeeFullName,
-                Organization = employeeOrganization,
-                Department = employeeDepartment,
-                Position = employeePosition,
-                Email = employeeEmail,
-                Phone = employeePhone
-            };
 
-            _employeeDirectoryService.AddEmployee(employee);
+            Employee.FullName = employeeFullName;
+            Employee.Organization = employeeOrganization;
+            Employee.Department = employeeDepartment;
+            Employee.Position = employeePosition;
+            Employee.Email = employeeEmail;
+            Employee.Phone = employeePhone;
+            
+
+            _employeeDirectoryService.UpdateEmployee(Employee);
             return Redirect(referrer);
         }
 
@@ -56,6 +58,7 @@ namespace DanilDev.Pages.EmployeeDirectory.Employees
         {
             Organizations = _employeeDirectoryService.GetOrganizations();
             Departments = _employeeDirectoryService.GetDepartments();
+            Employee = _employeeDirectoryService.GetEmployee(Id);
         }
     }
 }

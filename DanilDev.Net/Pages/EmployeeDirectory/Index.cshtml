@@ -7,10 +7,10 @@
 <div>
     <p class="display-4">Employee Directory</p>
     <div class="row">
-        <a class="btn btn-primary" href="EmployeeDirectory/Employees/Add" role="button">AddEmployee</a>
+        @*<a class="btn btn-primary" href="EmployeeDirectory/Employees/Add" role="button">AddEmployee</a>*@
     </div>
     <div class="row">
-        <div class="col-sm">
+        <div class="col-md">
             <table class="table table-hover shadow">
                 <thead class="thead-dark">
                     <tr>
@@ -50,8 +50,9 @@
                             <td>
                                 @employee?.Phone
                             </td>
-                            <td>
-                                <button type="button" class="btn btn-outline-danger btn-sm float-right py-1" onclick="delEployee(@employee.Id)">х</button>
+                            <td class="d-flex justify-content-end">
+                                <a class="btn btn-outline-success btn-sm float-center px-1" href="EmployeeDirectory/Employees/Edit/@employee.Id" role="button">✎</a>
+                                <button type="button" class="btn btn-outline-danger btn-sm ml-3 py-1" onclick="delEployee(@employee.Id)">х</button>
                             </td>
                         </tr>
                     }
@@ -74,7 +75,5 @@
                 }
             </script>
         </div>
-    </div>
-    <div class="row">
-    </div>
+    </div>    
 </div>

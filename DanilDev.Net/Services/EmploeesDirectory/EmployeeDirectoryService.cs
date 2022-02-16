@@ -31,12 +31,28 @@ namespace DanilDev.Services.EmploeesDirectory
 
         public List<Department> GetDepartments()
         {
-            return _dbContext.EmployeeDirectoryDepartmens.ToList();
+            return _dbContext.EmployeeDirectoryDepartmens
+                .Include(dep => dep.Organization)
+                .ToList();
+        }
+
+        public Employee GetEmployee(long id)
+        {
+            return _dbContext.EmployeeDirectoryEmployees
+                .Include(imp => imp.Organization)
+                .Include(imp => imp.Department)
+                .Single(emp => emp.Id == id);
         }
 
         public void AddEmployee(Employee employee)
         {
             _dbContext.EmployeeDirectoryEmployees.Add(employee);
+            _dbContext.SaveChanges();
+        }
+
+        public void UpdateEmployee(Employee employee)
+        {
+            _dbContext.EmployeeDirectoryEmployees.Update(employee);
             _dbContext.SaveChanges();
         }
 
