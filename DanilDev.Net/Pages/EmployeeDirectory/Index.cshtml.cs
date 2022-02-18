@@ -41,9 +41,6 @@ namespace DanilDev.Pages.EmployeeDirectory
 
         private List<Employee> FilterByQuery(List<Employee> employees)
         {
-
-
-
             return employees.Where(e => ((e.FullName != null) && e.FullName.Contains(q))
                                     || ((e.Organization != null) && e.Organization.Name.Contains(q))
                                     ||((e.Department != null) && e.Department.Name.Contains(q))
