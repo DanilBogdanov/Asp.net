@@ -1,4 +1,5 @@
-﻿using DanilDev.Services.CostControl.Entity;
+﻿using DanilDev.Data;
+using DanilDev.Services.CostControl.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,10 +10,10 @@ namespace DanilDev.Services.CostControl.Handlers
 {
     internal class TransactionsHandler
     {
-        private CostControlContext _dbContext;
+        private ProjectsDbContext _dbContext;
         private BalancesHandler _balancesHandler;
 
-        public TransactionsHandler(CostControlContext dbContext, BalancesHandler balancesHandler)
+        public TransactionsHandler(ProjectsDbContext dbContext, BalancesHandler balancesHandler)
         {
             _dbContext = dbContext;
             _balancesHandler = balancesHandler;

@@ -1,4 +1,5 @@
-﻿using DanilDev.Services.CostControl.Entity;
+﻿using DanilDev.Data;
+using DanilDev.Services.CostControl.Entity;
 using DanilDev.Services.CostControl.Handlers;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +11,7 @@ namespace DanilDev.Services.CostControl
 {
     public class CostControlService
     {
-        private readonly CostControlContext _dbContext;
+        private readonly ProjectsDbContext _dbContext;
 
         private readonly BalancesHandler _balancesHandler;
         private readonly TransactionsHandler _transactionsHandler;
@@ -18,7 +19,7 @@ namespace DanilDev.Services.CostControl
         private readonly IncomesHandler _incomesHandler;
         private readonly ExpensesHandler _expenseHandler;
 
-        public CostControlService(CostControlContext costControlContext)
+        public CostControlService(ProjectsDbContext costControlContext)
         {
             _dbContext = costControlContext;
 

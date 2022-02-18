@@ -76,7 +76,7 @@
 
                 //set value to organization input
                 $("#employeeOrganizationSelect > option:enabled").each(function (index, element) {
-                    if (element.value == @Model.Id) {
+                    if (element.value == @Model.Employee.Organization?.Id) {
                         $(this).prop('selected', true);
                         $("#employeeOrganizationSelect").change();
                     }
@@ -84,7 +84,7 @@
 
                 //set value to departament input
                 $("#employeeDepartamentSelect > option:enabled").each(function (index, element) {
-                    if (element.dataset.organization == @Model.Id) {
+                    if (element.value == @Model.Employee.Department?.Id) {
                         $(this).prop('selected', true);
                     }
                 });

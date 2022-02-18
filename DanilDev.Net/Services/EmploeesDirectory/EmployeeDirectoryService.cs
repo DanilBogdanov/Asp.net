@@ -1,4 +1,5 @@
-﻿using DanilDev.Services.EmploeesDirectory.Entity;
+﻿using DanilDev.Data;
+using DanilDev.Services.EmploeesDirectory.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,9 @@ namespace DanilDev.Services.EmploeesDirectory
 {
     public class EmployeeDirectoryService
     {
-        private readonly EmployeeDirectoryContext _dbContext;
+        private readonly ProjectsDbContext _dbContext;
 
-        public EmployeeDirectoryService(EmployeeDirectoryContext dbContext)
+        public EmployeeDirectoryService(ProjectsDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -90,6 +91,31 @@ namespace DanilDev.Services.EmploeesDirectory
                 .ToList();
         }
 
+        public Department GetDepartment(long id)
+        {
+            return _dbContext.EmployeeDirectoryDepartmens.Single(dep => dep.Id == id);
+        }
 
+        public void AddDepartment(Department department)
+        {
+            _dbContext.EmployeeDirectoryDepartmens.Add(department);
+            _dbContext.SaveChanges();
+        }
+
+        public void UpdateDepartment(Department department)
+        {
+            _dbContext.EmployeeDirectoryDepartmens.Update(department);
+            _dbContext.SaveChanges();
+        }
+
+        public void DelDepartment(long id)
+        {
+            if (id != 0)
+            {
+                var department = _dbContext.EmployeeDirectoryDepartmens.Single(dep => dep.Id == id);
+                _dbContext.EmployeeDirectoryDepartmens.Remove(department);
+                _dbContext.SaveChanges();
+            }
+        }
     }
 }

@@ -1,0 +1,53 @@
+﻿@page "{Id}"
+@model DanilDev.Pages.EmployeeDirectory.Departments.EditModel
+@{
+    ViewData["Title"] = "Edit Department";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form action="" method="post">
+            <input id="referrer" type="hidden" name="referrer" />
+            <script>
+                referrer.value = document.referrer;
+            </script>
+            <hr />            
+            <div class="form-group">
+                <label>Organization</label>
+                <select id="departmentOrganizationSelect" name="departmentOrganizationId" class="input-group" >
+                    <option selected disabled>Select Organization</option>
+                    @foreach (var organization in @Model.Organizations)
+                    {
+                        <option value=@organization.Id >
+                            @organization.Name
+                        </option>
+                    }
+                </select>
+            </div>  
+            <div id="nameGroup" style="display: none" class="form-group">
+                <label>Name</label>
+                <input name="departmentName" class="form-control" value="@Model.Department.Name" />
+            </div>
+            
+            
+            <button type="submit" class="btn btn-primary">Edit Department</button>
+        </form>   
+        <script type="text/javascript">            
+            $(function () {
+                $("#departmentOrganizationSelect").bind('change', function () {
+                    $("#nameGroup").show();                    
+                });
+
+                //set value to organization input
+                $("#departmentOrganizationSelect > option:enabled").each(function (index, element) {
+                    if (element.value == @Model.Department.Organization.Id) {
+                        $(this).prop('selected', true);
+                        $("#departmentOrganizationSelect").change();
+                    }
+                });
+            });
+        </script>
+    </div>
+</div>

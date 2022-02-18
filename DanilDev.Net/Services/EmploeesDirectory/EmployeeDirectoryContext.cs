@@ -13,6 +13,7 @@ namespace DanilDev.Services.EmploeesDirectory
         {
             Database.EnsureCreated();
         }
+        
 
         public DbSet<Employee> EmployeeDirectoryEmployees { get; set; }
         public DbSet<Organization> EmployeeDirectoryOrganizations { get; set; }

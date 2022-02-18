@@ -31,27 +31,21 @@ namespace DanilDev
         {
             string envName = CurrentEnvironment.EnvironmentName;
             string appConnectionString = Configuration.GetConnectionString("DefaultConnection");
-            string costControlConnectionString;
-            string employeeDirectoryConnectionString;
+            string projectDbContext;
 
             if (CurrentEnvironment.IsDevelopment())
             {
-                costControlConnectionString = Configuration.GetConnectionString("CostControlDevelop");
-                employeeDirectoryConnectionString = Configuration.GetConnectionString("EmployeeDirectoryDevelop");
+                projectDbContext = Configuration.GetConnectionString("AppConnectionStringDevelop");
             } else
             {
-                costControlConnectionString = Configuration.GetConnectionString("CostControl");
-                employeeDirectoryConnectionString = Configuration.GetConnectionString("EmployeeDirectory");
+                projectDbContext = Configuration.GetConnectionString("AppConnectionString");
             }
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlite(appConnectionString));
             
-            services.AddDbContext<CostControlContext>(options =>
-                options.UseSqlServer(costControlConnectionString));
-
-            services.AddDbContext<EmployeeDirectoryContext>(options =>
-                options.UseSqlServer(employeeDirectoryConnectionString));
+            services.AddDbContext<ProjectsDbContext>(options =>
+                options.UseSqlServer(projectDbContext));            
 
             services.AddDefaultIdentity<ApplicationUser>(options =>
                 options.SignIn.RequireConfirmedAccount = true)

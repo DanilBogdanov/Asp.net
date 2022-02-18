@@ -1,4 +1,5 @@
-﻿using DanilDev.Services.CostControl.Entity;
+﻿using DanilDev.Data;
+using DanilDev.Services.CostControl.Entity;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,9 +7,9 @@ namespace DanilDev.Services.CostControl.Handlers
 {
     internal class IncomesHandler
     {
-        private readonly CostControlContext _dbContext;
+        private readonly ProjectsDbContext _dbContext;
 
-        public IncomesHandler(CostControlContext dbContext)
+        public IncomesHandler(ProjectsDbContext dbContext)
         {
             _dbContext = dbContext;
         }

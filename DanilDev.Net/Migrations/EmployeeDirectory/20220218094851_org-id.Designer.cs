@@ -4,14 +4,16 @@ using DanilDev.Services.EmploeesDirectory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DanilDev.Migrations.EmployeeDirectory
 {
     [DbContext(typeof(EmployeeDirectoryContext))]
-    partial class EmployeeDirectoryContextModelSnapshot : ModelSnapshot
+    [Migration("20220218094851_org-id")]
+    partial class orgid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

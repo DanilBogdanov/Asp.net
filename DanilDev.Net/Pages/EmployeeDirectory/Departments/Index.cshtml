@@ -48,7 +48,7 @@
                     <a class="nav-link" href="/EmployeeDirectory">Employees</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Organizations</a>
+                    <a class="nav-link" href="Organizations">Organizations</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="">Departments</a>
@@ -57,67 +57,55 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md">
+        <div class="col-md-7">
             <table class="table table-sm table-responsive-sm table-hover shadow">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Full Name</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
                         <th scope="col">Organization</th>
-                        <th scope="col">Department</th>
-                        <th scope="col">Position</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col"><a class="btn btn-primary" href="EmployeeDirectory/Employees/Add" role="button">Add Employee</a></th>
+                        <th scope="col" ><a class="btn btn-primary float-right" href="Departments/Add" role="button">Add Department</a></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @for (var i = 0; i < @Model.Employees.Count; i++)
+                    @for (var i = 0; i < @Model.Departments.Count; i++)
                     {
-                        var employee = Model.Employees[i];
+                        var depart = Model.Departments[i];
                         <tr>
                             <td>
                                 @(i + 1)
                             </td>
                             <td>
-                                @employee?.FullName
+                                @depart?.Id
                             </td>
                             <td>
-                                @employee?.Organization?.Name
+                                @depart?.Name
                             </td>
                             <td>
-                                @employee?.Department?.Name
-                            </td>
-                            <td>
-                                @employee?.Position
-                            </td>
-                            <td>
-                                @employee?.Email
-                            </td>
-                            <td>
-                                @employee?.Phone
-                            </td>
+                                @depart?.Organization?.Name
+                            </td>                            
                             <td class="d-flex justify-content-end">
-                                <a class="btn btn-outline-success btn-sm float-center px-1" href="EmployeeDirectory/Employees/Edit/@employee.Id" role="button">✎</a>
-                                <button type="button" class="btn btn-outline-danger btn-sm ml-3 py-1" onclick="delEployee(@employee.Id)">х</button>
+                                <a class="btn btn-outline-success btn-sm float-center px-1" href="Departments/Edit/@depart.Id" role="button">✎</a>
+                                <button type="button" class="btn btn-outline-danger btn-sm ml-3 py-1" onclick="delDepartment(@depart.Id)">х</button>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
-            <form id="employeeToDelForm" name="transactToDelForm" action="EmployeeDirectory/Employees/Del" method="post">
-                <input id="employeeToDelInput" type="hidden" name="employeeToDelId" />
+            <form id="departmentToDelForm" name="departmentToDelForm" action="Departments/Del" method="post">
+                <input id="departmentToDelInput" type="hidden" name="departmentToDelId" />
                 <input id="referrer" type="hidden" name="referrer" />
             </form>
             <script>
-                function delEployee(employeeId) {
-                    if (employeeId !== undefined &&
-                        employeeId != 0) {
+                function delDepartment(departmentId) {
+                    if (departmentId !== undefined &&
+                        departmentId != 0) {
 
                         referrer.value = window.location.href;
-                        employeeToDelInput.value = employeeId;
+                        departmentToDelInput.value = departmentId;
 
-                        employeeToDelForm.submit();
+                        departmentToDelForm.submit();
                      }
                 }
             </script>

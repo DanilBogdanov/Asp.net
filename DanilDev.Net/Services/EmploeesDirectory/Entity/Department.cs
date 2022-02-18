@@ -8,7 +8,8 @@ namespace DanilDev.Services.EmploeesDirectory.Entity
     public class Department
     {
         public long Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; }        
         public Organization Organization { get; set; }
+        public long OrganizationId { get; set; }
     }
 }

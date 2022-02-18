@@ -1,16 +1,22 @@
 ﻿using DanilDev.Services.CostControl.Entity;
+using DanilDev.Services.EmploeesDirectory.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DanilDev.Services.CostControl
+namespace DanilDev.Data
 {
-    public class CostControlContext : DbContext
+    public class ProjectsDbContext : DbContext
     {
-        public CostControlContext(DbContextOptions<CostControlContext> options) : base(options)
+        public ProjectsDbContext(DbContextOptions<ProjectsDbContext> options) : base(options)
         {
+               
             Database.EnsureCreated();
-            //Database.Migrate();
         }
+
+        public DbSet<Employee> EmployeeDirectoryEmployees { get; set; }
+        public DbSet<Organization> EmployeeDirectoryOrganizations { get; set; }
+        public DbSet<Department> EmployeeDirectoryDepartmens { get; set; }
+
 
         public DbSet<User> CostControlUsers { get; set; }
         public DbSet<Account> CostControlAccounts { get; set; }
@@ -36,9 +42,4 @@ namespace DanilDev.Services.CostControl
                 .HasConversion(converter);
         }
     }
-
-
-
-
 }
-

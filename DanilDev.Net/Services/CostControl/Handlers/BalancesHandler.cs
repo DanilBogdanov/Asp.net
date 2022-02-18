@@ -1,13 +1,14 @@
-﻿using DanilDev.Services.CostControl.Entity;
+﻿using DanilDev.Data;
+using DanilDev.Services.CostControl.Entity;
 using System.Linq;
 
 namespace DanilDev.Services.CostControl.Handlers
 {
     internal class BalancesHandler
     {
-        private readonly CostControlContext _dbContext;
+        private readonly ProjectsDbContext _dbContext;
 
-        public BalancesHandler(CostControlContext dbContext)
+        public BalancesHandler(ProjectsDbContext dbContext)
         {
             _dbContext = dbContext;
         }
