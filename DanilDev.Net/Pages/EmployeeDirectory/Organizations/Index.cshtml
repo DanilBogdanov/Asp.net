@@ -51,20 +51,20 @@
                     <a class="nav-link  active" href="">Organizations</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="EmployeeDirectory/Departments">Departments</a>
+                    <a class="nav-link" href="Departments">Departments</a>
                 </li>
             </ul>
         </div>
     </div>
     <div class="row">
-        <div class="col-md">
+        <div class="col-sm-6">
             <table class="table table-sm table-responsive-sm table-hover shadow">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Id</th>
                         <th scope="col">Name</th>                        
-                        <th scope="col"><a class="btn btn-primary" href="EmployeeDirectory/Organizations/Add" role="button">Add Organization</a></th>
+                        <th scope="col" ><a class="btn btn-primary" href="Organizations/Add" role="button">Add Organization</a></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,14 +82,14 @@
                                 @organization?.Name
                             </td>                            
                             <td class="d-flex justify-content-end">
-                                //<a class="btn btn-outline-success btn-sm float-center px-1" href="EmployeeDirectory/Employees/Edit/@organization.Id" role="button">✎</a>
-                                //<button type="button" class="btn btn-outline-danger btn-sm ml-3 py-1" onclick="delOrganization(@organization.Id)">х</button>
+                                <a class="btn btn-outline-success btn-sm float-center px-1" href="Organizations/Edit/@organization.Id" role="button">✎</a>
+                                <button type="button" class="btn btn-outline-danger btn-sm ml-3 py-1" onclick="delOrganization(@organization.Id)">х</button>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
-            <form id="organizationToDelForm" name="organizationToDelForm" action="EmployeeDirectory/Organizations/Del" method="post">
+            <form id="organizationToDelForm" name="organizationToDelForm" action="Organizations/Del" method="post">
                 <input id="organizationToDelInput" type="hidden" name="organizationToDelId" />
                 <input id="referrer" type="hidden" name="referrer" />
             </form>

@@ -23,19 +23,6 @@ namespace DanilDev.Services.EmploeesDirectory
                 .Include(empl => empl.Department)
                 .ToList();
         }
-
-        public List<Organization> GetOrganizations()
-        {
-            return _dbContext.EmployeeDirectoryOrganizations.ToList();
-        }
-
-        public List<Department> GetDepartments()
-        {
-            return _dbContext.EmployeeDirectoryDepartmens
-                .Include(dep => dep.Organization)
-                .ToList();
-        }
-
         public Employee GetEmployee(long id)
         {
             return _dbContext.EmployeeDirectoryEmployees
@@ -49,13 +36,11 @@ namespace DanilDev.Services.EmploeesDirectory
             _dbContext.EmployeeDirectoryEmployees.Add(employee);
             _dbContext.SaveChanges();
         }
-
         public void UpdateEmployee(Employee employee)
         {
             _dbContext.EmployeeDirectoryEmployees.Update(employee);
             _dbContext.SaveChanges();
         }
-
         public void DelEmployee(long id)
         {
             if (id != 0)
@@ -65,5 +50,46 @@ namespace DanilDev.Services.EmploeesDirectory
                 _dbContext.SaveChanges();
             }
         }
+
+        public List<Organization> GetOrganizations()
+        {
+            return _dbContext.EmployeeDirectoryOrganizations.ToList();
+        }
+
+        public Organization GetOrganization(long id)
+        {
+            return _dbContext.EmployeeDirectoryOrganizations.Single(organization => organization.Id == id);
+        }
+
+        public void AddOrganization(Organization organization)
+        {
+            _dbContext.EmployeeDirectoryOrganizations.Add(organization);
+            _dbContext.SaveChanges();
+        }
+
+        public void UpdateOrganization(Organization organization)
+        {
+            _dbContext.EmployeeDirectoryOrganizations.Update(organization);
+            _dbContext.SaveChanges();
+        }
+
+        public void DelOrganization(long id)
+        {
+            if (id != 0)
+            {
+                var organization = _dbContext.EmployeeDirectoryOrganizations.Single(org => org.Id == id);
+                _dbContext.EmployeeDirectoryOrganizations.Remove(organization);
+                _dbContext.SaveChanges();
+            }
+        }
+
+        public List<Department> GetDepartments()
+        {
+            return _dbContext.EmployeeDirectoryDepartmens
+                .Include(dep => dep.Organization)
+                .ToList();
+        }
+
+
     }
 }

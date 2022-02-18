@@ -2,25 +2,25 @@ using DanilDev.Services.EmploeesDirectory;
 using DanilDev.Services.EmploeesDirectory.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
 
 namespace DanilDev.Pages.EmployeeDirectory.Organizations
 {
-    public class AddModel : PageModel
+    [IgnoreAntiforgeryToken]
+    public class EditModel : PageModel
     {
         private readonly EmployeeDirectoryService _employeeDirectoryService;
-        public List<Organization> Organizations { get; set; }
-        
+        [BindProperty(SupportsGet = true)]
+        public long Id { get; set; }
+        public Organization Organization { get; set; }
 
-
-        public AddModel(EmployeeDirectoryService employeeDirectoryService)
+        public EditModel(EmployeeDirectoryService employeeDirectoryService)
         {
             _employeeDirectoryService = employeeDirectoryService;
         }
 
         public void OnGet()
         {
-            
+            LoadProperties();
         }
 
         public RedirectResult OnPost(
@@ -28,13 +28,17 @@ namespace DanilDev.Pages.EmployeeDirectory.Organizations
             string organizationName            
             )
         {
-            Organization organization = new Organization
-            {
-                Name = organizationName                
-            };
+            LoadProperties();
 
-            _employeeDirectoryService.AddOrganization(organization);
+            Organization.Name = organizationName;   
+
+            _employeeDirectoryService.UpdateOrganization(Organization);
             return Redirect(referrer);
-        }        
+        }
+
+        private void LoadProperties()
+        {
+            Organization = _employeeDirectoryService.GetOrganization(Id);
+        }
     }
 }
