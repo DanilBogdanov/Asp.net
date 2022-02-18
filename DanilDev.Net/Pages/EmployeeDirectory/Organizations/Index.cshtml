@@ -1,4 +1,110 @@
 ﻿@page
 @model DanilDev.Pages.EmployeeDirectory.Organizations.IndexModel
 @{
+    ViewData["Title"] = "Organizations";
 }
+
+<div class="container">
+    <form id="mainForm" method="get" hidden>
+        <input id="qInput" name="q" />
+    </form>
+
+    <div class="row justify-content-md-between">
+        <div class="col-md">
+            <p class="display-4">Organizations</p>
+        </div>
+
+        <div class="col-md-3 align-self-end">
+            <div class="input-group mb-3">
+                <input type="search" id="searchInput" class="form-control" placeholder="search" aria-describedby="searchButton" value=@Model.q>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="button" id="searchButton">🔍</button>
+                </div>
+            </div>
+        </div>
+        <script>
+            $("#searchButton").click(function () {
+                let query = $("#searchInput").val();
+                $("#qInput").attr('value', query);
+                $("#mainForm").submit();
+
+            });
+
+            $("#searchInput").keyup(function(event){
+                if(event.keyCode == 13){
+                    $("#searchButton").click();
+                }
+            });
+
+            $("#searchInput").bind('search', function () {
+                $("#searchButton").click();
+            });
+        </script>
+    </div>
+    <div class="row">
+        <div class="col">
+            <ul class="nav nav-tabs mb-1">
+                <li class="nav-item">
+                    <a class="nav-link" href="/EmployeeDirectory">Employees</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  active" href="">Organizations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="EmployeeDirectory/Departments">Departments</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md">
+            <table class="table table-sm table-responsive-sm table-hover shadow">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>                        
+                        <th scope="col"><a class="btn btn-primary" href="EmployeeDirectory/Organizations/Add" role="button">Add Organization</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var i = 0; i < @Model.Organizations.Count; i++)
+                    {
+                        var organization = Model.Organizations[i];
+                        <tr>
+                            <td>
+                                @(i + 1)
+                            </td>
+                            <td>
+                                @organization?.Id
+                            </td>
+                            <td>
+                                @organization?.Name
+                            </td>                            
+                            <td class="d-flex justify-content-end">
+                                //<a class="btn btn-outline-success btn-sm float-center px-1" href="EmployeeDirectory/Employees/Edit/@organization.Id" role="button">✎</a>
+                                //<button type="button" class="btn btn-outline-danger btn-sm ml-3 py-1" onclick="delOrganization(@organization.Id)">х</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <form id="organizationToDelForm" name="organizationToDelForm" action="EmployeeDirectory/Organizations/Del" method="post">
+                <input id="organizationToDelInput" type="hidden" name="organizationToDelId" />
+                <input id="referrer" type="hidden" name="referrer" />
+            </form>
+            <script>
+                function delOrganization(organizationId) {
+                    if (organizationId !== undefined &&
+                        organizationId != 0) {
+
+                        referrer.value = window.location.href;
+                        organizationToDelInput.value = organizationId;
+
+                        organizationToDelForm.submit();
+                     }
+                }
+            </script>
+        </div>
+    </div>
+</div>
