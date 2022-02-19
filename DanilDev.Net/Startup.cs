@@ -1,6 +1,7 @@
 using DanilDev.Data;
 using DanilDev.Services.CostControl;
 using DanilDev.Services.EmploeesDirectory;
+using DanilDev.Services.Prices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,22 +31,26 @@ namespace DanilDev
         public void ConfigureServices(IServiceCollection services)
         {
             string envName = CurrentEnvironment.EnvironmentName;
-            string appConnectionString = Configuration.GetConnectionString("DefaultConnection");
-            string projectDbContext;
+            string identityString = Configuration.GetConnectionString("IdentityString");
+            string projectsString;
+            string pricesString = Configuration.GetConnectionString("PricesStringDevelop");
 
             if (CurrentEnvironment.IsDevelopment())
             {
-                projectDbContext = Configuration.GetConnectionString("AppConnectionStringDevelop");
+                projectsString = Configuration.GetConnectionString("AppConnectionStringDevelop");
             } else
             {
-                projectDbContext = Configuration.GetConnectionString("AppConnectionString");
+                projectsString = Configuration.GetConnectionString("AppConnectionString");
             }
 
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlite(appConnectionString));
+                options.UseSqlite(identityString));
             
             services.AddDbContext<ProjectsDbContext>(options =>
-                options.UseSqlServer(projectDbContext));            
+                options.UseSqlServer(projectsString));   
+            
+            services.AddDbContext<PriceContext>(options =>
+                options.UseSqlServer(pricesString));            
 
             services.AddDefaultIdentity<ApplicationUser>(options =>
                 options.SignIn.RequireConfirmedAccount = true)
@@ -53,6 +58,7 @@ namespace DanilDev
 
             services.AddTransient<CostControlService>();
             services.AddTransient<EmployeeDirectoryService>();
+            services.AddTransient<PricesService>();
             services.AddRazorPages();
         }
 

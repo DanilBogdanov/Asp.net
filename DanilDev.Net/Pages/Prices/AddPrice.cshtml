@@ -1,0 +1,24 @@
+﻿@page
+@model DanilDev.Pages.Prices.AddPriceModel
+@{
+    ViewData["Title"] = "Add Price";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form action="" method="post">
+            <input id="referrer" type="hidden" name="referrer" />
+            <script>
+                referrer.value = document.referrer;
+            </script>
+            <hr />
+            <div class="form-group">
+                <label>Name</label>
+                <input name="priceName" class="form-control" />
+            </div>            
+            <button type="submit" class="btn btn-primary">Add Price</button>
+        </form>           
+    </div>
+</div>
