@@ -1,4 +1,5 @@
 ﻿using DanilDev.Services.Prices.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +16,9 @@ namespace DanilDev.Services.Prices
 
         public List<Price> GetPrices()
         {
-            return _priceContext.Prices.ToList();
+            return _priceContext.Prices
+                //.Include(pr => pr.Columns)
+                .ToList();
         }
 
         public Price GetPrice(long id)
@@ -49,6 +52,6 @@ namespace DanilDev.Services.Prices
                     _priceContext.SaveChanges();
                 }
             }
-        }
+        }        
     }
 }

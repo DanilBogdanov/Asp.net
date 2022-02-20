@@ -6,9 +6,9 @@ namespace DanilDev.Services.Prices
     public class PriceContext : DbContext
     {
         public DbSet<Price> Prices { get; set; }
-        public DbSet<Column> Columns { get; set; }
-        public DbSet<Line> Lines { get; set; }
-        public DbSet<Item> Items { get; set; }
+        public DbSet<Column> PricesColumns { get; set; }
+        public DbSet<Line> PricesLines { get; set; }
+        public DbSet<Item> PricesItems { get; set; }
 
         public PriceContext(DbContextOptions<PriceContext> options) : base(options)
         {

@@ -13,13 +13,15 @@
     
     @*Prices*@
     <div class="row">
-        <div class="col-3">
-            <table id="price_table" class="table table-sm table-responsive-sm table-hover shadow">
+        <div style = "overflow-y:auto; width:100%" class="col-lg-4">
+            
+            <table id="price_table" class="table table-sm table-hover shadow">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>                        
-                        <th scope="col"><a class="btn btn-primary float-right small" href="Prices/AddPrice" role="button">Add Price</a></th>
+                        <th scope="col"><a class="btn btn-sm btn-primary float-right small" href="Prices/AddPrice" role="button">Add Price</a></th>                        
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -27,47 +29,45 @@
                     {
                         var price = Model.Prices[i];
                         <tr>
-                            <td>
+                            <td onclick="openPrice(@price.Id)" style="cursor: pointer;">
                                 @(i + 1)
                             </td>
-                            <td data-priceId="@price.Id">
+                            <td data-priceId="@price.Id" onclick="openPrice(@price.Id)" style = "cursor: pointer;">
                                 @price.Name
                             </td>                            
-                            <td class="d-flex justify-content-end">
+                            <td class="d-flex justify-content-end ">
+                                @*<button type="button" class="btn btn-outline-danger btn-sm py-1" onclick="openPrice(@price.Id)">Open</button>*@
                                 @*<a class="btn btn-outline-success btn-sm float-center px-1" href="EmployeeDirectory/Employees/Edit/@employee.Id" role="button">✎</a>*@
-                                <button type="button" class="btn btn-outline-danger btn-sm ml-3 py-1" onclick="delEployee(@employee.Id)">х</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm ml-3 py-1" onclick="delPrice(@price.Id)">х</button>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
-            @*<form id="employeeToDelForm" name="transactToDelForm" action="EmployeeDirectory/Employees/Del" method="post">
-                <input id="employeeToDelInput" type="hidden" name="employeeToDelId" />
+            <form id="priceToDelForm" name="priceToDelForm" action="/Prices/DelPrice" method="post">
+                <input id="priceToDelInput" type="hidden" name="priceToDelId" />
                 <input id="referrer" type="hidden" name="referrer" />
-            </form>*@
+            </form>
             <script>
-                //function delEployee(employeeId) {
-                //    if (employeeId !== undefined &&
-                //        employeeId != 0) {
+                function delPrice(priceId) {
+                    if (priceId !== undefined &&
+                        priceId != 0) {
 
-                //        referrer.value = window.location.href;
-                //        employeeToDelInput.value = employeeId;
+                        referrer.value = window.location.href;
+                        priceToDelInput.value = priceId;
 
-                //        employeeToDelForm.submit();
-                //     }
-                //}
+                        priceToDelForm.submit();
+                     }
+                }
 
-
-                //click handler on row of table with price
-                $("#price_table tr").click(function () {
-                    let priceId = $(this).find("td:eq(1)").attr('data-priceId');
+                function openPrice(priceId) {
                     let url = "/Prices/" + priceId;
                     $(location).attr('href', url);
-                });
+                }                
             </script>
         </div>
-        <div class="col-md-9">
-            <table class="table table-sm table-responsive-sm table-hover shadow">
+        <div class="col-lg-8">
+            <table class="table table-sm table-hover shadow">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
@@ -76,22 +76,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (var i = 0; i < @Model.Price?.Lines.Count; i++)
-                    {
-                        var line = Model.Price.Lines[i];
-                        <tr>
-                            <td>
-                                @(i + 1)
-                            </td>
-                            <td>
-                                @line.Items.Find(item => item.Column.Name == "Name");
-                            </td>                            
-                            <td class="d-flex justify-content-end">
-                                @*<a class="btn btn-outline-success btn-sm float-center px-1" href="EmployeeDirectory/Employees/Edit/@employee.Id" role="button">✎</a>*@
-                                @*<button type="button" class="btn btn-outline-danger btn-sm ml-3 py-1" onclick="delEployee(@employee.Id)">х</button>*@
-                            </td>
-                        </tr>
-                    }
+                    
                 </tbody>
             </table>
         </div>

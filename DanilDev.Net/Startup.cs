@@ -60,6 +60,8 @@ namespace DanilDev
             services.AddTransient<EmployeeDirectoryService>();
             services.AddTransient<PricesService>();
             services.AddRazorPages();
+            //Add api
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,6 +93,7 @@ namespace DanilDev
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }

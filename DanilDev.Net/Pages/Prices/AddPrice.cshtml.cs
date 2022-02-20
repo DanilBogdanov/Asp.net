@@ -6,9 +6,10 @@ using System.Collections.Generic;
 
 namespace DanilDev.Pages.Prices
 {
+    [IgnoreAntiforgeryToken]
     public class AddPriceModel : PageModel
     {
-        private readonly PricesService _priceService;
+        private readonly PricesService _priceService;        
 
         public AddPriceModel(PricesService priceService)
         {
@@ -17,9 +18,10 @@ namespace DanilDev.Pages.Prices
 
         public void OnGet()
         {
+            
         }
 
-        public RedirectResult OnPost(
+        /*public RedirectResult OnPost(
             string referrer,
             string priceName
             )
@@ -36,6 +38,6 @@ namespace DanilDev.Pages.Prices
 
             _priceService.AddPrice(price);
             return Redirect(referrer);
-        }
+        }*/
     }
 }

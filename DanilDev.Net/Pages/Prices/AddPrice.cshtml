@@ -1,24 +1,72 @@
 ﻿@page
+@using DanilDev.Services.Prices.Entity
 @model DanilDev.Pages.Prices.AddPriceModel
 @{
     ViewData["Title"] = "Add Price";
 }
 
-<h2>@ViewData["Title"]</h2>
 
-<div class="row">
-    <div class="col-md-4">
-        <form action="" method="post">
+
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+
+    <div class="row">
+        <div class="col-lg-6">
+            @*<form action="" method="post">*@
             <input id="referrer" type="hidden" name="referrer" />
-            <script>
+            @*<script>
                 referrer.value = document.referrer;
-            </script>
+                </script>*@
             <hr />
             <div class="form-group">
                 <label>Name</label>
-                <input name="priceName" class="form-control" />
-            </div>            
-            <button type="submit" class="btn btn-primary">Add Price</button>
-        </form>           
+                <input id="priceName" name="priceName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Columns:</label>
+                <button id="addColBtn" type="button" class="btn btn-sm small btn-success float-right mb-2">Add Column</button>
+                <div id="additionalCols">
+                    @*filling by function*@
+                </div>
+            </div>
+            
+            <button id="submit_btn" type="submit" class="btn btn-primary">Add Price</button>
+            @*</form>*@
+        </div>
     </div>
+    <script type="text/javascript">   
+        //Add column 
+        $("#addColBtn").click(function () {            
+            let colNumber = $("#additionalCols > .input-group").length + 1;
+            let colFields = `<div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Col ${colNumber}</span>
+                        </div>
+                        <input type="text" name="colName" class="form-control" />
+                        <select name="colType" class="custom-select bg-light">
+                            <option selected disabled>Select Type</option>
+                            @foreach (var colType in @Enum.GetValues<TypeColumn>())
+                            {
+                                <option value=@colType>@colType</option>
+                            }
+                        </select>
+                    </div>`;
+            $("#additionalCols").append(colFields);
+        })
+
+        //Add Price and return to referrer page
+        //{"id":1,"name":"Price 1","columns":[{"id":1,"name":"Column1","priceId":1,"type":0},{"id":2,"name":"Column2","priceId":1,"type":0}],"lines":[]}
+        $("#submit_btn").click(function () {
+            let data = { name : $("#priceName").val(), columns :[], lines :[]};
+
+            $.post('/api/Prices/addprice',
+                data
+                ,'json'
+            );
+
+            //return to referrer page
+            $(location).attr('href', document.referrer);
+        })
+    </script>
 </div>
+
