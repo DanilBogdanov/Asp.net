@@ -54,16 +54,41 @@
             $("#additionalCols").append(colFields);
         })
 
+        
+
         //Add Price and return to referrer page
         //{"id":1,"name":"Price 1","columns":[{"id":1,"name":"Column1","priceId":1,"type":0},{"id":2,"name":"Column2","priceId":1,"type":0}],"lines":[]}
         $("#submit_btn").click(function () {
-            let data = { name : $("#priceName").val(), columns :[], lines :[]};
+            let columns = [];
+            let lines = [];
+            let columnsQuery = $("#additionalCols > .input-group");
+            
+            columnsQuery.each(function (index, element) {
+                let col = {
+                    name : $("input[name=colName]", element).val(),
+                    type : $("select", element).val()
+                }                     
+                columns.push(col);                
+            });
+
+            let price = {
+                Id : 0,
+                Name : $("#priceName").val(),
+                Columns : columns,
+                Lines : lines
+            };
+            
+            //let mydata = JSON.stringify(price);
+            //for test its work current
+            //let data = {"id":1,"name":"Price 1","columns":[],"lines":[]}
+            //console.log("hard" + data);
+            //console.log("my " + mydata);
 
             $.post('/api/Prices/addprice',
-                data
+                price
                 ,'json'
             );
-
+            debugger;
             //return to referrer page
             $(location).attr('href', document.referrer);
         })

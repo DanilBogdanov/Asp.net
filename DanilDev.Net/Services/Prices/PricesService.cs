@@ -23,7 +23,9 @@ namespace DanilDev.Services.Prices
 
         public Price GetPrice(long id)
         {
-            return _priceContext.Prices.SingleOrDefault(p => p.Id == id);
+            return _priceContext.Prices
+                .Include(p => p.Columns)
+                .SingleOrDefault(p => p.Id == id);
         }
 
         public void AddPrice(Price price)

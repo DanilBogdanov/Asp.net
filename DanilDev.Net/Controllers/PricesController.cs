@@ -26,6 +26,13 @@ namespace DanilDev.Controllers
             return prices;
         }
 
+        [HttpGet("getPricesCount")]
+        public int GetPricesCount()
+        {
+            var pricesCount = _pricesService.GetPrices().Count;
+            return pricesCount;
+        }
+
         [HttpPost("addPrice")]
         public void AddPrice([FromForm]Price price)
         {

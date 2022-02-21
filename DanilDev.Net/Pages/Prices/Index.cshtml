@@ -49,6 +49,16 @@
                 <input id="referrer" type="hidden" name="referrer" />
             </form>
             <script>
+                //reload page if price added
+                setInterval(function(){
+                    let currentPriceCount = $("#price_table > tbody > tr").length;
+                    $.get("api/Prices/getPricesCount", function (data) {
+                        if (currentPriceCount != data) {
+                            location.reload();
+                        }
+                    });                    
+                }, 2000);
+
                 function delPrice(priceId) {
                     if (priceId !== undefined &&
                         priceId != 0) {
@@ -61,24 +71,51 @@
                 }
 
                 function openPrice(priceId) {
-                    let url = "/Prices/" + priceId;
-                    $(location).attr('href', url);
+                    loadPrice(priceId);
+                    //let url = "/Prices/" + priceId;
+                    //$(location).attr('href', url);
                 }                
             </script>
         </div>
         <div class="col-lg-8">
-            <table class="table table-sm table-hover shadow">
+            <table id="current_price" class="table table-sm table-hover shadow">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>                        
-                        <th scope="col"><a class="btn btn-primary float-right" href="Prices/Employees/Add" role="button">Add Employee</a></th>
+                        @*<th scope="col">#</th>*@
+                        @*<th scope="col">Name</th>                        *@
+                        @*<th scope="col"><a class="btn btn-primary float-right" href="Prices/Employees/Add" role="button">Add Employee</a></th>*@
                     </tr>
                 </thead>
                 <tbody>
                     
                 </tbody>
             </table>
+            <script>
+                function loadPrice(id) {
+                    $.get(`api/Prices/getPrice/${id}`, function (data) {
+                        console.log(data);
+                        //Add headers
+                        let columns = data.columns;
+                        let tr = $("#current_price > thead > tr");
+                        tr.html("");
+                        tr.append(`<th scope="col">#</th>`);
+                        tr.append(`<th scope="col">Name</th>`);
+                        console.log(columns);
+                        console.log(columns[0]);
+                        
+                        for (col in columns) {
+                            console.log("coll" + col);
+                            let colName = col.name;
+                            tr.append(`<th scope="col">${colName}</th>`);
+                        }
+                        tr.append(`<th scope="col"><a class="btn btn-primary float-right" href="" role="button">Add Item</a></th>`);
+
+
+
+                    }),
+                    'json'
+                };                
+            </script>
         </div>
     </div>
 </div>
