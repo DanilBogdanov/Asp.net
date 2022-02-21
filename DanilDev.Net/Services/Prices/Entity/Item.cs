@@ -10,6 +10,6 @@
         //public Column Column { get; set; }
         public long ColumnId { get; set; }
         public double ? NumericValue { get; set; }
-        public string StrValue{ get; set; }
+        public string StrValue{ get; set; }        
     }
 }

@@ -1,0 +1,121 @@
+﻿@page "{PriceId}"
+@using DanilDev.Services.Prices.Entity
+@model DanilDev.Pages.Prices.AddLineModel
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<div class="container">
+    <h2>@ViewData["Title"] - @Model.Price.Name</h2>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <hr />
+            <div class="form-group">
+                <label>Name</label>
+                <input id="lineName" name="lineName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Code</label>
+                <input id="lineCode" name="lineCode" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Columns:</label>
+                <div id="columns">
+                    @foreach (var column in @Model.Price.Columns)
+                    {
+                        <div class="input-group mb-2" data-price_id="@Model.Price.Id" data-col_Id="@column.Id" data-col_type="@column.Type">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@column.Name</span>
+                            </div>
+
+                            @switch (@column.Type)
+                            {
+                                case @TypeColumn.Numeric:
+                                    {
+                                        <input type="number" class="form-control" />
+                                        break;
+                                    }
+                                case @TypeColumn.String:
+                                    {
+                                        <input type="text" class="form-control" />
+                                        break;
+                                    }
+                                case @TypeColumn.LongString:
+                                    {
+                                        //<input type="text" class="form-control" />
+                                        <textarea class="form-control"></textarea>
+                                        break;
+                                    }
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <button id="submit_btn" type="submit" class="btn btn-primary">Add Product</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        let priceId = @Model.Price.Id;
+        //Add Line and return to referrer page
+        $("#submit_btn").click(function () {
+            let lineName = $("#lineName").val();
+            let lineCode = $("#lineCode").val();
+
+            if (lineName == '') {
+                alert("Name field is empty");
+                return;
+            }
+            if (lineCode == '') {
+                alert("Code field is empty");
+                return;
+            }
+
+            let columnsQuery = $("#columns > .input-group");
+            let items = [];
+
+            columnsQuery.each(function (index, element) {                
+                let colId = $(element).data('col_id');
+                let type = $(element).data('col_type');
+                let numericValue = 0;
+                let strValue = "";
+
+                
+                if (type == "@TypeColumn.Numeric") {
+                    numericValue = $("input", element).val();
+                } else if (type == "@TypeColumn.String") {
+                    strValue = $("input", element).val();
+                } else if (type == "@TypeColumn.LongString") {
+                    strValue = $("textarea", element).val();
+                }
+
+                let item = {     
+                    PriceId : priceId,
+                    ColumnId : colId,
+                    NumericValue : numericValue,
+                    StrValue : strValue
+                }
+
+                items.push(item);
+            });
+
+            let line = {
+                PriceId : priceId,
+                Name : lineName,
+                Code : lineCode,
+                Items : items
+            };      
+            
+            console.log(line);
+            debugger;
+            $.post('/api/Prices/addLine',
+                line
+                ,'json'
+            );
+            debugger;
+            //return to referrer page
+            $(location).attr('href', document.referrer);
+        })
+    </script>
+</div>

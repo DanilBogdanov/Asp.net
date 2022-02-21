@@ -42,10 +42,19 @@ namespace DanilDev.Controllers
             }
         }
 
+        [HttpPost("addLine")]
+        public void AddLine([FromForm]Line line)
+        {
+            _pricesService.AddLine(line);
+        }
+
         [HttpGet("getPrice/{id}")]
         public ActionResult<Price> GetPrice(long id)
         {
-            return _pricesService.GetPrice(id);
+            var price = _pricesService.GetPrice(id);
+            var lines = _pricesService.GetLines(id);
+            price.Lines = lines;
+            return price;
         }
     }
 }

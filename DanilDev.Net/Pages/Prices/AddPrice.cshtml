@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-lg-6">
             @*<form action="" method="post">*@
-            <input id="referrer" type="hidden" name="referrer" />
+            @*<input id="referrer" type="hidden" name="referrer" />*@
             @*<script>
                 referrer.value = document.referrer;
                 </script>*@
@@ -77,13 +77,7 @@
                 Columns : columns,
                 Lines : lines
             };
-            
-            //let mydata = JSON.stringify(price);
-            //for test its work current
-            //let data = {"id":1,"name":"Price 1","columns":[],"lines":[]}
-            //console.log("hard" + data);
-            //console.log("my " + mydata);
-
+                        
             $.post('/api/Prices/addprice',
                 price
                 ,'json'

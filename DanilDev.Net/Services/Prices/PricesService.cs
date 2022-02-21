@@ -25,6 +25,7 @@ namespace DanilDev.Services.Prices
         {
             return _priceContext.Prices
                 .Include(p => p.Columns)
+                .Include(p => p.Lines)
                 .SingleOrDefault(p => p.Id == id);
         }
 
@@ -54,6 +55,21 @@ namespace DanilDev.Services.Prices
                     _priceContext.SaveChanges();
                 }
             }
-        }        
+        }    
+        
+        public List<Line> GetLines(long priceId)
+        {
+            return _priceContext.PricesLines
+                .Include(line => line.Items)
+                .Where(line => line.PriceId == priceId).ToList();
+        }
+
+        public void AddLine(Line line)
+        {
+            _priceContext.PricesLines.Add(line);
+            _priceContext.SaveChanges();
+        }
+
+
     }
 }
