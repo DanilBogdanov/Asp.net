@@ -3,7 +3,7 @@
     public enum TypeColumn
     {
         Numeric,
-        String,
-        LongString
+        String,//String
+        LongString//LongString
     }
 }

@@ -91,7 +91,7 @@
             <script>
                 function loadPrice(id) {
                     $.get(`api/Prices/getPrice/${id}`, function (data) {
-                        
+                        document.cookie = `price=${id}`;
                         //ADD HEADERS
                         const columns = data.columns;                        
                         let tr = $("#current_price > thead > tr");
@@ -133,9 +133,11 @@
                                         } else {
                                             lineCol = item.strValue;
                                         }
-                                        console.log("line col " + lineCol);
                                         break;
                                     }
+                                }
+                                if (lineCol == null) {
+                                    lineCol = '-';
                                 }
                                 tr.append(`<td>${lineCol}</td>`);
                             }
@@ -144,7 +146,29 @@
                         //END BODY
                     }),
                     'json'
-                };                
+                };
+                //end function loadPrice
+
+                //Cookie
+                function getCookie(name) {
+                  let matches = document.cookie.match(new RegExp(
+                    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+                  ));
+                  return matches ? decodeURIComponent(matches[1]) : undefined;
+                };
+
+                $(function loadFromCookie() {
+                    let currentPrice = getCookie('price');
+                    if (currentPrice != undefined) {
+                        loadPrice(currentPrice);
+                    }
+                });
+
+                //update current price
+                setInterval(function(){
+                    loadFromCookie();                  
+                }, 2000);
+
             </script>
         </div>
     </div>
