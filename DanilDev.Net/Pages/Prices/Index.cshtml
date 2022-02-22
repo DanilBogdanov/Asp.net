@@ -1,27 +1,31 @@
-﻿@page 
+﻿@page
 @model DanilDev.Pages.Prices.IndexModel
 @{
     ViewData["Title"] = "Prices";
 }
 
 <div class="container-fluid">
-    <p class="display-4">Prices</p>
-    @*<form id="searchForm" method="get" hidden>
-        <input id="qInput" name="q" />
-    </form>*@
+    <div class="row justify-content-md-between">
+        <div class="col-md-2 mb-4">
+            <div class="display-4">Prices</div>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end">
+            <div id="tableTitle" style="font-family: Candara; font-size: 200%" class="align-self-end"></div>
+        </div>
+    </div>
 
-    
+
     @*Prices*@
     <div class="row">
-        <div style = "overflow-y:auto; width:100%" class="col-lg-4">
-            
+        <div style="overflow-y:auto; width:100%" class="col-lg-4">
+
             <table id="price_table" class="table table-sm table-hover shadow">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>                        
-                        <th scope="col"><a class="btn btn-sm btn-primary float-right small" href="Prices/AddPrice" role="button">Add Price</a></th>                        
-                        
+                        <th scope="col">Name</th>
+                        <th scope="col"><a class="btn btn-sm btn-primary float-right small" href="Prices/AddPrice" role="button">Add Price</a></th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -32,12 +36,10 @@
                             <td onclick="openPrice(@price.Id)" style="cursor: pointer;">
                                 @(i + 1)
                             </td>
-                            <td data-priceId="@price.Id" onclick="openPrice(@price.Id)" style = "cursor: pointer;">
+                            <td data-priceId="@price.Id" onclick="openPrice(@price.Id)" style="cursor: pointer;">
                                 @price.Name
-                            </td>                            
+                            </td>
                             <td class="d-flex justify-content-end ">
-                                @*<button type="button" class="btn btn-outline-danger btn-sm py-1" onclick="openPrice(@price.Id)">Open</button>*@
-                                @*<a class="btn btn-outline-success btn-sm float-center px-1" href="EmployeeDirectory/Employees/Edit/@employee.Id" role="button">✎</a>*@
                                 <button type="button" class="btn btn-outline-danger btn-sm ml-3 py-1" onclick="delPrice(@price.Id)">х</button>
                             </td>
                         </tr>
@@ -56,7 +58,7 @@
                         if (currentPriceCount != data) {
                             location.reload();
                         }
-                    });                    
+                    });
                 }, 2000);
 
                 function delPrice(priceId) {
@@ -72,9 +74,7 @@
 
                 function openPrice(priceId) {
                     loadPrice(priceId);
-                    //let url = "/Prices/" + priceId;
-                    //$(location).attr('href', url);
-                }                
+                }
             </script>
         </div>
         <div class="col-lg-8">
@@ -91,14 +91,18 @@
             <script>
                 function loadPrice(id) {
                     $.get(`api/Prices/getPrice/${id}`, function (data) {
+                        //Set cookie last load price id
                         document.cookie = `price=${id}`;
+                        //Set title table
+                        let tableName = data.name;
+                        $("#tableTitle").text(tableName);
                         //ADD HEADERS
-                        const columns = data.columns;                        
+                        const columns = data.columns;
                         let tr = $("#current_price > thead > tr");
                         tr.html("");
                         tr.append(`<th scope="col">#</th>`);
-                        tr.append(`<th scope="col">Name</th>`); 
-                        tr.append(`<th scope="col">Code</th>`);                         
+                        tr.append(`<th scope="col">Name</th>`);
+                        tr.append(`<th scope="col">Code</th>`);
                         for (let i=0; i < columns.length; i++) {
                             tr.append(`<th scope="col">${columns[i].name}</th>`);
                         }
@@ -113,7 +117,7 @@
                         //lines
                         for (let i=0; i < lines.length; i++) {
                             let line = lines[i];
-                            
+
                             let tr = $('<tr></tr>');
                             tr.append(`<td>${i+1}</td>`);
                             tr.append(`<td>${line.name}</td>`);
@@ -129,7 +133,7 @@
                                     if (item.columnId == column.id) {
                                         //if column numeric get item.numericValue else item.strValue
                                         if (column.type == 0){
-                                            lineCol = item.numericValue;                                            
+                                            lineCol = item.numericValue;
                                         } else {
                                             lineCol = item.strValue;
                                         }
@@ -155,10 +159,10 @@
 
                 function delLine(lineId) {
                     if (confirm('Are you sure you want to del this item?')) {
-                        $.get(`/api/Prices/delLine/${lineId}`        
+                        $.get(`/api/Prices/delLine/${lineId}`
                         );
-                        loadFromCookie();                      
-                    }                     
+                        loadFromCookie();
+                    }
                 };
 
                 //Cookie
@@ -188,8 +192,8 @@
                 //update current price
                 setInterval(function(){
                     let currentItemLength = $("#current_price > tbody > tr").length;
-                    let currentPrice = getCookie('price'); 
-                    
+                    let currentPrice = getCookie('price');
+
                     $.get(`api/Prices/getPrice/${currentPrice}`, function (data) {
                         if (data.lines.length != currentItemLength) {
                             loadFromCookie();

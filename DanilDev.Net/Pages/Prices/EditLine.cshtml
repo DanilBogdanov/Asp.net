@@ -44,7 +44,6 @@
                                     }
                                 case @TypeColumn.MultilineString:
                                     {
-                                        //<input type="text" class="form-control" />
                                         <textarea data-item_id=@Model.Line.Items.Find(item => item.ColumnId == column.Id).Id class="form-control" >@Model.Line.Items.Find(item => item.ColumnId == column.Id).StrValue</textarea>
                                         break;
                                     }

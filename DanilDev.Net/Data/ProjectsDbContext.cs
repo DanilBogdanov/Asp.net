@@ -9,8 +9,8 @@ namespace DanilDev.Data
     public class ProjectsDbContext : DbContext
     {
         public ProjectsDbContext(DbContextOptions<ProjectsDbContext> options) : base(options)
-        {               
-            //Database.EnsureCreated();
+        {
+            Database.EnsureCreated();
         }
 
         public DbSet<Employee> EmployeeDirectoryEmployees { get; set; }

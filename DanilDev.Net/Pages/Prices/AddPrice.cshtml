@@ -5,18 +5,11 @@
     ViewData["Title"] = "Add Price";
 }
 
-
-
 <div class="container">
     <h2>@ViewData["Title"]</h2>
 
     <div class="row">
-        <div class="col-lg-6">
-            @*<form action="" method="post">*@
-            @*<input id="referrer" type="hidden" name="referrer" />*@
-            @*<script>
-                referrer.value = document.referrer;
-                </script>*@
+        <div class="col-lg-6">            
             <hr />
             <div class="form-group">
                 <label>Name</label>
@@ -31,7 +24,6 @@
             </div>
             
             <button id="submit_btn" type="submit" class="btn btn-primary">Add Price</button>
-            @*</form>*@
         </div>
     </div>
     <script type="text/javascript">   
@@ -50,14 +42,26 @@
                                 <option value=@colType>@colType</option>
                             }
                         </select>
+                        <button id="col_${colNumber}" type="button" class="btn btn-outline-danger btn-sm ml py-1" onclick="delCol(this)">×</button>
                     </div>`;
             $("#additionalCols").append(colFields);
-        })
+        });
 
+        function delCol(callingElem) {
+            $(callingElem).parent().remove();
+
+            //rename column
+            let i = 1;
+            $("#additionalCols > .input-group").each(function (index, element) {
+                console.log(element);
+                let colTitle = $("div > span", element);
+                colTitle.text(`Col ${i}`);
+                i++;                               
+            });
+        };
         
 
         //Add Price and return to referrer page
-        //{"id":1,"name":"Price 1","columns":[{"id":1,"name":"Column1","priceId":1,"type":0},{"id":2,"name":"Column2","priceId":1,"type":0}],"lines":[]}
         $("#submit_btn").click(function () {
             let columns = [];
             let lines = [];
