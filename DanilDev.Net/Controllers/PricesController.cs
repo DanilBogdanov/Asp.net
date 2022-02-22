@@ -48,6 +48,12 @@ namespace DanilDev.Controllers
             _pricesService.AddLine(line);
         }
 
+        [HttpPost("editLine")]
+        public void EditLine([FromForm]Line line)
+        {
+            _pricesService.UpdateLine(line);
+        }
+
         [HttpGet("delLine/{id}")]
         public void DelLine(long id)
         {
@@ -58,8 +64,11 @@ namespace DanilDev.Controllers
         public ActionResult<Price> GetPrice(long id)
         {
             var price = _pricesService.GetPrice(id);
-            var lines = _pricesService.GetLines(id);
-            price.Lines = lines;
+            if (price != null)
+            {
+                var lines = _pricesService.GetLines(id);
+                price.Lines = lines;
+            }            
             return price;
         }
     }

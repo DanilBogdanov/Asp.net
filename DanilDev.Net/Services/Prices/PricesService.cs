@@ -1,4 +1,5 @@
-﻿using DanilDev.Services.Prices.Entity;
+﻿using DanilDev.Data;
+using DanilDev.Services.Prices.Entity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,9 @@ namespace DanilDev.Services.Prices
 {
     public class PricesService
     {
-        private PriceContext _priceContext;
+        private ProjectsDbContext _priceContext;
 
-        public PricesService(PriceContext priceContext)
+        public PricesService(ProjectsDbContext priceContext)
         {
             _priceContext = priceContext;
         }
@@ -55,13 +56,20 @@ namespace DanilDev.Services.Prices
                     _priceContext.SaveChanges();
                 }
             }
-        }    
-        
+        }
+
         public List<Line> GetLines(long priceId)
         {
             return _priceContext.PricesLines
                 .Include(line => line.Items)
                 .Where(line => line.PriceId == priceId).ToList();
+        }
+
+        public Line GetLine(long lineId)
+        {
+            return _priceContext.PricesLines
+                .Include(line => line.Items)
+                .SingleOrDefault(line => line.Id == lineId);
         }
 
         public void AddLine(Line line)
@@ -70,6 +78,15 @@ namespace DanilDev.Services.Prices
             _priceContext.SaveChanges();
         }
 
+        public void UpdateLine(Line line)
+        {
+            if (_priceContext.PricesLines.Contains(line))
+            {
+                _priceContext.PricesLines.Update(line);
+                _priceContext.SaveChanges();
+            }
+        }
+                
         public void DelLine(long lineId)
         {
             if (lineId != 0)

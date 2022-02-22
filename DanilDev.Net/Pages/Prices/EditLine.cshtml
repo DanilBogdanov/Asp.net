@@ -1,0 +1,128 @@
+﻿@page "{LineId}"
+@using DanilDev.Services.Prices.Entity
+@model DanilDev.Pages.Prices.EditLineModel
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <hr />
+            <div class="form-group">
+                <label>Name</label>
+                <input id="lineName" name="lineName" class="form-control" value="@Model.Line.Name" />
+            </div>
+            <div class="form-group">
+                <label>Code</label>
+                <input id="lineCode" name="lineCode" class="form-control" value="@Model.Line.Code" />
+            </div>
+            <div class="form-group">
+                <label>Columns:</label>
+                <div id="columns">
+                    @foreach (var column in @Model.Price.Columns)
+                    {
+                        <div class="input-group mb-2" data-price_id="@Model.Price.Id" data-col_Id="@column.Id" data-col_type="@column.Type" >
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@column.Name</span>
+                            </div>
+
+                            @switch (@column.Type)
+                            {
+                                
+                                case @TypeColumn.Numeric:
+                                    {                                         
+                                        <input data-item_id=@Model.Line.Items.Find(item => item.ColumnId == column.Id).Id type="number" class="form-control" value=@Model.Line.Items.Find(item => item.ColumnId == column.Id).NumericValue />
+                                        break;
+                                    }
+                                case @TypeColumn.SingleLineString:
+                                    {
+                                        <input data-item_id=@Model.Line.Items.Find(item => item.ColumnId == column.Id).Id type="text" class="form-control" value=@Model.Line.Items.Find(item => item.ColumnId == column.Id).StrValue />
+                                        break;
+                                    }
+                                case @TypeColumn.MultilineString:
+                                    {
+                                        //<input type="text" class="form-control" />
+                                        <textarea data-item_id=@Model.Line.Items.Find(item => item.ColumnId == column.Id).Id class="form-control" >@Model.Line.Items.Find(item => item.ColumnId == column.Id).StrValue</textarea>
+                                        break;
+                                    }
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <button id="submit_btn" type="submit" class="btn btn-primary">Edit Product</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        let priceId = @Model.Line.PriceId;
+        let lineId = @Model.Line.Id;
+        //Add Line and return to referrer page
+        $("#submit_btn").click(function () {
+            let lineName = $("#lineName").val();
+            let lineCode = $("#lineCode").val();
+
+            if (lineName == '') {
+                alert("Name field is empty");
+                return;
+            }
+            if (lineCode == '') {
+                alert("Code field is empty");
+                return;
+            }
+
+            let columnsQuery = $("#columns > .input-group");
+            let items = [];
+
+            columnsQuery.each(function (index, element) {                
+                let colId = $(element).data('col_id');
+                let type = $(element).data('col_type');
+                let numericValue = 0;
+                let strValue = "";
+                let itemId = 0;
+                
+                if (type == "@TypeColumn.Numeric") {
+                    numericValue = $("input", element).val();
+                    itemId = $("input", element).data('item_id');
+                } else if (type == "@TypeColumn.SingleLineString") {
+                    strValue = $("input", element).val();
+                    itemId = $("input", element).data('item_id');
+                } else if (type == "@TypeColumn.MultilineString") {
+                    strValue = $("textarea", element).val();
+                    itemId = $("textarea", element).data('item_id');
+                }
+
+                let item = {  
+                    Id : itemId,
+                    PriceId : priceId,
+                    LineId : lineId,
+                    ColumnId : colId,
+                    NumericValue : numericValue,
+                    StrValue : strValue
+                }
+
+                items.push(item);
+            });
+
+            let line = {
+                Id : lineId,
+                PriceId : priceId,
+                Name : lineName,
+                Code : lineCode,
+                Items : items
+            };      
+            
+            debugger;
+            $.post('/api/Prices/editLine',
+                line
+                ,'json'
+            );
+            debugger;
+            //return to referrer page
+            $(location).attr('href', document.referrer);
+        })
+    </script>
+</div>

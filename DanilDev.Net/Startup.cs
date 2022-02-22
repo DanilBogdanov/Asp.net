@@ -33,7 +33,6 @@ namespace DanilDev
             string envName = CurrentEnvironment.EnvironmentName;
             string identityString = Configuration.GetConnectionString("IdentityString");
             string projectsString;
-            string pricesString = Configuration.GetConnectionString("PricesStringDevelop");
 
             if (CurrentEnvironment.IsDevelopment())
             {
@@ -49,9 +48,6 @@ namespace DanilDev
             services.AddDbContext<ProjectsDbContext>(options =>
                 options.UseSqlServer(projectsString));   
             
-            services.AddDbContext<PriceContext>(options =>
-                options.UseSqlServer(pricesString));            
-
             services.AddDefaultIdentity<ApplicationUser>(options =>
                 options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<AppDbContext>();
