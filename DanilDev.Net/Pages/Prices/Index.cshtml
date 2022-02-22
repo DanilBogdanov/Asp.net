@@ -141,6 +141,10 @@
                                 }
                                 tr.append(`<td>${lineCol}</td>`);
                             }
+                            let tdBtn = `<td class="d-flex justify-content-end"><a class="btn btn-outline-success btn-sm float-center px-1" href="" role="button">✎</a>
+                                <button type="button" class="btn btn-outline-danger btn-sm ml-3 py-1" onclick="delLine(${line.id})">х</button></td>`;
+                            tr.append(tdBtn);
+
                             tbody.append(tr);
                         }
                         //END BODY
@@ -148,6 +152,14 @@
                     'json'
                 };
                 //end function loadPrice
+
+                function delLine(lineId) {
+                    if (confirm('Are you sure you want to del this item?')) {
+                        $.get(`/api/Prices/delLine/${lineId}`        
+                        );
+                        loadFromCookie();                      
+                    }                     
+                };
 
                 //Cookie
                 function getCookie(name) {
@@ -157,16 +169,30 @@
                   return matches ? decodeURIComponent(matches[1]) : undefined;
                 };
 
-                $(function loadFromCookie() {
+
+                function loadFromCookie() {
                     let currentPrice = getCookie('price');
                     if (currentPrice != undefined) {
                         loadPrice(currentPrice);
                     }
+                }
+
+                $(function () {
+                    loadFromCookie();
                 });
 
                 //update current price
                 setInterval(function(){
-                    loadFromCookie();                  
+                    let currentItemLength = $("#current_price > tbody > tr").length;
+                    let currentPrice = getCookie('price'); 
+                    console.log("currentItemLength" + currentItemLength);
+                    
+                    $.get(`api/Prices/getPrice/${currentPrice}`, function (data) {
+                        console.log("data.lines.length" + (data.lines.length));
+                        if (data.lines.length != currentItemLength) {
+                            loadFromCookie();
+                        }
+                    });
                 }, 2000);
 
             </script>

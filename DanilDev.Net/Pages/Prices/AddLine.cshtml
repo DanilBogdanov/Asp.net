@@ -36,12 +36,12 @@
                                         <input type="number" class="form-control" />
                                         break;
                                     }
-                                case @TypeColumn.String:
+                                case @TypeColumn.SingleLineString:
                                     {
                                         <input type="text" class="form-control" />
                                         break;
                                     }
-                                case @TypeColumn.LongString:
+                                case @TypeColumn.MultilineString:
                                     {
                                         //<input type="text" class="form-control" />
                                         <textarea class="form-control"></textarea>
@@ -84,9 +84,9 @@
                 
                 if (type == "@TypeColumn.Numeric") {
                     numericValue = $("input", element).val();
-                } else if (type == "@TypeColumn.String") {
+                } else if (type == "@TypeColumn.SingleLineString") {
                     strValue = $("input", element).val();
-                } else if (type == "@TypeColumn.LongString") {
+                } else if (type == "@TypeColumn.MultilineString") {
                     strValue = $("textarea", element).val();
                 }
 

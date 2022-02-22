@@ -48,6 +48,12 @@ namespace DanilDev.Controllers
             _pricesService.AddLine(line);
         }
 
+        [HttpGet("delLine/{id}")]
+        public void DelLine(long id)
+        {
+            _pricesService.DelLine(id);
+        } 
+
         [HttpGet("getPrice/{id}")]
         public ActionResult<Price> GetPrice(long id)
         {

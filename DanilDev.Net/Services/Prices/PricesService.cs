@@ -70,6 +70,17 @@ namespace DanilDev.Services.Prices
             _priceContext.SaveChanges();
         }
 
-
+        public void DelLine(long lineId)
+        {
+            if (lineId != 0)
+            {
+                var line = _priceContext.PricesLines.FirstOrDefault(p => p.Id == lineId);
+                if (line != null)
+                {
+                    _priceContext.PricesLines.Remove(line);
+                    _priceContext.SaveChanges();
+                }
+            }
+        }
     }
 }
