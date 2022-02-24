@@ -1,0 +1,85 @@
+﻿@page
+@model DanilDev.Pages.FileStorage.IndexModel
+@{
+    ViewData["Title"] = "File Storage";
+}
+
+<div class="container">
+    <div class="row">
+        <p class="display-4">File Storage</p>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div id="file_jstree" class="shadow">
+            </div>
+        </div>
+        <div class="col-md-8">
+        </div>
+    </div>
+    <script>
+        $(function () {
+            let folders = getNodeFolders();
+            createTree(folders);
+            //console.log(folders);
+            //console.log(dataTest);
+        });
+
+
+        function getNodeFolders() {
+            let folders = [];
+            $.get("api/FileStorage/getFolders", function (data) {
+                $(data).each(function (index, element) {
+                    //income {id: 2, name: '2', folderId: null}
+                    //outcome { "id" : "ajson2", "parent" : "#", "text" : "Root node 2" }
+                    let id = element.id;
+                    let text = "" + element.name;
+                    let parent = (element.folderId == null ? "#" : "" + element.folderId);
+                    
+                    //{ "id" : "ajson1", "parent" : "#", "text" : "Simple root node" }
+                    let folder = {
+                        id : id,
+                        parent : parent,
+                        text : text
+                    };
+                    console.log(folder);
+                    //let folder = '"id" : ' ;
+                    
+                    folders.push(folder);
+                });//end each
+            });//end get
+
+            return folders;
+        }        
+
+        let dataTest = [{ "id" : "ajson1", "parent" : "#", "text" : "Simple root node" },
+                    { "id" : "ajson2", "parent" : "#", "text" : "Root node 2" },
+                    { "id" : "ajson3", "parent" : "ajson2", "text" : "Child 1" },
+                    { "id" : "ajson4", "parent" : "ajson2", "text" : "Child 2" },];
+
+
+
+        function createTree (data) {
+
+            console.log(data);
+
+            ////
+            //$('#file_jstree').jstree({
+            //    "core" : {
+            //        "themes": {
+            //            "name": 'default',
+            //            "dots" : true,
+            //            "responsive" : true,
+            //            "stripes": false
+            //            },
+            //        "data" : data },
+            //    "plugins" : [ "themes", "contextmenu" ]
+            //    });
+            ////
+
+            $('#file_jstree').jstree({ "core" : {
+                "data" : data } });
+               
+/////////
+            }
+    </script>
+</div>

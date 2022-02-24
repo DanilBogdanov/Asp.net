@@ -9,6 +9,7 @@
     <Folder Include="db\" />
     <Folder Include="Pages\CostControl\Expenses\" />
     <Folder Include="Pages\CostControl\Incomes\" />
+    <Folder Include="wwwroot\lib\jstree\" />
   </ItemGroup>
 
   <ItemGroup>

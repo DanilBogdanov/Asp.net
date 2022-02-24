@@ -1,6 +1,7 @@
 using DanilDev.Data;
 using DanilDev.Services.CostControl;
 using DanilDev.Services.EmploeesDirectory;
+using DanilDev.Services.FileStorage;
 using DanilDev.Services.Prices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -55,6 +56,7 @@ namespace DanilDev
             services.AddTransient<CostControlService>();
             services.AddTransient<EmployeeDirectoryService>();
             services.AddTransient<PricesService>();
+            services.AddTransient<FileStorageService>();
             services.AddRazorPages();
             //Add api
             services.AddControllers();
